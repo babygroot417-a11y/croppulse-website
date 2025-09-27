@@ -3,13 +3,67 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CropPulse - Smart Crop Advisory with Drone Technology</title>
-  <meta name="description" content="Revolutionary agricultural advisory platform using drone scanning and AI to provide real-time crop insights in multiple languages.">
+  <title>CropPulse - Login</title>
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/logo.png" type="image/png">
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+
+  <style>
+    /* OTP section styling matching your site */
+    .otp-container {
+      max-width: 400px;
+      margin: 5rem auto;
+      background: #fff;
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+
+    .otp-container h2 {
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+      color: var(--primary-color);
+    }
+
+    .otp-container input {
+      width: 100%;
+      padding: 12px 15px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    .otp-container button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: none;
+      background-color: var(--primary-color);
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .otp-container button:hover {
+      background-color: var(--secondary-color);
+    }
+
+    #status {
+      margin-top: 10px;
+      font-weight: bold;
+      color: #333;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -19,188 +73,111 @@
         <span>CropPulse</span>
       </a>
       <nav>
-        <a href="#features">Features</a>
-        <a href="#how-it-works">How It Works</a>
-        <a href="#contact">Contact</a>
+        <a href="index.html#features">Features</a>
+        <a href="index.html#how-it-works">How It Works</a>
+        <a href="index.html#contact">Contact</a>
         <a href="login.html" class="btn btn-secondary">Get Started</a>
       </nav>
     </div>
   </header>
 
   <main>
-    <!-- Hero Section -->
-    <section class="hero">
-      <div class="hero-content">
-        <h1>🌾 Smart Crop Advisory with Drone Scanning</h1>
-        <p>Revolutionize your farming with AI-powered crop analysis, real-time monitoring, and multilingual support. Get instant insights in Telugu, Hindi, and English.</p>
-        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-          <a href="login.html" class="btn btn-large">Start Free Trial</a>
-          <a href="#how-it-works" class="btn btn-secondary btn-large">Learn More</a>
-        </div>
+    <div class="otp-container">
+      <h2>Login with Phone</h2>
+      <div id="phone-section">
+        <input id="phone" placeholder="+91 9876543210">
+        <div id="recaptcha-container"></div>
+        <button id="sendOtpBtn">Send OTP</button>
       </div>
-    </section>
 
-    <!-- Features Section -->
-    <section id="features" class="features">
-      <div class="text-center mb-4">
-        <h2>Why Choose CropPulse?</h2>
-        <p>Advanced technology meets agricultural expertise</p>
+      <div id="otp-section" style="display:none;">
+        <input id="otp" placeholder="Enter OTP">
+        <button id="verifyOtpBtn">Verify OTP</button>
+        <button id="resendOtpBtn">Resend OTP</button>
       </div>
-      
-      <div class="grid grid-3">
-        <div class="feature-card">
-          <span class="feature-icon">🚁</span>
-          <h3 class="feature-title">Drone Scanning</h3>
-          <p class="feature-description">High-resolution aerial imaging captures detailed crop health data across your entire farm in minutes.</p>
-        </div>
-        
-        <div class="feature-card">
-          <span class="feature-icon">🤖</span>
-          <h3 class="feature-title">AI Analysis</h3>
-          <p class="feature-description">Advanced machine learning algorithms analyze crop conditions, detect diseases, and predict yield potential.</p>
-        </div>
-        
-        <div class="feature-card">
-          <span class="feature-icon">🌐</span>
-          <h3 class="feature-title">Multilingual Support</h3>
-          <p class="feature-description">Get insights and recommendations in Telugu, Hindi, and English. No language barriers to better farming.</p>
-        </div>
-        
-        <div class="feature-card">
-          <span class="feature-icon">📊</span>
-          <h3 class="feature-title">Real-time Monitoring</h3>
-          <p class="feature-description">Track crop health, soil conditions, and growth patterns with live updates and historical comparisons.</p>
-        </div>
-        
-        <div class="feature-card">
-          <span class="feature-icon">💬</span>
-          <h3 class="feature-title">Smart Chatbot</h3>
-          <p class="feature-description">Ask questions about your crops in your preferred language and get instant, expert-level advice.</p>
-        </div>
-        
-        <div class="feature-card">
-          <span class="feature-icon">📱</span>
-          <h3 class="feature-title">Mobile Ready</h3>
-          <p class="feature-description">Access all features on any device. Get notifications and updates wherever you are.</p>
-        </div>
-      </div>
-    </section>
 
-    <!-- How It Works Section -->
-    <section id="how-it-works" class="mb-4">
-      <div class="text-center mb-4">
-        <h2>How CropPulse Works</h2>
-        <p>Simple steps to smarter farming</p>
-      </div>
-      
-      <div class="grid grid-2">
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">1. Book Your Scan</h3>
-            <p class="card-subtitle">Schedule a drone scan for your farm</p>
-          </div>
-          <p>Simply provide your farm details, crop type, and preferred date. Our certified pilots will visit your location with advanced drone technology.</p>
-        </div>
-        
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">2. AI Analysis</h3>
-            <p class="card-subtitle">Advanced processing of your data</p>
-          </div>
-          <p>Our AI systems analyze the captured images to identify crop health, soil conditions, pest infestations, and growth patterns.</p>
-        </div>
-        
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">3. Get Insights</h3>
-            <p class="card-subtitle">Detailed reports and recommendations</p>
-          </div>
-          <p>Receive comprehensive reports with actionable insights, treatment recommendations, and growth predictions tailored to your crops.</p>
-        </div>
-        
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">4. Chat & Learn</h3>
-            <p class="card-subtitle">Ongoing support in your language</p>
-          </div>
-          <p>Use our smart chatbot to ask questions, get clarifications, and receive ongoing agricultural advice in Telugu, Hindi, or English.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Stats Section -->
-    <section class="mb-4">
-      <div class="card text-center">
-        <h2 class="mb-3">Trusted by Farmers Across India</h2>
-        <div class="grid grid-4">
-          <div>
-            <h3 style="color: var(--primary-color); font-size: 2.5rem; margin-bottom: 0.5rem;">500+</h3>
-            <p>Farms Scanned</p>
-          </div>
-          <div>
-            <h3 style="color: var(--primary-color); font-size: 2.5rem; margin-bottom: 0.5rem;">95%</h3>
-            <p>Accuracy Rate</p>
-          </div>
-          <div>
-            <h3 style="color: var(--primary-color); font-size: 2.5rem; margin-bottom: 0.5rem;">3</h3>
-            <p>Languages Supported</p>
-          </div>
-          <div>
-            <h3 style="color: var(--primary-color); font-size: 2.5rem; margin-bottom: 0.5rem;">24/7</h3>
-            <p>Support Available</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="text-center mb-4">
-      <div class="card">
-        <h2 class="mb-3">Ready to Transform Your Farming?</h2>
-        <p class="mb-4">Join thousands of farmers who are already using CropPulse to increase their yields and reduce costs.</p>
-        <a href="login.html" class="btn btn-large">Start Your Free Trial Today</a>
-      </div>
-    </section>
+      <div id="status"></div>
+    </div>
   </main>
 
-  <footer id="contact">
+  <footer>
     <div class="footer-content">
-      <div class="footer-links">
-        <a href="#features">Features</a>
-        <a href="#how-it-works">How It Works</a>
-        <a href="mailto:thecroppulse@gmail.com">Contact</a>
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms of Service</a>
-      </div>
-      <p>&copy; 2024 CropPulse. All rights reserved. | Email: <a href="mailto:thecroppulse@gmail.com" style="color: var(--secondary-color);">thecroppulse@gmail.com</a></p>
+      <p>&copy; 2024 CropPulse. All rights reserved.</p>
     </div>
   </footer>
 
   <script>
-    // Smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-        }
-      });
+    // ===== Firebase Setup =====
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    // ===== reCAPTCHA =====
+    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+      'size': 'invisible'
+    });
+    recaptchaVerifier.render();
+
+    // ===== DOM Elements =====
+    const phoneInput = document.getElementById('phone');
+    const otpInput = document.getElementById('otp');
+    const sendOtpBtn = document.getElementById('sendOtpBtn');
+    const verifyOtpBtn = document.getElementById('verifyOtpBtn');
+    const resendOtpBtn = document.getElementById('resendOtpBtn');
+    const phoneSection = document.getElementById('phone-section');
+    const otpSection = document.getElementById('otp-section');
+    const statusDiv = document.getElementById('status');
+
+    let confirmationResultGlobal;
+
+    // ===== Send OTP =====
+    sendOtpBtn.addEventListener('click', async () => {
+      const phoneNumber = phoneInput.value.trim();
+      if (!phoneNumber) return alert('Enter phone number in international format (+91xxxxxxx)');
+
+      try {
+        const appVerifier = window.recaptchaVerifier;
+        const confirmationResult = await auth.signInWithPhoneNumber(phoneNumber, appVerifier);
+        confirmationResultGlobal = confirmationResult;
+        phoneSection.style.display = 'none';
+        otpSection.style.display = 'block';
+        statusDiv.textContent = 'OTP sent! Check your phone.';
+      } catch (err) {
+        console.error(err);
+        alert('Error sending OTP: ' + (err.message || err));
+        window.recaptchaVerifier.render().then(widgetId => grecaptcha.reset(widgetId));
+      }
     });
 
-    // Add scroll effect to header
-    window.addEventListener('scroll', function() {
-      const header = document.querySelector('header');
-      if (window.scrollY > 100) {
-        header.style.background = 'linear-gradient(135deg, rgba(46, 125, 50, 0.95), rgba(67, 160, 71, 0.95))';
-        header.style.backdropFilter = 'blur(10px)';
-      } else {
-        header.style.background = 'linear-gradient(135deg, var(--primary-color), var(--primary-light))';
-        header.style.backdropFilter = 'none';
+    // ===== Verify OTP =====
+    verifyOtpBtn.addEventListener('click', async () => {
+      const code = otpInput.value.trim();
+      if (!code) return alert('Enter OTP');
+
+      try {
+        const result = await confirmationResultGlobal.confirm(code);
+        const user = result.user;
+        statusDiv.textContent = 'Phone verified! UID: ' + user.uid;
+        // TODO: Redirect or store session
+      } catch (err) {
+        console.error(err);
+        alert('Invalid OTP: ' + (err.message || err));
       }
+    });
+
+    // ===== Resend OTP =====
+    resendOtpBtn.addEventListener('click', () => {
+      phoneSection.style.display = 'block';
+      otpSection.style.display = 'none';
+      statusDiv.textContent = '';
+      otpInput.value = '';
     });
   </script>
 </body>
