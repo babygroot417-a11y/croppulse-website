@@ -240,11 +240,90 @@ const CropPulseApp = {
 
   // Format phone number
   formatPhoneNumber(input) {
-    let value = input.value.replace(/\D/g, '');
-    if (value.length > 0 && !value.startsWith('+')) {
-      value = '+91' + value;
+    let value = input.value;
+    let cursorPosition = input.selectionStart;
+    
+    // Remove all non-digit characters except +
+    let cleanValue = value.replace(/[^\d+]/g, '');
+    
+    // If user is typing and doesn't have +91, add it
+    if (cleanValue.length > 0 && !cleanValue.startsWith('+91')) {
+      // For normal typing, ensure +91 prefix
+      if (cleanValue.startsWith('+')) {
+        input.value = cleanValue;
+      } else {
+        input.value = '+91' + cleanValue;
+      }
+    } else {
+      input.value = cleanValue;
     }
-    input.value = value;
+    
+    // Restore cursor position
+    setTimeout(() => {
+      input.setSelectionRange(cursorPosition, cursorPosition);
+    }, 0);
+  },
+
+  // Setup phone number input with proper formatting
+  setupPhoneInput(inputId) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+
+    // Format phone number input
+    input.addEventListener('input', function(e) {
+      let value = e.target.value;
+      let cursorPosition = e.target.selectionStart;
+      
+      // Remove all non-digit characters except +
+      let cleanValue = value.replace(/[^\d+]/g, '');
+      
+      // If user is typing and doesn't have +91, add it
+      if (cleanValue.length > 0 && !cleanValue.startsWith('+91')) {
+        // If user is deleting, don't auto-add +91
+        if (e.inputType === 'deleteContentBackward' || e.inputType === 'deleteContentForward') {
+          // Allow deletion but maintain +91 if it exists
+          if (cleanValue.startsWith('+91')) {
+            e.target.value = cleanValue;
+          } else {
+            e.target.value = '+91' + cleanValue;
+          }
+        } else {
+          // For normal typing, ensure +91 prefix
+          if (cleanValue.startsWith('+')) {
+            e.target.value = cleanValue;
+          } else {
+            e.target.value = '+91' + cleanValue;
+          }
+        }
+      } else {
+        e.target.value = cleanValue;
+      }
+      
+      // Restore cursor position
+      setTimeout(() => {
+        e.target.setSelectionRange(cursorPosition, cursorPosition);
+      }, 0);
+    });
+
+    // Handle backspace and delete keys properly
+    input.addEventListener('keydown', function(e) {
+      const value = e.target.value;
+      const cursorPosition = e.target.selectionStart;
+      
+      // If backspace is pressed and cursor is at position 3 (right after +91)
+      if (e.key === 'Backspace' && cursorPosition === 3) {
+        e.preventDefault();
+        // Don't allow deletion of +91
+        return;
+      }
+      
+      // If delete is pressed and cursor is at position 0, 1, or 2
+      if (e.key === 'Delete' && cursorPosition <= 2) {
+        e.preventDefault();
+        // Don't allow deletion of +91
+        return;
+      }
+    });
   },
 
   // Debounce function for search/input
