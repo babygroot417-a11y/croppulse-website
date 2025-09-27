@@ -1,103 +1,112 @@
-<script>
-  // ===== Firebase Setup =====
-  const firebaseConfig = {
-    apiKey: "AIzaSyCQ7q-b-uX4rNv8pOYOeu3mOa__jtGvo3M",
-    authDomain: "croppulse-0316.firebaseapp.com",
-    projectId: "croppulse-0316",
-    storageBucket: "croppulse-0316.firebasestorage.app",
-    messagingSenderId: "139230612217",
-    appId: "1:139230612217:web:c5887c9c02de587ba47028",
-    measurementId: "G-7EFC8C7SY2"
-  };
-  
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CropPulse Login</title>
+  <style>
+    body { font-family: 'Inter', sans-serif; background: #f4f6f9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+    .login-box { background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
+    h2 { margin-bottom: 1.5rem; color: #2e7d32; }
+    input { width: 100%; padding: 0.8rem; margin: 0.5rem 0; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; }
+    button { width: 100%; padding: 0.8rem; margin-top: 1rem; background: #2e7d32; color: #fff; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer; font-weight: bold; }
+    button:hover { background: #256428; }
+    #recaptcha-container { margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <h2>🌾 CropPulse Login</h2>
 
-  // ===== reCAPTCHA =====
-  window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-    'size': 'invisible'
-  });
-  recaptchaVerifier.render();
+    <!-- Phone input -->
+    <input type="text" id="phoneNumber" placeholder="+91 9876543210" />
 
-  // ===== DOM Elements =====
-  const phoneInput = document.getElementById('phone');
-  const otpInput = document.getElementById('otp');
-  const sendOtpBtn = document.getElementById('sendOtpBtn');
-  const verifyOtpBtn = document.getElementById('verifyOtpBtn');
-  const resendOtpBtn = document.getElementById('resendOtpBtn');
-  const phoneSection = document.getElementById('phone-section');
-  const otpSection = document.getElementById('otp-section');
-  const statusDiv = document.getElementById('status');
+    <!-- Recaptcha -->
+    <div id="recaptcha-container"></div>
 
-  let confirmationResultGlobal;
-  let countdownInterval;
-  let phoneNumberGlobal;
+    <!-- OTP buttons -->
+    <button onclick="sendOTP()">Send OTP</button>
+    <input type="text" id="otp" placeholder="Enter OTP" />
+    <button onclick="verifyOTP()">Verify OTP</button>
+  </div>
 
-  // ===== Functions =====
-  function startResendCountdown(autoTrigger = true) {
-    let timeLeft = 30;
-    resendOtpBtn.disabled = true;
-    resendOtpBtn.textContent = `Resend OTP (${timeLeft}s)`;
+  <!-- Firebase Authentication -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+    import { 
+      getAuth, 
+      RecaptchaVerifier, 
+      signInWithPhoneNumber, 
+      setPersistence, 
+      browserLocalPersistence, 
+      onAuthStateChanged 
+    } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
 
-    countdownInterval = setInterval(async () => {
-      timeLeft--;
-      resendOtpBtn.textContent = `Resend OTP (${timeLeft}s)`;
-      if (timeLeft <= 0) {
-        clearInterval(countdownInterval);
-        resendOtpBtn.disabled = false;
-        resendOtpBtn.textContent = 'Resend OTP';
+    const firebaseConfig = {
+      apiKey: "AIzaSyCQ7q-b-uX4rNv8pOYOeu3mOa__jtGvo3M",
+      authDomain: "croppulse-0316.firebaseapp.com",
+      projectId: "croppulse-0316",
+      storageBucket: "croppulse-0316.firebasestorage.app",
+      messagingSenderId: "139230612217",
+      appId: "1:139230612217:web:c5887c9c02de587ba47028",
+      measurementId: "G-7EFC8C7SY2"
+    };
 
-        // Auto-resend OTP if user hasn't verified yet
-        if (autoTrigger && otpSection.style.display === 'block') {
-          await sendOTP(phoneNumberGlobal, true);
-        }
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    let confirmationResult;
+
+    // ✅ Keep user logged in across sessions
+    setPersistence(auth, browserLocalPersistence);
+
+    // ✅ If already logged in → go to dashboard directly
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log("User already logged in:", user.phoneNumber);
+        window.location.href = "dashboard.html";
       }
-    }, 1000);
-  }
+    });
 
-  async function sendOTP(phoneNumber, isAuto = false) {
-    try {
-      const appVerifier = window.recaptchaVerifier;
-      const confirmationResult = await auth.signInWithPhoneNumber(phoneNumber, appVerifier);
-      confirmationResultGlobal = confirmationResult;
-      phoneNumberGlobal = phoneNumber;
-      phoneSection.style.display = 'none';
-      otpSection.style.display = 'block';
-      statusDiv.textContent = isAuto ? 'OTP resent automatically! Check your phone.' : 'OTP sent! Check your phone.';
-      startResendCountdown();
-    } catch (err) {
-      console.error(err);
-      alert('Error sending OTP: ' + (err.message || err));
-      window.recaptchaVerifier.render().then(widgetId => grecaptcha.reset(widgetId));
-    }
-  }
+    // Setup Recaptcha
+    window.recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {
+      size: "normal",
+      callback: () => {
+        console.log("reCAPTCHA verified");
+      }
+    });
 
-  // ===== Send OTP Button =====
-  sendOtpBtn.addEventListener('click', async () => {
-    const phoneNumber = phoneInput.value.trim();
-    if (!phoneNumber) return alert('Enter phone number in international format (+91xxxxxxx)');
-    await sendOTP(phoneNumber, false);
-  });
+    // Send OTP
+    window.sendOTP = function() {
+      const phoneNumber = document.getElementById("phoneNumber").value;
+      if (!phoneNumber.startsWith("+")) {
+        alert("⚠️ Please enter phone number in full international format (e.g., +91xxxxxxxxxx)");
+        return;
+      }
+      signInWithPhoneNumber(auth, phoneNumber, window.recaptchaVerifier)
+        .then((result) => {
+          confirmationResult = result;
+          alert("✅ OTP sent successfully!");
+        })
+        .catch((error) => {
+          console.error(error);
+          alert("❌ Error sending OTP: " + error.message);
+        });
+    };
 
-  // ===== Verify OTP =====
-  verifyOtpBtn.addEventListener('click', async () => {
-    const code = otpInput.value.trim();
-    if (!code) return alert('Enter OTP');
-
-    try {
-      const result = await confirmationResultGlobal.confirm(code);
-      const user = result.user;
-      statusDiv.textContent = 'Phone verified! UID: ' + user.uid;
-      // TODO: Redirect or store session
-    } catch (err) {
-      console.error(err);
-      alert('Invalid OTP: ' + (err.message || err));
-    }
-  });
-
-  // ===== Resend OTP Button =====
-  resendOtpBtn.addEventListener('click', async () => {
-    if (!phoneNumberGlobal) return;
-    await sendOTP(phoneNumberGlobal, false);
-  });
-</script>
+    // Verify OTP
+    window.verifyOTP = function() {
+      const otp = document.getElementById("otp").value;
+      confirmationResult.confirm(otp)
+        .then((result) => {
+          alert("🎉 Login successful!");
+          window.location.href = "dashboard.html";  // ✅ Auto redirect
+        })
+        .catch((error) => {
+          console.error(error);
+          alert("❌ Invalid OTP. Please try again.");
+        });
+    };
+  </script>
+</body>
+</html>
