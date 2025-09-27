@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Results - CropPulse</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .grid { display: grid; grid-template-columns: repeat(5, 100px); gap: 5px; margin-top: 20px; }
+    .block { width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; font-weight: bold; }
+    .green { background: #4caf50; }
+    .yellow { background: #ffeb3b; color: black; }
+    .red { background: #f44336; }
+  </style>
+</head>
+<body>
+  <header><h1>Crop Scan Results</h1></header>
+  <main>
+    <p>Hover on blocks to see crop details.</p>
+    <div class="grid">
+      <div class="block green" title="Healthy: pH=6.5, Moisture=40%">1</div>
+      <div class="block yellow" title="Attention: pH=5.8, Moisture=25%">2</div>
+      <div class="block red" title="Critical: Pest=15%, Low water">3</div>
+      <div class="block green" title="Healthy: pH=6.7, Moisture=38%">4</div>
+      <div class="block yellow" title="Needs Nitrogen Fertilizer">5</div>
+    </div>
+  </main>
+</body>
+</html>
