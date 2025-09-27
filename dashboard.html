@@ -4,26 +4,401 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard - CropPulse</title>
+  <meta name="description" content="Access your smart farming dashboard with AI chatbot, scan booking, and crop analysis results.">
   <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/logo.png" type="image/png">
   <script src="script.js" defer></script>
 </head>
 <body>
   <header>
-    <h2>Welcome to CropPulse Dashboard</h2>
-    <nav>
-      <a href="booking.html">📅 Book Scan</a>
-      <a href="results.html">📊 My Results</a>
-      <a href="index.html">Logout</a>
-    </nav>
+    <div class="header-content">
+      <a href="index.html" class="logo">
+        <img src="assets/logo.png" alt="CropPulse Logo">
+        <span>CropPulse</span>
+      </a>
+      <nav>
+        <a href="booking.html">📅 Book Scan</a>
+        <a href="results.html">📊 My Results</a>
+        <a href="#" onclick="logout()">Logout</a>
+      </nav>
+    </div>
   </header>
 
   <main>
-    <h3>💬 AI Chatbot</h3>
-    <div id="chatbox">
-      <div id="messages"></div>
-      <input type="text" id="userInput" placeholder="Ask in Telugu, Hindi, English...">
-      <button onclick="sendMessage()">Send</button>
+    <!-- Welcome Section -->
+    <section class="mb-4">
+      <div class="card">
+        <div class="flex-between">
+          <div>
+            <h1>Welcome back, Farmer! 👋</h1>
+            <p class="text-secondary">Here's what's happening with your crops today</p>
+          </div>
+          <div class="text-right">
+            <div style="font-size: 0.9rem; color: var(--text-secondary);">Last updated</div>
+            <div id="lastUpdate" style="font-weight: 600;">Just now</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Stats -->
+    <section class="mb-4">
+      <div class="grid grid-4">
+        <div class="card text-center">
+          <div style="font-size: 2rem; margin-bottom: 0.5rem;">🚁</div>
+          <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;" id="totalScans">0</h3>
+          <p class="text-secondary">Total Scans</p>
+        </div>
+        
+        <div class="card text-center">
+          <div style="font-size: 2rem; margin-bottom: 0.5rem;">🌱</div>
+          <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;" id="healthyCrops">0</h3>
+          <p class="text-secondary">Healthy Areas</p>
+        </div>
+        
+        <div class="card text-center">
+          <div style="font-size: 2rem; margin-bottom: 0.5rem;">⚠️</div>
+          <h3 style="color: #ff9800; margin-bottom: 0.5rem;" id="warningAreas">0</h3>
+          <p class="text-secondary">Need Attention</p>
+        </div>
+        
+        <div class="card text-center">
+          <div style="font-size: 2rem; margin-bottom: 0.5rem;">📈</div>
+          <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;" id="yieldPrediction">0%</h3>
+          <p class="text-secondary">Yield Prediction</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-2" style="gap: 2rem;">
+      <!-- AI Chatbot Section -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">🤖 AI Crop Advisor</h3>
+          <p class="card-subtitle">Ask questions in Telugu, Hindi, or English</p>
+        </div>
+        
+        <div class="chat-container">
+          <div class="chat-header">
+            <span>💬 Smart Assistant</span>
+          </div>
+          
+          <div class="chat-messages" id="messages">
+            <div class="message bot">
+              <strong>Welcome to CropPulse AI Assistant!</strong><br>
+              I can help you with crop advice, disease identification, soil analysis, and farming tips. Ask me anything in Telugu, Hindi, or English!
+            </div>
+          </div>
+          
+          <div class="chat-input-container">
+            <input 
+              type="text" 
+              id="userInput" 
+              class="chat-input" 
+              placeholder="Ask about your crops... (తెలుగు, हिंदी, English)"
+              onkeypress="handleKeyPress(event)"
+            >
+            <button onclick="sendMessage()" class="btn" id="sendBtn">
+              <span id="sendText">Send</span>
+              <span id="sendLoading" class="loading hidden"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div>
+        <!-- Book New Scan -->
+        <div class="card mb-3">
+          <div class="card-header">
+            <h3 class="card-title">📅 Book New Scan</h3>
+            <p class="card-subtitle">Schedule a drone scan for your farm</p>
+          </div>
+          <p class="mb-3">Get detailed analysis of your crops with our advanced drone technology.</p>
+          <a href="booking.html" class="btn w-full">Book Now</a>
+        </div>
+
+        <!-- Recent Results -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">📊 Recent Results</h3>
+            <p class="card-subtitle">Latest scan analysis</p>
+          </div>
+          <div id="recentResults">
+            <div class="text-center text-secondary" style="padding: 2rem;">
+              <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
+              <p>No recent scans found</p>
+              <a href="booking.html" class="btn btn-secondary mt-2">Book Your First Scan</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <!-- Recent Activity -->
+    <section class="mt-4">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">📋 Recent Activity</h3>
+          <p class="card-subtitle">Your latest farming activities</p>
+        </div>
+        <div id="activityFeed">
+          <div class="text-center text-secondary" style="padding: 2rem;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">🌱</div>
+            <p>No recent activity to show</p>
+            <p class="text-secondary">Start by booking a scan or asking the AI assistant!</p>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="booking.html">Book Scan</a>
+        <a href="results.html">Results</a>
+        <a href="mailto:thecroppulse@gmail.com">Contact</a>
+      </div>
+      <p>&copy; 2024 CropPulse. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Sample data for demonstration
+    const sampleData = {
+      totalScans: 12,
+      healthyCrops: 8,
+      warningAreas: 3,
+      yieldPrediction: 85,
+      recentResults: [
+        {
+          date: '2024-01-15',
+          crop: 'Rice',
+          area: '2.5 acres',
+          status: 'healthy',
+          summary: 'Good growth, minor pest activity detected'
+        },
+        {
+          date: '2024-01-10',
+          crop: 'Wheat',
+          area: '1.8 acres',
+          status: 'warning',
+          summary: 'Nitrogen deficiency in northern section'
+        }
+      ],
+      activities: [
+        {
+          type: 'scan',
+          date: '2024-01-15',
+          description: 'Drone scan completed for Rice field',
+          status: 'completed'
+        },
+        {
+          type: 'chat',
+          date: '2024-01-14',
+          description: 'Asked about pest control methods',
+          status: 'completed'
+        },
+        {
+          type: 'booking',
+          date: '2024-01-12',
+          description: 'Scheduled scan for Wheat field',
+          status: 'scheduled'
+        }
+      ]
+    };
+
+    // Initialize dashboard
+    function initializeDashboard() {
+      updateStats();
+      updateRecentResults();
+      updateActivityFeed();
+      updateLastUpdateTime();
+    }
+
+    // Update statistics
+    function updateStats() {
+      document.getElementById('totalScans').textContent = sampleData.totalScans;
+      document.getElementById('healthyCrops').textContent = sampleData.healthyCrops;
+      document.getElementById('warningAreas').textContent = sampleData.warningAreas;
+      document.getElementById('yieldPrediction').textContent = sampleData.yieldPrediction + '%';
+    }
+
+    // Update recent results
+    function updateRecentResults() {
+      const container = document.getElementById('recentResults');
+      
+      if (sampleData.recentResults.length === 0) {
+        return; // Keep the default "no results" message
+      }
+
+      const resultsHtml = sampleData.recentResults.map(result => `
+        <div style="border: 1px solid var(--border-color); border-radius: var(--border-radius); padding: 1rem; margin-bottom: 1rem;">
+          <div class="flex-between mb-2">
+            <strong>${result.crop}</strong>
+            <span style="font-size: 0.9rem; color: var(--text-secondary);">${result.date}</span>
+          </div>
+          <p style="margin-bottom: 0.5rem;">${result.area} • ${result.status}</p>
+          <p class="text-secondary" style="font-size: 0.9rem;">${result.summary}</p>
+        </div>
+      `).join('');
+
+      container.innerHTML = resultsHtml;
+    }
+
+    // Update activity feed
+    function updateActivityFeed() {
+      const container = document.getElementById('activityFeed');
+      
+      if (sampleData.activities.length === 0) {
+        return; // Keep the default "no activity" message
+      }
+
+      const activitiesHtml = sampleData.activities.map(activity => `
+        <div style="display: flex; align-items: center; padding: 1rem; border-bottom: 1px solid var(--border-color);">
+          <div style="margin-right: 1rem;">
+            ${getActivityIcon(activity.type)}
+          </div>
+          <div style="flex: 1;">
+            <p style="margin-bottom: 0.25rem;">${activity.description}</p>
+            <small class="text-secondary">${activity.date}</small>
+          </div>
+          <div>
+            <span style="padding: 0.25rem 0.5rem; border-radius: var(--border-radius); font-size: 0.8rem; background: ${getStatusColor(activity.status)}; color: white;">
+              ${activity.status}
+            </span>
+          </div>
+        </div>
+      `).join('');
+
+      container.innerHTML = activitiesHtml;
+    }
+
+    // Get activity icon
+    function getActivityIcon(type) {
+      const icons = {
+        scan: '🚁',
+        chat: '💬',
+        booking: '📅',
+        result: '📊'
+      };
+      return icons[type] || '📋';
+    }
+
+    // Get status color
+    function getStatusColor(status) {
+      const colors = {
+        completed: 'var(--primary-color)',
+        scheduled: '#ff9800',
+        pending: '#9e9e9e'
+      };
+      return colors[status] || '#9e9e9e';
+    }
+
+    // Update last update time
+    function updateLastUpdateTime() {
+      const now = new Date();
+      const timeString = now.toLocaleTimeString('en-US', { 
+        hour: '2-digit', 
+        minute: '2-digit' 
+      });
+      document.getElementById('lastUpdate').textContent = timeString;
+    }
+
+    // Chat functionality
+    function sendMessage() {
+      const userInput = document.getElementById('userInput');
+      const message = userInput.value.trim();
+      
+      if (!message) return;
+
+      // Add user message to chat
+      addMessage(message, 'user');
+      userInput.value = '';
+
+      // Show loading state
+      const sendBtn = document.getElementById('sendBtn');
+      const sendText = document.getElementById('sendText');
+      const sendLoading = document.getElementById('sendLoading');
+      
+      sendBtn.disabled = true;
+      sendText.classList.add('hidden');
+      sendLoading.classList.remove('hidden');
+
+      // Simulate AI response
+      setTimeout(() => {
+        const response = generateAIResponse(message);
+        addMessage(response, 'bot');
+        
+        // Reset button state
+        sendBtn.disabled = false;
+        sendText.classList.remove('hidden');
+        sendLoading.classList.add('hidden');
+      }, 1500);
+    }
+
+    // Add message to chat
+    function addMessage(text, sender) {
+      const messagesContainer = document.getElementById('messages');
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `message ${sender}`;
+      messageDiv.innerHTML = text;
+      messagesContainer.appendChild(messageDiv);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    // Generate AI response (simplified)
+    function generateAIResponse(userMessage) {
+      const responses = {
+        'hello': 'Hello! How can I help you with your crops today?',
+        'pest': 'I can help you identify and treat pest problems. What type of crop are you growing and what symptoms are you seeing?',
+        'fertilizer': 'For fertilizer recommendations, I need to know your crop type, soil conditions, and growth stage. Can you provide more details?',
+        'disease': 'I can help diagnose crop diseases. Please describe the symptoms you\'re seeing on your plants.',
+        'soil': 'Soil analysis is crucial for healthy crops. What specific soil issues are you experiencing?',
+        'water': 'Water management is key to crop success. Are you having issues with irrigation or drainage?'
+      };
+
+      const lowerMessage = userMessage.toLowerCase();
+      
+      for (const [key, response] of Object.entries(responses)) {
+        if (lowerMessage.includes(key)) {
+          return response;
+        }
+      }
+
+      return 'Thank you for your question! I\'m here to help with all your farming needs. Could you provide more specific details about your crop or farming challenge?';
+    }
+
+    // Handle Enter key press
+    function handleKeyPress(event) {
+      if (event.key === 'Enter') {
+        sendMessage();
+      }
+    }
+
+    // Logout function
+    function logout() {
+      if (confirm('Are you sure you want to logout?')) {
+        // Clear any stored data
+        localStorage.removeItem('userData');
+        // Redirect to home page
+        window.location.href = 'index.html';
+      }
+    }
+
+    // Initialize dashboard when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeDashboard();
+      
+      // Update time every minute
+      setInterval(updateLastUpdateTime, 60000);
+    });
+  </script>
 </body>
 </html>

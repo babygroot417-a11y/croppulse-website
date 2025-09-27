@@ -4,26 +4,346 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Results - CropPulse</title>
+  <meta name="description" content="View detailed crop analysis results from your drone scans with CropPulse's advanced agricultural monitoring system.">
   <link rel="stylesheet" href="style.css">
-  <style>
-    .grid { display: grid; grid-template-columns: repeat(5, 100px); gap: 5px; margin-top: 20px; }
-    .block { width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; font-weight: bold; }
-    .green { background: #4caf50; }
-    .yellow { background: #ffeb3b; color: black; }
-    .red { background: #f44336; }
-  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/logo.png" type="image/png">
 </head>
 <body>
-  <header><h1>Crop Scan Results</h1></header>
-  <main>
-    <p>Hover on blocks to see crop details.</p>
-    <div class="grid">
-      <div class="block green" title="Healthy: pH=6.5, Moisture=40%">1</div>
-      <div class="block yellow" title="Attention: pH=5.8, Moisture=25%">2</div>
-      <div class="block red" title="Critical: Pest=15%, Low water">3</div>
-      <div class="block green" title="Healthy: pH=6.7, Moisture=38%">4</div>
-      <div class="block yellow" title="Needs Nitrogen Fertilizer">5</div>
+  <header>
+    <div class="header-content">
+      <a href="index.html" class="logo">
+        <img src="assets/logo.png" alt="CropPulse Logo">
+        <span>CropPulse</span>
+      </a>
+      <nav>
+        <a href="dashboard.html">← Back to Dashboard</a>
+        <a href="booking.html">Book New Scan</a>
+      </nav>
     </div>
+  </header>
+
+  <main>
+    <!-- Page Header -->
+    <section class="mb-4">
+      <div class="card">
+        <div class="flex-between">
+          <div>
+            <h1>📊 Crop Scan Results</h1>
+            <p class="text-secondary">Detailed analysis of your farm's crop health and conditions</p>
+          </div>
+          <div class="text-right">
+            <div style="font-size: 0.9rem; color: var(--text-secondary);">Last scan</div>
+            <div style="font-weight: 600;">January 15, 2024</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Summary Stats -->
+    <section class="mb-4">
+      <div class="grid grid-4">
+        <div class="card text-center">
+          <div style="font-size: 2rem; margin-bottom: 0.5rem;">🌱</div>
+          <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">75%</h3>
+          <p class="text-secondary">Healthy Areas</p>
+        </div>
+        
+        <div class="card text-center">
+          <div style="font-size: 2rem; margin-bottom: 0.5rem;">⚠️</div>
+          <h3 style="color: #ff9800; margin-bottom: 0.5rem;">20%</h3>
+          <p class="text-secondary">Need Attention</p>
+        </div>
+        
+        <div class="card text-center">
+          <div style="font-size: 2rem; margin-bottom: 0.5rem;">🚨</div>
+          <h3 style="color: #f44336; margin-bottom: 0.5rem;">5%</h3>
+          <p class="text-secondary">Critical Issues</p>
+        </div>
+        
+        <div class="card text-center">
+          <div style="font-size: 2rem; margin-bottom: 0.5rem;">📈</div>
+          <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">85%</h3>
+          <p class="text-secondary">Yield Prediction</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Farm Grid Visualization -->
+    <section class="mb-4">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">🌾 Farm Health Map</h3>
+          <p class="card-subtitle">Click on any section to view detailed analysis</p>
+        </div>
+        
+        <div class="results-grid" id="farmGrid">
+          <!-- Grid will be populated by JavaScript -->
+        </div>
+        
+        <div class="mt-3" style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <div style="width: 20px; height: 20px; background: linear-gradient(135deg, #4caf50, #66bb6a); border-radius: 4px;"></div>
+            <span>Healthy</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <div style="width: 20px; height: 20px; background: linear-gradient(135deg, #ff9800, #ffb74d); border-radius: 4px;"></div>
+            <span>Warning</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <div style="width: 20px; height: 20px; background: linear-gradient(135deg, #f44336, #ef5350); border-radius: 4px;"></div>
+            <span>Critical</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Detailed Analysis -->
+    <div class="grid grid-2" style="gap: 2rem;">
+      <!-- Issues Found -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">🔍 Issues Identified</h3>
+          <p class="card-subtitle">Problems detected in your crops</p>
+        </div>
+        
+        <div id="issuesList">
+          <div style="border: 1px solid var(--border-color); border-radius: var(--border-radius); padding: 1rem; margin-bottom: 1rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+              <span style="color: #f44336;">🚨</span>
+              <strong>Pest Infestation</strong>
+              <span style="background: #f44336; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Critical</span>
+            </div>
+            <p style="margin-bottom: 0.5rem;">Aphid infestation detected in sections 3, 7, and 12</p>
+            <small class="text-secondary">Recommendation: Apply neem oil spray immediately</small>
+          </div>
+          
+          <div style="border: 1px solid var(--border-color); border-radius: var(--border-radius); padding: 1rem; margin-bottom: 1rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+              <span style="color: #ff9800;">⚠️</span>
+              <strong>Nitrogen Deficiency</strong>
+              <span style="background: #ff9800; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Warning</span>
+            </div>
+            <p style="margin-bottom: 0.5rem;">Low nitrogen levels in northern sections</p>
+            <small class="text-secondary">Recommendation: Apply urea fertilizer within 7 days</small>
+          </div>
+          
+          <div style="border: 1px solid var(--border-color); border-radius: var(--border-radius); padding: 1rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+              <span style="color: #ff9800;">⚠️</span>
+              <strong>Water Stress</strong>
+              <span style="background: #ff9800; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Warning</span>
+            </div>
+            <p style="margin-bottom: 0.5rem;">Irregular watering pattern detected</p>
+            <small class="text-secondary">Recommendation: Increase irrigation frequency</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recommendations -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">💡 Recommendations</h3>
+          <p class="card-subtitle">Action items for better crop health</p>
+        </div>
+        
+        <div id="recommendationsList">
+          <div style="border-left: 4px solid var(--primary-color); padding-left: 1rem; margin-bottom: 1.5rem;">
+            <h4 style="margin-bottom: 0.5rem;">Immediate Actions (1-3 days)</h4>
+            <ul style="margin-left: 1rem; color: var(--text-secondary);">
+              <li>Apply neem oil spray to affected areas</li>
+              <li>Increase irrigation frequency by 20%</li>
+              <li>Monitor pest activity daily</li>
+            </ul>
+          </div>
+          
+          <div style="border-left: 4px solid #ff9800; padding-left: 1rem; margin-bottom: 1.5rem;">
+            <h4 style="margin-bottom: 0.5rem;">Short-term Actions (1-2 weeks)</h4>
+            <ul style="margin-left: 1rem; color: var(--text-secondary);">
+              <li>Apply urea fertilizer to nitrogen-deficient areas</li>
+              <li>Schedule follow-up scan in 2 weeks</li>
+              <li>Implement integrated pest management</li>
+            </ul>
+          </div>
+          
+          <div style="border-left: 4px solid var(--secondary-color); padding-left: 1rem;">
+            <h4 style="margin-bottom: 0.5rem;">Long-term Planning (1-3 months)</h4>
+            <ul style="margin-left: 1rem; color: var(--text-secondary);">
+              <li>Optimize irrigation system</li>
+              <li>Plan crop rotation strategy</li>
+              <li>Schedule regular monitoring scans</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Historical Comparison -->
+    <section class="mt-4">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">📈 Historical Comparison</h3>
+          <p class="card-subtitle">Compare with previous scans</p>
+        </div>
+        
+        <div class="grid grid-3">
+          <div class="text-center">
+            <h4>Previous Scan</h4>
+            <p class="text-secondary">Dec 15, 2023</p>
+            <div style="font-size: 2rem; color: var(--primary-color);">70%</div>
+            <p class="text-secondary">Healthy Areas</p>
+          </div>
+          
+          <div class="text-center">
+            <h4>Current Scan</h4>
+            <p class="text-secondary">Jan 15, 2024</p>
+            <div style="font-size: 2rem; color: var(--primary-color);">75%</div>
+            <p class="text-secondary">Healthy Areas</p>
+          </div>
+          
+          <div class="text-center">
+            <h4>Improvement</h4>
+            <p class="text-secondary">+5%</p>
+            <div style="font-size: 2rem; color: var(--primary-color);">↗️</div>
+            <p class="text-secondary">Positive Trend</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Action Buttons -->
+    <section class="mt-4">
+      <div class="card text-center">
+        <h3 class="mb-3">Need More Help?</h3>
+        <p class="text-secondary mb-4">Get personalized advice from our AI assistant or schedule a follow-up scan</p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="dashboard.html" class="btn">Ask AI Assistant</a>
+          <a href="booking.html" class="btn btn-secondary">Schedule Follow-up</a>
+          <button onclick="downloadReport()" class="btn btn-secondary">Download Report</button>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="booking.html">Book Scan</a>
+        <a href="mailto:thecroppulse@gmail.com">Contact</a>
+      </div>
+      <p>&copy; 2024 CropPulse. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Sample farm data
+    const farmData = [
+      { id: 1, status: 'healthy', details: 'Healthy: pH=6.5, Moisture=40%, No pests detected' },
+      { id: 2, status: 'warning', details: 'Attention: pH=5.8, Moisture=25%, Minor nutrient deficiency' },
+      { id: 3, status: 'critical', details: 'Critical: Pest infestation 15%, Low water, Immediate action needed' },
+      { id: 4, status: 'healthy', details: 'Healthy: pH=6.7, Moisture=38%, Good growth pattern' },
+      { id: 5, status: 'warning', details: 'Warning: Needs Nitrogen fertilizer, Yellowing leaves detected' },
+      { id: 6, status: 'healthy', details: 'Healthy: pH=6.3, Moisture=42%, Optimal conditions' },
+      { id: 7, status: 'critical', details: 'Critical: Disease symptoms, Fungal infection suspected' },
+      { id: 8, status: 'healthy', details: 'Healthy: pH=6.8, Moisture=39%, Strong root development' },
+      { id: 9, status: 'warning', details: 'Warning: Water stress, Irrigation needed' },
+      { id: 10, status: 'healthy', details: 'Healthy: pH=6.4, Moisture=41%, Excellent crop health' },
+      { id: 11, status: 'warning', details: 'Warning: Soil compaction, Aeration recommended' },
+      { id: 12, status: 'critical', details: 'Critical: Pest damage 20%, Chemical treatment required' },
+      { id: 13, status: 'healthy', details: 'Healthy: pH=6.6, Moisture=37%, Good yield potential' },
+      { id: 14, status: 'healthy', details: 'Healthy: pH=6.2, Moisture=43%, Optimal growth' },
+      { id: 15, status: 'warning', details: 'Warning: Temperature stress, Shade recommended' },
+      { id: 16, status: 'healthy', details: 'Healthy: pH=6.9, Moisture=36%, Excellent condition' }
+    ];
+
+    // Initialize results page
+    function initializeResults() {
+      generateFarmGrid();
+      updateStats();
+    }
+
+    // Generate farm grid
+    function generateFarmGrid() {
+      const gridContainer = document.getElementById('farmGrid');
+      
+      farmData.forEach(block => {
+        const blockElement = document.createElement('div');
+        blockElement.className = `result-block ${block.status}`;
+        blockElement.textContent = block.id;
+        blockElement.onclick = () => showBlockDetails(block);
+        
+        // Add tooltip
+        const tooltip = document.createElement('div');
+        tooltip.className = 'result-tooltip';
+        tooltip.textContent = block.details;
+        blockElement.appendChild(tooltip);
+        
+        gridContainer.appendChild(blockElement);
+      });
+    }
+
+    // Show block details
+    function showBlockDetails(block) {
+      const statusColors = {
+        healthy: '#4caf50',
+        warning: '#ff9800',
+        critical: '#f44336'
+      };
+      
+      const statusText = {
+        healthy: 'Healthy',
+        warning: 'Warning',
+        critical: 'Critical'
+      };
+      
+      alert(`Section ${block.id} - ${statusText[block.status]}\n\n${block.details}`);
+    }
+
+    // Update statistics
+    function updateStats() {
+      const healthy = farmData.filter(block => block.status === 'healthy').length;
+      const warning = farmData.filter(block => block.status === 'warning').length;
+      const critical = farmData.filter(block => block.status === 'critical').length;
+      
+      const total = farmData.length;
+      const healthyPercent = Math.round((healthy / total) * 100);
+      const warningPercent = Math.round((warning / total) * 100);
+      const criticalPercent = Math.round((critical / total) * 100);
+      
+      // Update the summary stats (these are already hardcoded in HTML, but you could update them dynamically)
+      console.log(`Farm Health: ${healthyPercent}% healthy, ${warningPercent}% warning, ${criticalPercent}% critical`);
+    }
+
+    // Download report function
+    function downloadReport() {
+      // Simulate report download
+      const reportData = {
+        scanDate: '2024-01-15',
+        farmHealth: '75% healthy',
+        issues: ['Pest infestation', 'Nitrogen deficiency', 'Water stress'],
+        recommendations: ['Apply neem oil', 'Add urea fertilizer', 'Increase irrigation']
+      };
+      
+      const dataStr = JSON.stringify(reportData, null, 2);
+      const dataBlob = new Blob([dataStr], {type: 'application/json'});
+      const url = URL.createObjectURL(dataBlob);
+      
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'crop-scan-report-2024-01-15.json';
+      link.click();
+      
+      URL.revokeObjectURL(url);
+    }
+
+    // Initialize when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeResults();
+    });
+  </script>
 </body>
 </html>

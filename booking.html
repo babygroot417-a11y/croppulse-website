@@ -4,18 +4,253 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Book Scan - CropPulse</title>
+  <meta name="description" content="Schedule a professional drone scan for your farm with CropPulse's advanced agricultural analysis technology.">
   <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/logo.png" type="image/png">
 </head>
 <body>
-  <header><h1>Book a Crop Scan</h1></header>
+  <header>
+    <div class="header-content">
+      <a href="index.html" class="logo">
+        <img src="assets/logo.png" alt="CropPulse Logo">
+        <span>CropPulse</span>
+      </a>
+      <nav>
+        <a href="dashboard.html">← Back to Dashboard</a>
+        <a href="results.html">My Results</a>
+      </nav>
+    </div>
+  </header>
+
   <main>
-    <form>
-      <label>Crop Type:</label><input type="text"><br>
-      <label>Farm Area (acres):</label><input type="number"><br>
-      <label>Location:</label><input type="text"><br>
-      <label>Date:</label><input type="date"><br>
-      <button type="submit">Book Scan</button>
-    </form>
+    <div class="flex-center" style="min-height: calc(100vh - 200px);">
+      <div style="max-width: 600px; width: 100%;">
+        <div class="card text-center mb-4">
+          <h1>🚁 Book Your Crop Scan</h1>
+          <p class="text-secondary">Schedule a professional drone scan for detailed crop analysis</p>
+        </div>
+
+        <form id="bookingForm" class="card">
+          <div class="form-group">
+            <label class="form-label" for="cropType">Crop Type *</label>
+            <select id="cropType" class="form-input" required>
+              <option value="">Select crop type</option>
+              <option value="rice">Rice</option>
+              <option value="wheat">Wheat</option>
+              <option value="maize">Maize</option>
+              <option value="cotton">Cotton</option>
+              <option value="sugarcane">Sugarcane</option>
+              <option value="vegetables">Vegetables</option>
+              <option value="fruits">Fruits</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="farmArea">Farm Area (acres) *</label>
+            <input 
+              type="number" 
+              id="farmArea" 
+              class="form-input" 
+              placeholder="e.g., 2.5"
+              min="0.1"
+              max="1000"
+              step="0.1"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="state">State *</label>
+            <select id="state" class="form-input" required>
+              <option value="">Select state</option>
+              <option value="andhra-pradesh">Andhra Pradesh</option>
+              <option value="telangana">Telangana</option>
+              <option value="karnataka">Karnataka</option>
+              <option value="tamil-nadu">Tamil Nadu</option>
+              <option value="kerala">Kerala</option>
+              <option value="maharashtra">Maharashtra</option>
+              <option value="gujarat">Gujarat</option>
+              <option value="rajasthan">Rajasthan</option>
+              <option value="punjab">Punjab</option>
+              <option value="haryana">Haryana</option>
+              <option value="uttar-pradesh">Uttar Pradesh</option>
+              <option value="bihar">Bihar</option>
+              <option value="west-bengal">West Bengal</option>
+              <option value="odisha">Odisha</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="district">District *</label>
+            <input 
+              type="text" 
+              id="district" 
+              class="form-input" 
+              placeholder="Enter district name"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="village">Village/Town *</label>
+            <input 
+              type="text" 
+              id="village" 
+              class="form-input" 
+              placeholder="Enter village or town name"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="preferredDate">Preferred Date *</label>
+            <input 
+              type="date" 
+              id="preferredDate" 
+              class="form-input" 
+              required
+              min=""
+            >
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="preferredTime">Preferred Time *</label>
+            <select id="preferredTime" class="form-input" required>
+              <option value="">Select time slot</option>
+              <option value="morning">Morning (6:00 AM - 10:00 AM)</option>
+              <option value="afternoon">Afternoon (10:00 AM - 2:00 PM)</option>
+              <option value="evening">Evening (2:00 PM - 6:00 PM)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="contactPerson">Contact Person *</label>
+            <input 
+              type="text" 
+              id="contactPerson" 
+              class="form-input" 
+              placeholder="Your name"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="contactPhone">Contact Phone *</label>
+            <input 
+              type="tel" 
+              id="contactPhone" 
+              class="form-input" 
+              placeholder="+91 9876543210"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="specificConcerns">Specific Concerns (Optional)</label>
+            <textarea 
+              id="specificConcerns" 
+              class="form-input" 
+              rows="3"
+              placeholder="Describe any specific issues you've noticed: pest problems, disease symptoms, nutrient deficiencies, etc."
+            ></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">
+              <input type="checkbox" id="termsAgreement" required>
+              I agree to the <a href="#" style="color: var(--primary-color);">Terms of Service</a> and <a href="#" style="color: var(--primary-color);">Privacy Policy</a> *
+            </label>
+          </div>
+
+          <button type="submit" class="btn w-full">
+            <span id="submitText">Book Scan</span>
+            <span id="submitLoading" class="loading hidden"></span>
+          </button>
+        </form>
+
+        <div id="successMessage" class="card text-center hidden">
+          <div style="color: var(--primary-color); font-size: 4rem; margin-bottom: 1rem;">✅</div>
+          <h2>Booking Confirmed!</h2>
+          <p class="text-secondary mb-3">Your drone scan has been successfully scheduled.</p>
+          <p class="mb-3"><strong>Booking ID:</strong> <span id="bookingId"></span></p>
+          <p class="text-secondary mb-4">We'll contact you 24 hours before the scheduled scan to confirm the visit.</p>
+          <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+            <a href="dashboard.html" class="btn">Go to Dashboard</a>
+            <a href="results.html" class="btn btn-secondary">View Results</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="results.html">Results</a>
+        <a href="mailto:thecroppulse@gmail.com">Contact</a>
+      </div>
+      <p>&copy; 2024 CropPulse. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Initialize form
+    document.addEventListener('DOMContentLoaded', function() {
+      // Set minimum date to today
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('preferredDate').min = today;
+    });
+
+    // Handle form submission
+    document.getElementById('bookingForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      if (!document.getElementById('termsAgreement').checked) {
+        alert('Please agree to the Terms of Service and Privacy Policy.');
+        return;
+      }
+
+      // Show loading state
+      const submitBtn = document.querySelector('button[type="submit"]');
+      const submitText = document.getElementById('submitText');
+      const submitLoading = document.getElementById('submitLoading');
+      
+      submitBtn.disabled = true;
+      submitText.classList.add('hidden');
+      submitLoading.classList.remove('hidden');
+
+      // Simulate form submission
+      setTimeout(() => {
+        // Generate booking ID
+        const bookingId = 'CP' + Date.now().toString().slice(-6);
+        document.getElementById('bookingId').textContent = bookingId;
+        
+        // Show success message
+        document.getElementById('bookingForm').classList.add('hidden');
+        document.getElementById('successMessage').classList.remove('hidden');
+        
+        // Reset form
+        submitBtn.disabled = false;
+        submitText.classList.remove('hidden');
+        submitLoading.classList.add('hidden');
+      }, 2000);
+    });
+
+    // Format phone number input
+    document.getElementById('contactPhone').addEventListener('input', function(e) {
+      let value = e.target.value.replace(/\D/g, '');
+      if (value.length > 0 && !value.startsWith('+')) {
+        value = '+91' + value;
+      }
+      e.target.value = value;
+    });
+  </script>
 </body>
 </html>
