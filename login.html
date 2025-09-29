@@ -4,110 +4,149 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CropPulse Login</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
-    body { font-family: 'Inter', sans-serif; background: #f4f6f9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-    .login-box { background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
-    h2 { margin-bottom: 1.5rem; color: #2e7d32; }
-    input { width: 100%; padding: 0.8rem; margin: 0.5rem 0; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; }
-    button { width: 100%; padding: 0.8rem; margin-top: 1rem; background: #2e7d32; color: #fff; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer; font-weight: bold; }
-    button:hover { background: #256428; }
-    #recaptcha-container { margin-top: 1rem; }
+    body {
+      background: #f4f6f9;
+      font-family: Arial, sans-serif;
+    }
+    .login-container {
+      max-width: 400px;
+      margin: 80px auto;
+      padding: 25px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    }
+    .btn-primary {
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .form-control {
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
   </style>
 </head>
 <body>
-  <div class="login-box">
-    <h2>🌾 CropPulse Login</h2>
+  <div class="login-container">
+    <h3 class="text-center mb-4">Login with Phone</h3>
 
-    <!-- Phone input -->
-    <input type="text" id="phoneNumber" placeholder="+91 9876543210" />
+    <!-- Phone Number Input -->
+    <input type="text" id="phoneNumber" class="form-control" placeholder="+91XXXXXXXXXX">
 
-    <!-- Recaptcha -->
+    <!-- Send OTP Button -->
     <div id="recaptcha-container"></div>
+    <button id="sendOtpBtn" class="btn btn-primary btn-block">Send OTP</button>
 
-    <!-- OTP buttons -->
-    <button onclick="sendOTP()">Send OTP</button>
-    <input type="text" id="otp" placeholder="Enter OTP" />
-    <button onclick="verifyOTP()">Verify OTP</button>
+    <!-- OTP Input -->
+    <input type="text" id="otp" class="form-control mt-3" placeholder="Enter OTP">
+
+    <!-- Verify OTP Button -->
+    <button id="verifyOtpBtn" class="btn btn-success btn-block">Verify OTP</button>
+
+    <!-- Status -->
+    <p id="status" class="text-center text-danger mt-3"></p>
   </div>
 
-  <!-- Firebase Authentication -->
+  <!-- Firebase -->
   <script type="module">
+    // Import Firebase SDK
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
-    import { 
-      getAuth, 
-      RecaptchaVerifier, 
-      signInWithPhoneNumber, 
-      setPersistence, 
-      browserLocalPersistence, 
-      onAuthStateChanged 
-    } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+    import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
 
-  const firebaseConfig = {
-  apiKey: "AIzaSyCQ7q-b-uX4rNv8pOYOeu3mOa__jtGvo3M",
-  authDomain: "croppulse-0316.firebaseapp.com",
-  projectId: "croppulse-0316",
-  storageBucket: "croppulse-0316.appspot.com",  // ✅ fixed
-  messagingSenderId: "139230612217",
-  appId: "1:139230612217:web:c5887c9c02de587ba47028",
-  measurementId: "G-7EFC8C7SY2"
-};
+    // ✅ Correct Firebase Config (Replace if needed)
+    const firebaseConfig = {
+      apiKey: "AIzaSyCQ7q-b-uX4rNv8pOYOeu3mOa__jtGvo3M",
+      authDomain: "croppulse-0316.firebaseapp.com",
+      projectId: "croppulse-0316",
+      storageBucket: "croppulse-0316.appspot.com",   // ✅ fixed
+      messagingSenderId: "139230612217",
+      appId: "1:139230612217:web:c5887c9c02de587ba47028"
+    };
 
-
+    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
+    // Guard: must be served over http(s) with an authorized domain
+    if (location.protocol === 'file:') {
+      document.getElementById('status').innerText = 'Open this page via http(s) (not file://) for OTP to work.';
+    }
+
+    // Setup reCAPTCHA (invisible for better UX)
+    let widgetId = null;
+    window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+      size: 'invisible',
+      callback: () => {
+        // reCAPTCHA solved
+      }
+    });
+    window.recaptchaVerifier.render().then(id => { widgetId = id; });
+
     let confirmationResult;
 
-    // ✅ Keep user logged in across sessions
-    setPersistence(auth, browserLocalPersistence);
+    // Helpers
+    const setStatus = (msg, isError = false) => {
+      const el = document.getElementById('status');
+      el.innerText = msg;
+      el.className = `text-center mt-3 ${isError ? 'text-danger' : 'text-success'}`;
+    };
 
-    // ✅ If already logged in → go to dashboard directly
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        console.log("User already logged in:", user.phoneNumber);
-        window.location.href = "dashboard.html";
-      }
-    });
-
-    // Setup Recaptcha
-    window.recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {
-      size: "normal",
-      callback: () => {
-        console.log("reCAPTCHA verified");
-      }
-    });
+    const normalizePhone = (value) => {
+      const trimmed = value.trim();
+      if (!trimmed.startsWith('+')) return '+91' + trimmed.replace(/[^\d]/g, '');
+      return trimmed;
+    };
 
     // Send OTP
-    window.sendOTP = function() {
-      const phoneNumber = document.getElementById("phoneNumber").value;
-      if (!phoneNumber.startsWith("+")) {
-        alert("⚠️ Please enter phone number in full international format (e.g., +91xxxxxxxxxx)");
+    document.getElementById('sendOtpBtn').addEventListener('click', async () => {
+      const btn = document.getElementById('sendOtpBtn');
+      const raw = document.getElementById('phoneNumber').value;
+      const phoneNumber = normalizePhone(raw);
+      if (!/^\+[1-9]\d{6,15}$/.test(phoneNumber)) {
+        setStatus('Enter a valid phone number in international format (e.g., +919876543210).', true);
         return;
       }
-      signInWithPhoneNumber(auth, phoneNumber, window.recaptchaVerifier)
-        .then((result) => {
-          confirmationResult = result;
-          alert("✅ OTP sent successfully!");
-        })
-        .catch((error) => {
-          console.error(error);
-          alert("❌ Error sending OTP: " + error.message);
-        });
-    };
+      try {
+        btn.disabled = true;
+        confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, window.recaptchaVerifier);
+        setStatus('OTP sent successfully!');
+      } catch (error) {
+        console.error(error);
+        setStatus('Error sending OTP: ' + error.message, true);
+        if (widgetId !== null && window.grecaptcha) {
+          window.grecaptcha.reset(widgetId);
+        }
+      } finally {
+        btn.disabled = false;
+      }
+    });
 
     // Verify OTP
-    window.verifyOTP = function() {
-      const otp = document.getElementById("otp").value;
-      confirmationResult.confirm(otp)
-        .then((result) => {
-          alert("🎉 Login successful!");
-          window.location.href = "dashboard.html";  // ✅ Auto redirect
-        })
-        .catch((error) => {
-          console.error(error);
-          alert("❌ Invalid OTP. Please try again.");
-        });
-    };
+    document.getElementById('verifyOtpBtn').addEventListener('click', async () => {
+      const btn = document.getElementById('verifyOtpBtn');
+      const otp = document.getElementById('otp').value.trim();
+      if (!otp) {
+        setStatus('Enter the OTP.', true);
+        return;
+      }
+      try {
+        btn.disabled = true;
+        const result = await confirmationResult.confirm(otp);
+        const user = result.user;
+        setStatus('✅ OTP Verified! Login successful.');
+        console.log('User:', user);
+        // TODO: window.location.href = 'dashboard.html';
+      } catch (error) {
+        console.error(error);
+        setStatus('Invalid OTP. Try again.', true);
+      } finally {
+        btn.disabled = false;
+      }
+    });
   </script>
 </body>
 </html>
