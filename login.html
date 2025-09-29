@@ -51,101 +51,61 @@
     <p id="status" class="text-center text-danger mt-3"></p>
   </div>
 
-  <!-- Firebase -->
-  <script type="module">
-    // Import Firebase SDK
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
-    import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
-
-    // ✅ Correct Firebase Config (Replace if needed)
-    const firebaseConfig = {
-      apiKey: "AIzaSyCQ7q-b-uX4rNv8pOYOeu3mOa__jtGvo3M",
-      authDomain: "croppulse-0316.firebaseapp.com",
-      projectId: "croppulse-0316",
-      storageBucket: "croppulse-0316.appspot.com",   // ✅ fixed
-      messagingSenderId: "139230612217",
-      appId: "1:139230612217:web:c5887c9c02de587ba47028"
-    };
-
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    // Guard: must be served over http(s) with an authorized domain
-    if (location.protocol === 'file:') {
-      document.getElementById('status').innerText = 'Open this page via http(s) (not file://) for OTP to work.';
+  <script>
+    // Simple custom OTP client for CropPulse (no Firebase)
+    function setStatus(msg, isError) {
+      var el = document.getElementById('status');
+      el.innerText = msg;
+      el.className = 'text-center mt-3 ' + (isError ? 'text-danger' : 'text-success');
     }
 
-    // Setup reCAPTCHA (invisible for better UX)
-    let widgetId = null;
-    window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-      size: 'invisible',
-      callback: () => {
-        // reCAPTCHA solved
-      }
-    });
-    window.recaptchaVerifier.render().then(id => { widgetId = id; });
-
-    let confirmationResult;
-
-    // Helpers
-    const setStatus = (msg, isError = false) => {
-      const el = document.getElementById('status');
-      el.innerText = msg;
-      el.className = `text-center mt-3 ${isError ? 'text-danger' : 'text-success'}`;
-    };
-
-    const normalizePhone = (value) => {
-      const trimmed = value.trim();
-      if (!trimmed.startsWith('+')) return '+91' + trimmed.replace(/[^\d]/g, '');
+    function normalizePhone(value) {
+      var trimmed = (value || '').trim();
+      if (trimmed.indexOf('+') !== 0) return '+91' + trimmed.replace(/[^\d]/g, '');
       return trimmed;
-    };
+    }
 
-    // Send OTP
-    document.getElementById('sendOtpBtn').addEventListener('click', async () => {
-      const btn = document.getElementById('sendOtpBtn');
-      const raw = document.getElementById('phoneNumber').value;
-      const phoneNumber = normalizePhone(raw);
-      if (!/^\+[1-9]\d{6,15}$/.test(phoneNumber)) {
+    document.getElementById('sendOtpBtn').addEventListener('click', function () {
+      var phone = normalizePhone(document.getElementById('phoneNumber').value);
+      if (!/^\+[1-9]\d{6,15}$/.test(phone)) {
         setStatus('Enter a valid phone number in international format (e.g., +919876543210).', true);
         return;
       }
-      try {
-        btn.disabled = true;
-        confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, window.recaptchaVerifier);
-        setStatus('OTP sent successfully!');
-      } catch (error) {
-        console.error(error);
-        setStatus('Error sending OTP: ' + error.message, true);
-        if (widgetId !== null && window.grecaptcha) {
-          window.grecaptcha.reset(widgetId);
+      fetch('/api/send-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: phone })
+      }).then(function (r) { return r.json(); }).then(function (data) {
+        if (data && data.ok) {
+          setStatus('OTP sent successfully!');
+        } else {
+          setStatus('Failed to send OTP: ' + (data && data.error ? data.error : 'unknown'), true);
         }
-      } finally {
-        btn.disabled = false;
-      }
+      }).catch(function (e) {
+        console.error(e);
+        setStatus('Failed to send OTP.', true);
+      });
     });
 
-    // Verify OTP
-    document.getElementById('verifyOtpBtn').addEventListener('click', async () => {
-      const btn = document.getElementById('verifyOtpBtn');
-      const otp = document.getElementById('otp').value.trim();
-      if (!otp) {
-        setStatus('Enter the OTP.', true);
-        return;
-      }
-      try {
-        btn.disabled = true;
-        const result = await confirmationResult.confirm(otp);
-        const user = result.user;
-        setStatus('✅ OTP Verified! Login successful.');
-        console.log('User:', user);
-        // TODO: window.location.href = 'dashboard.html';
-      } catch (error) {
-        console.error(error);
-        setStatus('Invalid OTP. Try again.', true);
-      } finally {
-        btn.disabled = false;
-      }
+    document.getElementById('verifyOtpBtn').addEventListener('click', function () {
+      var phone = normalizePhone(document.getElementById('phoneNumber').value);
+      var code = (document.getElementById('otp').value || '').trim();
+      if (!code) { setStatus('Enter the OTP.', true); return; }
+      fetch('/api/verify-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: phone, code: code })
+      }).then(function (r) { return r.json(); }).then(function (data) {
+        if (data && data.ok) {
+          setStatus('✅ OTP Verified! Login successful.');
+          // window.location.href = 'dashboard.html';
+        } else {
+          setStatus('Invalid OTP. Try again.', true);
+        }
+      }).catch(function (e) {
+        console.error(e);
+        setStatus('Verification failed.', true);
+      });
     });
   </script>
 </body>
