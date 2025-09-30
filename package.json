@@ -1,15 +1,5 @@
 {
-  "name": "croppulse-website",
-  "private": true,
-  "type": "commonjs",
-  "scripts": {
-    "start": "node server.js"
-  },
   "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "firebase": "^12.3.0",
-    "twilio": "^5.3.3"
+    "firebase": "^12.3.0"
   }
 }
