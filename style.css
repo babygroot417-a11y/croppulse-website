@@ -109,6 +109,24 @@ header {
   justify-content: space-between;
   align-items: center;
 }
+.hero-logo {
+  width: 120px;
+  height: auto;
+  display: block;
+  margin: 20px auto;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+}
+
+nav div {
+  display: flex;
+  gap: 20px;
+}
 
 .logo {
   display: flex;

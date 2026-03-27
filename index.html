@@ -1,26 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="icon" type="image/png" href="logo.png">
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CropPulse</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Fonts -->
+  <!-- Logo (Favicon) -->
+  <link rel="icon" href="logo.ico">
+
+  <!-- Font -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-
-  <!-- Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
     :root {
       --bg: #0f172a;
       --card: #1e293b;
       --primary: #22c55e;
-      --secondary: #3b82f6;
-      --accent: #f59e0b;
       --text: #e2e8f0;
       --muted: #94a3b8;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
@@ -34,51 +35,90 @@
     nav {
       display: flex;
       justify-content: space-between;
-      padding: 20px 40px;
+      align-items: center;
+      padding: 15px 40px;
       background: #020617;
     }
 
-    nav h2 {
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
       color: var(--primary);
+      font-weight: bold;
+    }
+
+    .logo img {
+      width: 35px;
+    }
+
+    nav div {
+      display: flex;
+      gap: 20px;
     }
 
     nav a {
       color: var(--text);
-      margin-left: 20px;
       text-decoration: none;
     }
 
     /* HERO */
     .hero {
       text-align: center;
-      padding: 80px 20px;
+      padding: 60px 20px;
     }
 
-    .hero h1 {
-      font-size: 40px;
-      color: var(--primary);
-    }
-
-    .hero p {
-      color: var(--muted);
-      margin: 20px 0;
+    .hero-logo {
+      width: 120px;
+      margin-bottom: 20px;
     }
 
     button {
-      background: linear-gradient(135deg, #22c55e, #16a34a);
-      border: none;
-      padding: 12px 25px;
-      border-radius: 10px;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
       margin: 10px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: white;
+      cursor: pointer;
     }
 
-    /* CARDS */
-    .features {
+    /* FARM GRID */
+    .farm-container {
+      position: relative;
+      margin-top: 30px;
+    }
+
+    .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(6, 50px);
+      gap: 6px;
+      justify-content: center;
+    }
+
+    .block {
+      width: 50px;
+      height: 50px;
+      border-radius: 6px;
+    }
+
+    .popup {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+      background: var(--card);
+      padding: 15px;
+      border-radius: 12px;
+      width: 220px;
+      display: none;
+    }
+
+    /* FEATURES */
+    .features {
+      display: flex;
+      flex-direction: column;
+      max-width: 600px;
+      margin: auto;
       gap: 20px;
       padding: 40px;
     }
@@ -87,52 +127,32 @@
       background: var(--card);
       padding: 20px;
       border-radius: 16px;
-      text-align: center;
-      transition: 0.3s;
+      border-left: 4px solid var(--primary);
     }
 
-    .card:hover {
-      transform: translateY(-5px);
+    /* CHATBOT */
+    .chatbot {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--card);
+      padding: 10px;
+      border-radius: 12px;
+      width: 250px;
     }
 
-    .card i {
-      color: var(--primary);
-      width: 40px;
-      height: 40px;
+    #chatBox {
+      height: 120px;
+      overflow-y: auto;
+      font-size: 14px;
     }
 
-    /* GRID VISUAL */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(6, 40px);
-      gap: 5px;
-      justify-content: center;
-      margin: 40px 0;
-    }
-
-    .block {
-      width: 40px;
-      height: 40px;
-      border-radius: 5px;
-      background: gray;
-      animation: fade 2s infinite alternate;
-    }
-
-    .green { background: #22c55e; }
-    .yellow { background: #eab308; }
-    .red { background: #ef4444; }
-
-    @keyframes fade {
-      from { opacity: 0.6; }
-      to { opacity: 1; }
-    }
-
-    /* FOOTER */
-    footer {
-      text-align: center;
-      padding: 20px;
-      background: #020617;
-      color: var(--muted);
+    #chatInput {
+      width: 100%;
+      padding: 8px;
+      border-radius: 8px;
+      border: none;
+      margin-top: 5px;
     }
   </style>
 </head>
@@ -141,80 +161,59 @@
 
 <!-- NAVBAR -->
 <nav>
-  <h2 class="logo">
-  <img src="logo.png" alt="logo">
-  CropPulse
-</h2>
+  <div class="logo">
+    <img src="logo.png">
+    CropPulse
+  </div>
+
   <div>
     <a href="#">Home</a>
     <a href="#features">Features</a>
-    <a href="#">Login</a>
+    <a href="login.html">Login</a>
     <a href="booking.html">Book Scan</a>
   </div>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
+  <img src="logo.png" class="hero-logo">
+
   <h1>Smart Crop Monitoring</h1>
   <p>Drone + Rover based precision agriculture system</p>
-  <img src="logo.png" class="hero-logo">
 
   <button onclick="runDemo()">Run Demo Scan</button>
   <button onclick="location.href='login.html'">Login</button>
   <button onclick="location.href='booking.html'">Book Scan</button>
+
   <!-- GRID -->
   <div class="farm-container">
-  <div id="grid" class="grid"></div>
+    <div id="grid" class="grid"></div>
 
-  <!-- Popup Card -->
-  <div id="popup" class="popup">
-    <h3>Block Details</h3>
-    <p id="popupContent"></p>
+    <div id="popup" class="popup">
+      <h3>Block Details</h3>
+      <p id="popupContent"></p>
+    </div>
   </div>
-</div>
 </section>
 
 <!-- FEATURES -->
 <section id="features" class="features">
-  <div class="card">
-    <i data-lucide="drone"></i>
-    <h3>Drone Scanning</h3>
-    <p>NDVI-based aerial crop analysis</p>
-  </div>
-
-  <div class="card">
-    <i data-lucide="cpu"></i>
-    <h3>AI / Decision System</h3>
-    <p>Smart recommendations for farmers</p>
-  </div>
-
-  <div class="card">
-    <i data-lucide="tractor"></i>
-    <h3>Ground Rover</h3>
-    <p>Soil analysis for pH, moisture & nutrients</p>
-  </div>
-
-  <div class="card">
-    <i data-lucide="cloud"></i>
-    <h3>Cloud Platform</h3>
-    <p>Real-time data and insights</p>
-  </div>
-  <div id="analysisBox" style="text-align:center; margin-top:20px;">
-  <h3>Block Analysis</h3>
-  <p id="analysisText">Click a block to see details</p>
-</div>
+  <div class="card">🚁 Drone Scanning – NDVI crop analysis</div>
+  <div class="card">🤖 AI System – Smart recommendations</div>
+  <div class="card">🚜 Ground Rover – Soil monitoring</div>
+  <div class="card">☁️ Cloud Platform – Real-time insights</div>
 </section>
 
-<!-- FOOTER -->
-<footer>
-  Contact: thecroppulse@gmail.com
-</footer>
+<!-- CHATBOT -->
+<div class="chatbot">
+  <div id="chatBox"></div>
+  <input id="chatInput" placeholder="Ask about your crop...">
+</div>
 
 <!-- SCRIPT -->
 <script>
-  lucide.createIcons();
 
-  function runDemo() {
+function runDemo() {
   const grid = document.getElementById("grid");
   const popup = document.getElementById("popup");
   const popupContent = document.getElementById("popupContent");
@@ -228,52 +227,60 @@
     let data = {
       pH: (5 + Math.random() * 3).toFixed(1),
       moisture: Math.floor(Math.random() * 100),
-      pests: Math.floor(Math.random() * 20),
-      chlorophyll: Math.floor(Math.random() * 100)
+      pests: Math.floor(Math.random() * 20)
     };
-    
 
-    setTimeout(() => {
-      let rand = Math.random();
-      let status;
+    let rand = Math.random();
+    let status = "";
 
-      if (rand > 0.6) {
-        block.style.background = "#22c55e";
-        status = "Healthy";
-      } else if (rand > 0.3) {
-        block.style.background = "#eab308";
-        status = "Needs Attention";
-      } else {
-        block.style.background = "#ef4444";
-        status = "Critical";
-      }
+    if (rand > 0.6) {
+      block.style.background = "#22c55e";
+      status = "Healthy";
+    } else if (rand > 0.3) {
+      block.style.background = "#eab308";
+      status = "Moderate";
+    } else {
+      block.style.background = "#ef4444";
+      status = "Critical";
+    }
 
-      // 🔥 HOVER EVENT
-      block.onmouseover = () => {
-        popup.style.display = "block";
-
-        let recommendation =
-          status === "Healthy"
-            ? "No action needed"
-            : status === "Needs Attention"
-            ? "Increase water & monitor"
-            : "Apply pesticide immediately";
-
-        popupContent.innerHTML = ` 
-          <b>Status:</b> ${status} <br>
-          🌱 pH: ${data.pH} <br>
-          💧 Moisture: ${data.moisture}% <br>
-          🐛 Pests: ${data.pests}% <br>
-          🍃 Chlorophyll: ${data.chlorophyll}% <br>
-          <b>Recommendation:</b> ${recommendation}
-        `;
-      };
-
-    }, i * 80);
+    block.onmouseover = () => {
+      popup.style.display = "block";
+      popupContent.innerHTML = `
+        <b>Status:</b> ${status}<br>
+        🌱 pH: ${data.pH}<br>
+        💧 Moisture: ${data.moisture}%<br>
+        🐛 Pest: ${data.pests}%<br>
+      `;
+    };
 
     grid.appendChild(block);
   }
-};
+}
+
+/* CHATBOT */
+document.getElementById("chatInput").addEventListener("keypress", function(e) {
+  if (e.key === "Enter") {
+    let input = this.value.toLowerCase();
+    let response = "";
+
+    if (input.includes("water")) {
+      response = "Increase irrigation in yellow/red zones.";
+    } else if (input.includes("pest")) {
+      response = "Apply pesticide in critical zones.";
+    } else {
+      response = "Crop health is monitored using drone + rover.";
+    }
+
+    document.getElementById("chatBox").innerHTML += `
+      <div>👨‍🌾 ${input}</div>
+      <div>🤖 ${response}</div>
+    `;
+
+    this.value = "";
+  }
+});
+
 </script>
 
 </body>
