@@ -648,7 +648,57 @@ footer {
   border-radius: 20px;
 }
 
+:root {
+  --bg: #0f172a;
+  --card: #1e293b;
+  --primary: #22c55e;
+  --secondary: #3b82f6;
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+}
 
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* NAVBAR */
+nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 30px;
+  background: #020617;
+}
+
+nav h2 {
+  color: var(--primary);
+}
+
+nav a {
+  color: var(--text);
+  margin-left: 15px;
+  text-decoration: none;
+}
+
+/* CARDS */
+.card {
+  background: var(--card);
+  padding: 20px;
+  border-radius: 16px;
+  margin: 15px;
+}
+
+/* BUTTON */
+button {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  border: none;
+  padding: 10px 15px;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+}
 
 .popup h3 {
   color: #22c55e;
