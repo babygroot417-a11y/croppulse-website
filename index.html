@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="icon" type="image/png" href="logo.png">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CropPulse</title>
@@ -140,7 +141,10 @@
 
 <!-- NAVBAR -->
 <nav>
-  <h2>🌱 CropPulse</h2>
+  <h2 class="logo">
+  <img src="logo.png" alt="logo">
+  CropPulse
+</h2>
   <div>
     <a href="#">Home</a>
     <a href="#features">Features</a>
@@ -152,10 +156,10 @@
 <section class="hero">
   <h1>Smart Crop Monitoring</h1>
   <p>Drone + Rover based precision agriculture system</p>
+  <img src="logo.png" class="hero-logo">
 
   <button onclick="runDemo()">Run Demo Scan</button>
   <button onclick="location.href='login.html'">Login</button>
-
   <!-- GRID -->
   <div class="farm-container">
   <div id="grid" class="grid"></div>
@@ -253,7 +257,7 @@
             ? "Increase water & monitor"
             : "Apply pesticide immediately";
 
-        popupContent.innerHTML = `
+        popupContent.innerHTML = ` 
           <b>Status:</b> ${status} <br>
           🌱 pH: ${data.pH} <br>
           💧 Moisture: ${data.moisture}% <br>
