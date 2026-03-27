@@ -121,12 +121,11 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 40px;
 }
 
 .logo img {
-  width: 32px !important;
-  height: auto;
+  width: 42px !important;
+  height: 30px;
   filter: drop-shadow(0 0 6px #22c55e);
 }
 
@@ -135,14 +134,23 @@ nav div {
   gap: 20px;
 }
 
+.nav-logo {
+  width: 30px;
+  height: auto;
+  filter: drop-shadow(0 0 8px #22c55e);
+}
 
+.brand-text {
+  font-weight: bold;
+  font-size: 20px;
+  background: linear-gradient(90deg, #22c55e, #4ade80);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
-
-
-nav {
-  display: flex;
-  gap: 2rem;
-  align-items: center;
+.logo:hover {
+  transform: scale(1.05);
+  transition: 0.3s;
 }
 
 nav a {
