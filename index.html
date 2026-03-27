@@ -3,89 +3,272 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CropPulse - Smart Crop Health & Yield Insights</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="icon" href="assets/logo.png" type="image/png">
+  <title>CropPulse</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --primary: #22c55e;
+      --secondary: #3b82f6;
+      --accent: #f59e0b;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    /* NAVBAR */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px 40px;
+      background: #020617;
+    }
+
+    nav h2 {
+      color: var(--primary);
+    }
+
+    nav a {
+      color: var(--text);
+      margin-left: 20px;
+      text-decoration: none;
+    }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      padding: 80px 20px;
+    }
+
+    .hero h1 {
+      font-size: 40px;
+      color: var(--primary);
+    }
+
+    .hero p {
+      color: var(--muted);
+      margin: 20px 0;
+    }
+
+    button {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      border: none;
+      padding: 12px 25px;
+      border-radius: 10px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 10px;
+    }
+
+    /* CARDS */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 40px;
+    }
+
+    .card {
+      background: var(--card);
+      padding: 20px;
+      border-radius: 16px;
+      text-align: center;
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card i {
+      color: var(--primary);
+      width: 40px;
+      height: 40px;
+    }
+
+    /* GRID VISUAL */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(6, 40px);
+      gap: 5px;
+      justify-content: center;
+      margin: 40px 0;
+    }
+
+    .block {
+      width: 40px;
+      height: 40px;
+      border-radius: 5px;
+      background: gray;
+      animation: fade 2s infinite alternate;
+    }
+
+    .green { background: #22c55e; }
+    .yellow { background: #eab308; }
+    .red { background: #ef4444; }
+
+    @keyframes fade {
+      from { opacity: 0.6; }
+      to { opacity: 1; }
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #020617;
+      color: var(--muted);
+    }
+  </style>
 </head>
+
 <body>
-  <header>
-    <div class="header-content">
-      <a href="index.html" class="logo">
-        <img src="assets/logo.png" alt="CropPulse Logo">
-        <span>CropPulse</span>
-      </a>
-      <nav>
-        <a href="#features">Features</a>
-        <a href="#how-it-works">How It Works</a>
-        <a href="#contact">Contact</a>
-        <a href="login.html" class="btn btn-secondary">Get Started</a>
-      </nav>
-    </div>
-  </header>
 
-  <main>
-    <!-- Hero -->
-    <section class="hero">
-      <div class="hero-content">
-        <h1>Monitor Crop Health. Boost Yields. Make Data‑Driven Decisions.</h1>
-        <p>CropPulse analyzes field data to deliver real‑time insights on crop health, pests, irrigation and yield forecasts — helping farmers act early and grow more with less.</p>
-        <div class="hero-actions">
-          <a href="login.html" class="btn btn-primary">Start Free</a>
-          <a href="#features" class="btn btn-link">Explore Features</a>
-        </div>
-      </div>
-    </section>
+<!-- NAVBAR -->
+<nav>
+  <h2>🌱 CropPulse</h2>
+  <div>
+    <a href="#">Home</a>
+    <a href="#features">Features</a>
+    <a href="#">Login</a>
+  </div>
+</nav>
 
-    <!-- Features -->
-    <section id="features" class="section">
-      <h2>Powerful features for modern farming</h2>
-      <div class="features-grid">
-        <div class="feature-card">
-          <h3>AI Crop Health</h3>
-          <p>Detect stress, nutrient deficiency and diseases early from imagery and field data.</p>
-        </div>
-        <div class="feature-card">
-          <h3>Smart Irrigation</h3>
-          <p>Optimize watering schedules using weather, soil moisture and crop stage.</p>
-        </div>
-        <div class="feature-card">
-          <h3>Yield Forecasts</h3>
-          <p>Get accurate, explainable yield predictions to plan harvests and sales.</p>
-        </div>
-        <div class="feature-card">
-          <h3>Pest & Disease Alerts</h3>
-          <p>Receive timely risk alerts and treatment guidance to reduce losses.</p>
-        </div>
-      </div>
-    </section>
+<!-- HERO -->
+<section class="hero">
+  <h1>Smart Crop Monitoring</h1>
+  <p>Drone + Rover based precision agriculture system</p>
 
-    <!-- How it works -->
-    <section id="how-it-works" class="section alt">
-      <h2>How CropPulse works</h2>
-      <ol class="how-list">
-        <li><strong>Connect your field</strong> — Add farm details and optional sensors/drones.</li>
-        <li><strong>Ingest data</strong> — Satellite, drone, weather and manual observations.</li>
-        <li><strong>Analyze with AI</strong> — Our models detect issues and forecast yields.</li>
-        <li><strong>Act with confidence</strong> — Get alerts and recommendations in your dashboard.</li>
-      </ol>
-    </section>
+  <button onclick="runDemo()">Run Demo Scan</button>
+  <button onclick="location.href='login.html'">Login</button>
 
-    <!-- Contact -->
-    <section id="contact" class="section">
-      <h2>Contact us</h2>
-      <p>Email: <a href="mailto:support@croppulse.app">support@croppulse.app</a></p>
-    </section>
-  </main>
+  <!-- GRID -->
+  <div class="farm-container">
+  <div id="grid" class="grid"></div>
 
-  <footer>
-    <div class="footer-content">
-      <p>&copy; 2024 CropPulse. All rights reserved.</p>
-    </div>
-  </footer>
+  <!-- Popup Card -->
+  <div id="popup" class="popup">
+    <h3>Block Details</h3>
+    <p id="popupContent"></p>
+  </div>
+</div>
+</section>
 
-  <script src="script.js"></script>
+<!-- FEATURES -->
+<section id="features" class="features">
+  <div class="card">
+    <i data-lucide="drone"></i>
+    <h3>Drone Scanning</h3>
+    <p>NDVI-based aerial crop analysis</p>
+  </div>
+
+  <div class="card">
+    <i data-lucide="cpu"></i>
+    <h3>AI / Decision System</h3>
+    <p>Smart recommendations for farmers</p>
+  </div>
+
+  <div class="card">
+    <i data-lucide="tractor"></i>
+    <h3>Ground Rover</h3>
+    <p>Soil analysis for pH, moisture & nutrients</p>
+  </div>
+
+  <div class="card">
+    <i data-lucide="cloud"></i>
+    <h3>Cloud Platform</h3>
+    <p>Real-time data and insights</p>
+  </div>
+  <div id="analysisBox" style="text-align:center; margin-top:20px;">
+  <h3>Block Analysis</h3>
+  <p id="analysisText">Click a block to see details</p>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  Contact: thecroppulse@gmail.com
+</footer>
+
+<!-- SCRIPT -->
+<script>
+  lucide.createIcons();
+
+  function runDemo() {
+  const grid = document.getElementById("grid");
+  const popup = document.getElementById("popup");
+  const popupContent = document.getElementById("popupContent");
+
+  grid.innerHTML = "";
+
+  for (let i = 0; i < 36; i++) {
+    let block = document.createElement("div");
+    block.classList.add("block");
+
+    let data = {
+      pH: (5 + Math.random() * 3).toFixed(1),
+      moisture: Math.floor(Math.random() * 100),
+      pests: Math.floor(Math.random() * 20),
+      chlorophyll: Math.floor(Math.random() * 100)
+    };
+    
+
+    setTimeout(() => {
+      let rand = Math.random();
+      let status;
+
+      if (rand > 0.6) {
+        block.style.background = "#22c55e";
+        status = "Healthy";
+      } else if (rand > 0.3) {
+        block.style.background = "#eab308";
+        status = "Needs Attention";
+      } else {
+        block.style.background = "#ef4444";
+        status = "Critical";
+      }
+
+      // 🔥 HOVER EVENT
+      block.onmouseover = () => {
+        popup.style.display = "block";
+
+        let recommendation =
+          status === "Healthy"
+            ? "No action needed"
+            : status === "Needs Attention"
+            ? "Increase water & monitor"
+            : "Apply pesticide immediately";
+
+        popupContent.innerHTML = `
+          <b>Status:</b> ${status} <br>
+          🌱 pH: ${data.pH} <br>
+          💧 Moisture: ${data.moisture}% <br>
+          🐛 Pests: ${data.pests}% <br>
+          🍃 Chlorophyll: ${data.chlorophyll}% <br>
+          <b>Recommendation:</b> ${recommendation}
+        `;
+      };
+
+    }, i * 80);
+
+    grid.appendChild(block);
+  }
+};
+</script>
+
 </body>
 </html>
