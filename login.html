@@ -3,153 +3,565 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CropPulse Login</title>
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-
-  <!-- Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <title>Login - CropPulse</title>
+  <meta name="description" content="Secure login to access your CropPulse farm monitoring dashboard">
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
     :root {
-      --bg: #0f172a;
-      --card: #1e293b;
-      --primary: #22c55e;
-      --secondary: #3b82f6;
-      --text: #e2e8f0;
-      --muted: #94a3b8;
+      --primary: #16a34a;
+      --primary-light: #22c55e;
+      --background: #f8fafc;
+      --surface: #ffffff;
+      --text-primary: #1e293b;
+      --text-secondary: #64748b;
+      --border: #e2e8f0;
+      --error: #ef4444;
+      --success: #10b981;
+      --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+      --radius: 8px;
+      --radius-lg: 12px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
     body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: var(--bg);
-      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%),
+        url('https://images.unsplash.com/photo-1500382017468-7049fae79128?w=1200&h=800&fit=crop') center/cover;
+      background-attachment: fixed;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
+      padding: 1rem;
+      transition: background 0.3s ease;
     }
 
-    .login-box {
-      background: var(--card);
-      padding: 30px;
-      border-radius: 20px;
-      width: 320px;
-      text-align: center;
-      box-shadow: 0 0 30px rgba(0,0,0,0.5);
+    html.dark-mode body {
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.9) 100%),
+        url('https://images.unsplash.com/photo-1500382017468-7049fae79128?w=1200&h=800&fit=crop') center/cover;
+      background-attachment: fixed;
     }
 
-    h2 {
-      color: var(--primary);
+    * {
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
     }
 
-    input {
+    .login-container {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      max-width: 1000px;
       width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border-radius: 10px;
-      border: none;
-      background: #020617;
-      color: white;
-      outline: none;
     }
 
-    button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 10px;
-      border-radius: 10px;
-      border: none;
-      background: linear-gradient(135deg, #22c55e, #16a34a);
+    .login-branding {
+      flex: 1;
       color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .otp-box {
       display: none;
     }
 
-    .icon {
-      margin-bottom: 10px;
+    .login-branding h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      font-weight: 800;
+    }
+
+    .login-branding p {
+      font-size: 1.1rem;
+      opacity: 0.95;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .features-list {
+      list-style: none;
+    }
+
+    .features-list li {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+
+    .features-list i {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+    }
+
+    .login-form-wrapper {
+      background: var(--surface);
+      padding: 2.5rem;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      width: 100%;
+      max-width: 420px;
+      position: relative;
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      width: 48px;
+      height: 28px;
+      background: var(--border);
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      padding: 2px;
+      transition: all 0.3s ease;
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--primary);
+    }
+
+    .theme-toggle-circle {
+      width: 22px;
+      height: 22px;
+      background: white;
+      border-radius: 50%;
+      position: absolute;
+      left: 2px;
+      transition: left 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
       color: var(--primary);
     }
 
-    p {
-      color: var(--muted);
-      font-size: 14px;
+    html.dark-mode .theme-toggle-circle {
+      left: 22px;
+      background: var(--surface);
+      color: #f59e0b;
     }
 
-    .back {
-      margin-top: 10px;
+    html.dark-mode .theme-toggle {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .form-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .logo-mini {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      font-size: 1.5rem;
+      color: white;
+    }
+
+    .form-header h2 {
+      font-size: 1.75rem;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .form-header p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
       display: block;
-      color: var(--secondary);
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    .form-input {
+      display: flex;
+      align-items: center;
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.75rem 1rem;
+      gap: 0.75rem;
+      transition: all 0.2s;
+      background: var(--surface);
+    }
+
+    .form-input:focus-within {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+    }
+
+    .form-input i {
+      color: var(--text-secondary);
+      width: 20px;
+      text-align: center;
+    }
+
+    .form-input input {
+      flex: 1;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--text-primary);
+      font-size: 1rem;
+      font-family: inherit;
+    }
+
+    .form-input input::placeholder {
+      color: var(--text-secondary);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 0.875rem;
+      border: none;
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 1rem;
       cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      box-shadow: var(--shadow);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(22, 163, 74, 0.3);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+      margin-top: 0.75rem;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(22, 163, 74, 0.05);
+    }
+
+    .back-link {
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .back-link a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.2s;
+    }
+
+    .back-link a:hover {
+      color: var(--primary-light);
+    }
+
+    .alert {
+      padding: 1rem;
+      border-radius: var(--radius);
+      margin-bottom: 1rem;
+      display: none;
+      animation: slideIn 0.3s ease-out;
+    }
+
+    .alert-error {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+
+    .alert-success {
+      background: #dcfce7;
+      color: #166534;
+      border: 1px solid #86efac;
+    }
+
+    .alert-info {
+      background: #dbeafe;
+      color: #0c2d6b;
+      border: 1px solid #93c5fd;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .divider {
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin: 1.5rem 0;
+      position: relative;
+    }
+
+    .divider::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--border);
+      z-index: -1;
+    }
+
+    .divider span {
+      background: var(--surface);
+      padding: 0 0.5rem;
+      position: relative;
+    }
+
+    .demo-credentials {
+      background: #fef3c7;
+      border: 1px solid #fcd34d;
+      padding: 0.75rem;
+      border-radius: var(--radius);
+      color: #78350f;
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .login-container {
+        gap: 0;
+      }
+
+      .login-branding {
+        display: none;
+      }
+
+      .login-form-wrapper {
+        max-width: none;
+        padding: 2rem;
+      }
+
+      body {
+        padding: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .login-form-wrapper {
+        padding: 1.5rem;
+      }
+
+      .form-header h2 {
+        font-size: 1.5rem;
+      }
+
+      .btn {
+        padding: 0.75rem;
+        font-size: 0.95rem;
+      }
     }
   </style>
 </head>
 
 <body>
 
-<div class="login-box">
-
-  <div class="icon">
-    <i data-lucide="sprout"></i>
+<div class="login-container">
+  <!-- Branding Section (Desktop Only) -->
+  <div class="login-branding">
+    <h1>CropPulse</h1>
+    <p>Smart Crop Monitoring & Precision Agriculture</p>
+    <ul class="features-list">
+      <li><i class="fas fa-check"></i> Real-time crop analysis</li>
+      <li><i class="fas fa-check"></i> AI-powered recommendations</li>
+      <li><i class="fas fa-check"></i> Drone & rover monitoring</li>
+      <li><i class="fas fa-check"></i> Cloud-based platform</li>
+      <li><i class="fas fa-check"></i> Mobile accessible</li>
+    </ul>
   </div>
 
-  <h2>CropPulse</h2>
-  <p>Login using your phone number</p>
+  <!-- Login Form -->
+  <div class="login-form-wrapper">
 
-  <!-- PHONE LOGIN -->
-  <div id="phoneBox">
-    <input type="text" id="phone" placeholder="Enter phone number">
-    <button onclick="sendOTP()">Send OTP</button>
+
+    <div class="form-header">
+      <div class="logo-mini">🌱</div>
+      <h2>Welcome Back</h2>
+      <p>Login to access your farm dashboard</p>
+    </div>
+
+    <div id="alertBox" class="alert"></div>
+
+    <div class="demo-credentials">
+      Demo: Phone: 9876543210 | OTP: 1234
+    </div>
+
+    <!-- Phone Box -->
+    <div id="phoneBox">
+      <div class="form-group">
+        <label class="form-label">Phone Number</label>
+        <div class="form-input">
+          <i class="fas fa-phone"></i>
+          <input type="tel" id="phone" placeholder="Enter your phone number" inputmode="numeric">
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="sendOTP()">
+        <i class="fas fa-arrow-right"></i> Send OTP
+      </button>
+    </div>
+
+    <!-- OTP Box -->
+    <div id="otpBox" style="display: none;">
+      <div class="form-group">
+        <label class="form-label">One-Time Password</label>
+        <div class="form-input">
+          <i class="fas fa-lock"></i>
+          <input type="text" id="otp" placeholder="Enter 4-digit OTP" maxlength="4" inputmode="numeric">
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="verifyOTP()">
+        <i class="fas fa-check"></i> Verify & Login
+      </button>
+
+      <button class="btn btn-secondary" onclick="goBack()">
+        <i class="fas fa-arrow-left"></i> Change Number
+      </button>
+
+      <div class="back-link">
+        <p style="color: var(--text-secondary); font-size: 0.85rem;">Didn't receive OTP? <a href="#">Resend</a></p>
+      </div>
+    </div>
   </div>
-
-  <!-- OTP BOX -->
-  <div id="otpBox" class="otp-box">
-    <input type="text" id="otp" placeholder="Enter OTP">
-    <button onclick="verifyOTP()">Verify OTP</button>
-    <span class="back" onclick="goBack()">← Change Number</span>
-  </div>
-
 </div>
 
 <script>
-  lucide.createIcons();
+  // Theme Toggle
+  function toggleTheme() {
+    const isDarkMode = document.documentElement.classList.toggle('dark-mode');
+    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+  }
+
+  // Load theme preference on page load
+  window.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    if (savedTheme === 'dark') {
+      document.documentElement.classList.add('dark-mode');
+    }
+  });
+
+  function showAlert(message, type = 'info') {
+    const alertBox = document.getElementById('alertBox');
+    alertBox.className = `alert alert-${type}`;
+    alertBox.textContent = message;
+    alertBox.style.display = 'block';
+    setTimeout(() => {
+      alertBox.style.display = 'none';
+    }, 4000);
+  }
 
   function sendOTP() {
-    const phone = document.getElementById("phone").value;
+    const phone = document.getElementById('phone').value.trim();
 
-    if (phone.length < 10) {
-      alert("Enter valid phone number");
+    if (!phone) {
+      showAlert('Please enter a phone number', 'error');
       return;
     }
 
-    // Demo OTP (since Firebase costs money)
-    alert("Demo OTP sent: 1234");
+    if (phone.length < 10) {
+      showAlert('Please enter a valid phone number (10+ digits)', 'error');
+      return;
+    }
 
-    document.getElementById("phoneBox").style.display = "none";
-    document.getElementById("otpBox").style.display = "block";
+    // Demo OTP
+    showAlert('✓ Demo OTP sent: 1234', 'success');
+
+    document.getElementById('phoneBox').style.display = 'none';
+    document.getElementById('otpBox').style.display = 'block';
   }
 
   function verifyOTP() {
-    const otp = document.getElementById("otp").value;
+    const otp = document.getElementById('otp').value.trim();
 
-    if (otp === "1234") {
-      alert("Login successful!");
-      window.location.href = "dashboard.html";
+    if (!otp) {
+      showAlert('Please enter the OTP', 'error');
+      return;
+    }
+
+    if (otp === '1234') {
+      showAlert('✓ Login successful! Redirecting...', 'success');
+      setTimeout(() => {
+        window.location.href = 'dashboard.html';
+      }, 1500);
     } else {
-      alert("Invalid OTP");
+      showAlert('Invalid OTP. Please try again', 'error');
     }
   }
 
   function goBack() {
-    document.getElementById("phoneBox").style.display = "block";
-    document.getElementById("otpBox").style.display = "none";
+    document.getElementById('phone').value = '';
+    document.getElementById('otp').value = '';
+    document.getElementById('phoneBox').style.display = 'block';
+    document.getElementById('otpBox').style.display = 'none';
   }
+
+  // Allow Enter key
+  document.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      const otpBox = document.getElementById('otpBox');
+      if (otpBox.style.display !== 'none') {
+        verifyOTP();
+      } else {
+        sendOTP();
+      }
+    }
+  });
 </script>
 
 </body>

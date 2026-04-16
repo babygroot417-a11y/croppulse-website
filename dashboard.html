@@ -1,62 +1,697 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard - CropPulse</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="description" content="Monitor your farm health in real-time with CropPulse's advanced analytics dashboard">
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #16a34a;
+      --primary-light: #22c55e;
+      --secondary: #3b82f6;
+      --background: #f8fafc;
+      --surface: #ffffff;
+      --text-primary: #1e293b;
+      --text-secondary: #64748b;
+      --border: #e2e8f0;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+      --radius: 8px;
+      --radius-lg: 12px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--background);
+      background-image: url('https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=1200&h=800&fit=crop');
+      background-attachment: fixed;
+      background-blend-mode: overlay;
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
+
+    html.dark-mode body {
+      background-blend-mode: darken;
+    }
+
+    * {
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    }
+
+    /* Navbar */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-weight: 500;
+      font-size: 0.95rem;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius);
+      transition: all 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+      background: rgba(22, 163, 74, 0.1);
+    }
+
+    /* Theme Toggle Button */
+    .theme-toggle {
+      width: 50px;
+      height: 28px;
+      background: var(--border);
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      padding: 2px;
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--primary);
+    }
+
+    .theme-toggle-circle {
+      width: 22px;
+      height: 22px;
+      background: white;
+      border-radius: 50%;
+      position: absolute;
+      left: 2px;
+      transition: left 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      font-size: 0.8rem;
+    }
+
+    html.dark-mode .theme-toggle-circle {
+      left: 26px;
+      background: var(--surface);
+      color: #f59e0b;
+    }
+
+    html.dark-mode .theme-toggle {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    /* Main Container */
+    main {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .dashboard-header {
+      margin-bottom: 2rem;
+    }
+
+    .dashboard-header h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .dashboard-header p {
+      color: var(--text-secondary);
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      padding: 1.5rem;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      transition: all 0.2s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--primary);
+    }
+
+    .stat-label {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.375rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .stat-badge.success {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+    }
+
+    .stat-badge.warning {
+      background: rgba(245, 158, 11, 0.1);
+      color: var(--warning);
+    }
+
+    .stat-badge.danger {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--danger);
+    }
+
+    /* Main Content */
+    .dashboard-content {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+    }
+
+    .content-header {
+      margin-bottom: 2rem;
+    }
+
+    .content-header h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .content-header p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    /* Farm Grid */
+    .farm-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      background: var(--background);
+      border-radius: var(--radius-lg);
+      max-height: 600px;
+      overflow-y: auto;
+    }
+
+    .grid-block {
+      aspect-ratio: 1;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 0.5rem;
+      font-weight: 600;
+      font-size: 0.75rem;
+      color: white;
+    }
+
+    .grid-block:hover {
+      transform: scale(1.15);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .grid-block.healthy {
+      background: linear-gradient(135deg, var(--success), #34d399);
+    }
+
+    .grid-block.warning {
+      background: linear-gradient(135deg, var(--warning), #fbbf24);
+    }
+
+    .grid-block.critical {
+      background: linear-gradient(135deg, var(--danger), #f87171);
+    }
+
+    /* Details Popup */
+    .details-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.9);
+      background: var(--surface);
+      padding: 2rem;
+      border-radius: var(--radius-lg);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+      min-width: 350px;
+      display: none;
+      z-index: 1000;
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+
+    .details-popup.show {
+      display: block;
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      z-index: 999;
+    }
+
+    .popup-overlay.show {
+      display: block;
+    }
+
+    .popup-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .popup-close:hover {
+      color: var(--text-primary);
+    }
+
+    .popup-header {
+      margin-bottom: 1.5rem;
+    }
+
+    .popup-header h3 {
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .popup-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+
+    .popup-item:last-child {
+      border-bottom: none;
+    }
+
+    .popup-label {
+      color: var(--text-secondary);
+    }
+
+    .popup-value {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    /* Legend */
+    .legend {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.9rem;
+    }
+
+    .legend-color {
+      width: 20px;
+      height: 20px;
+      border-radius: var(--radius);
+    }
+
+    /* Action Buttons */
+    .action-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 0.875rem 1.5rem;
+      border: none;
+      border-radius: var(--radius);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      text-decoration: none;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(22, 163, 74, 0.1);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav {
+        padding: 1rem;
+      }
+
+      main {
+        padding: 1rem;
+      }
+
+      .dashboard-header h1 {
+        font-size: 1.5rem;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .dashboard-content {
+        padding: 1rem;
+      }
+
+      .farm-grid {
+        gap: 0.75rem;
+        padding: 1rem;
+      }
+
+      .details-popup {
+        min-width: 90vw;
+        max-width: 400px;
+      }
+
+      .nav-links {
+        gap: 1rem;
+      }
+
+      .nav-links a {
+        font-size: 0.85rem;
+        padding: 0.375rem 0.75rem;
+      }
+
+      .action-buttons {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .legend {
+        gap: 1rem;
+        font-size: 0.8rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .dashboard-header h1 {
+        font-size: 1.25rem;
+      }
+
+      .content-header h2 {
+        font-size: 1.1rem;
+      }
+
+      .stat-value {
+        font-size: 1.5rem;
+      }
+
+      .nav-links {
+        gap: 0.5rem;
+      }
+
+      .details-popup {
+        min-width: 85vw;
+        padding: 1.5rem;
+      }
+
+      .farm-grid {
+        gap: 0.5rem;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
+<!-- Navbar -->
 <nav>
-  <h2>🌱 CropPulse</h2>
-  <div>
-    <a href="index.html">Home</a>
-    <a href="booking.html">Book Scan</a>
+  <div class="logo-section">
+    <span class="logo"><i class="fas fa-leaf"></i> CropPulse</span>
+  </div>
+  <div class="nav-links">
+    <a href="index.html"><i class="fas fa-home"></i> Home</a>
+    <a href="booking.html"><i class="fas fa-calendar"></i> Book Scan</a>
+    <a href="results.html"><i class="fas fa-chart-line"></i> Results</a>
+    <a href="login.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
   </div>
 </nav>
 
-<h2 style="text-align:center;">Your Farm Analysis</h2>
+<!-- Main Content -->
+<main>
+  <div class="dashboard-header">
+    <h1>🌾 Your Farm Analysis</h1>
+    <p>Real-time crop health monitoring and insights</p>
+  </div>
 
-<!-- GRID -->
-<div style="display:flex; justify-content:center;">
-  <div id="grid" style="display:grid; grid-template-columns: repeat(6, 50px); gap:6px;"></div>
+  <!-- Stats Grid -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-label">Overall Health</div>
+      <div class="stat-value">78%</div>
+      <div class="stat-badge success"><i class="fas fa-arrow-up"></i> Growing</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Critical Areas</div>
+      <div class="stat-value">3</div>
+      <div class="stat-badge danger"><i class="fas fa-exclamation"></i> Needs attention</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Moisture Level</div>
+      <div class="stat-value">65%</div>
+      <div class="stat-badge success"><i class="fas fa-droplet"></i> Optimal</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Last Update</div>
+      <div class="stat-value">Now</div>
+      <div class="stat-badge success"><i class="fas fa-check"></i> Live</div>
+    </div>
+  </div>
+
+  <!-- Dashboard Content -->
+  <div class="dashboard-content">
+    <div class="content-header">
+      <h2>Farm Health Map</h2>
+      <p>Click on any block to view detailed information</p>
+    </div>
+
+    <div class="farm-grid" id="grid"></div>
+
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-color" style="background: linear-gradient(135deg, #10b981, #34d399);"></div>
+        <span>Healthy</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background: linear-gradient(135deg, #f59e0b, #fbbf24);"></div>
+        <span>Warning</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background: linear-gradient(135deg, #ef4444, #f87171);"></div>
+        <span>Critical</span>
+      </div>
+    </div>
+
+    <div class="action-buttons">
+      <a href="booking.html" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Book New Scan
+      </a>
+      <a href="results.html" class="btn btn-secondary">
+        <i class="fas fa-chart-bar"></i> View Reports
+      </a>
+    </div>
+  </div>
+</main>
+
+<!-- Details Popup -->
+<div class="popup-overlay" id="overlay"></div>
+<div class="details-popup" id="popup">
+  <button class="popup-close" onclick="closePopup()">✕</button>
+  <div class="popup-header">
+    <h3 id="popupTitle"></h3>
+  </div>
+  <div id="popupContent"></div>
 </div>
-
-<!-- POPUP -->
-<div id="popup" class="card" style="position:fixed; right:20px; top:100px; display:none; width:250px;"></div>
 
 <script>
 function loadDashboard() {
   const grid = document.getElementById("grid");
   const popup = document.getElementById("popup");
+  const overlay = document.getElementById("overlay");
+  const popupTitle = document.getElementById("popupTitle");
+  const popupContent = document.getElementById("popupContent");
 
-  for (let i = 0; i < 36; i++) {
+  grid.innerHTML = "";
+
+  for (let i = 1; i <= 36; i++) {
     let block = document.createElement("div");
-    block.style.width = "50px";
-    block.style.height = "50px";
-    block.style.borderRadius = "6px";
+    block.classList.add("grid-block");
 
     let rand = Math.random();
     let status = "";
+    let statusClass = "";
 
-    if (rand > 0.6) {
-      block.style.background = "#22c55e";
+    const data = {
+      pH: (5.2 + Math.random() * 2.8).toFixed(1),
+      moisture: Math.floor(Math.random() * 40 + 40),
+      pests: Math.floor(Math.random() * 15),
+      temperature: (18 + Math.random() * 16).toFixed(1)
+    };
+
+    if (rand > 0.65) {
       status = "Healthy";
-    } else if (rand > 0.3) {
-      block.style.background = "#eab308";
-      status = "Moderate";
+      statusClass = "healthy";
+    } else if (rand > 0.35) {
+      status = "Warning";
+      statusClass = "warning";
     } else {
-      block.style.background = "#ef4444";
       status = "Critical";
+      statusClass = "critical";
     }
 
-    block.onmouseover = () => {
-      popup.style.display = "block";
-      popup.innerHTML = `
-        <h3>${status}</h3>
-        🌱 pH: ${(5 + Math.random()*3).toFixed(1)}<br>
-        💧 Moisture: ${Math.floor(Math.random()*100)}%<br>
-        🐛 Pest Risk: ${Math.floor(Math.random()*20)}%<br>
+    block.classList.add(statusClass);
+    block.textContent = `#${i}`;
+
+    block.onclick = () => {
+      popup.classList.add("show");
+      overlay.classList.add("show");
+      popupTitle.textContent = `Block ${i} - ${status}`;
+      popupContent.innerHTML = `
+        <div class="popup-item">
+          <span class="popup-label">Status</span>
+          <span class="popup-value">${status}</span>
+        </div>
+        <div class="popup-item">
+          <span class="popup-label">pH Level</span>
+          <span class="popup-value">${data.pH}</span>
+        </div>
+        <div class="popup-item">
+          <span class="popup-label">Moisture</span>
+          <span class="popup-value">${data.moisture}%</span>
+        </div>
+        <div class="popup-item">
+          <span class="popup-label">Pest Risk</span>
+          <span class="popup-value">${data.pests}%</span>
+        </div>
+        <div class="popup-item">
+          <span class="popup-label">Temperature</span>
+          <span class="popup-value">${data.temperature}°C</span>
+        </div>
       `;
     };
 
@@ -64,7 +699,14 @@ function loadDashboard() {
   }
 }
 
-loadDashboard();
+function closePopup() {
+  document.getElementById("popup").classList.remove("show");
+  document.getElementById("overlay").classList.remove("show");
+}
+
+document.getElementById("overlay").addEventListener("click", closePopup);
+
+window.addEventListener('DOMContentLoaded', loadDashboard);
 </script>
 
 </body>

@@ -2,24 +2,45 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>CropPulse</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- Logo (Favicon) -->
+  <title>CropPulse - Smart Crop Monitoring & Analysis</title>
+  <meta name="description" content="Precision agriculture platform using drone & rover technology for crop monitoring and AI-driven insights">
+  
   <link rel="icon" type="image/x-icon" href="logo.ico">
-  <link rel="icon" href="logo.ico">
-  <link rel="shortcut icon" href="logo.ico">
-
-  <!-- Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 
   <style>
     :root {
-      --bg: #0f172a;
-      --card: #1e293b;
-      --primary: #22c55e;
-      --text: #e2e8f0;
-      --muted: #94a3b8;
+      /* Primary Colors */
+      --primary: #16a34a;
+      --primary-light: #22c55e;
+      --primary-dark: #15803d;
+      --secondary: #3b82f6;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+
+      /* Light Mode */
+      --background: #f8fafc;
+      --surface: #ffffff;
+      --text-primary: #1e293b;
+      --text-secondary: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      
+      --radius: 8px;
+      --radius-lg: 12px;
+    }
+
+
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
     html {
@@ -27,261 +48,606 @@
     }
 
     body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: var(--bg);
-      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--background);
+      color: var(--text-primary);
+      line-height: 1.6;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
 
-    /* NAVBAR */
+    /* Theme Transition */
+    * {
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    }
+
+    /* Navbar */
     nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 15px 40px;
-      background: #020617;
+      padding: 1rem 2rem;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow);
     }
 
     .logo {
       display: flex;
       align-items: center;
-      gap: 10px;
-      color: var(--primary);
-      font-weight: bold;
+      gap: 0.75rem;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--text-primary);
+      transition: transform 0.2s;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
     }
 
     .logo img {
-      width: 35px;
-    }
-
-    nav div {
-      display: flex;
-      gap: 20px;
-    }
-
-    nav a {
-      color: var(--text);
-      text-decoration: none;
-    }
-
-    /* HERO */
-    .hero {
-      text-align: center;
-      padding: 60px 20px;
-    }
-
-    .hero-logo {
-      width: 120px;
-      margin-bottom: 20px;
-    }
-
-    button {
-      margin: 10px;
-      padding: 12px 20px;
-      border: none;
-      border-radius: 10px;
-      background: linear-gradient(135deg, #22c55e, #16a34a);
-      color: white;
-      cursor: pointer;
-    }
-
-    /* FARM GRID */
-    .farm-container {
-      position: relative;
-      margin-top: 30px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(6, 50px);
-      gap: 6px;
-      justify-content: center;
-    }
-
-    .block {
-      width: 50px;
-      height: 50px;
-      border-radius: 6px;
-    }
-
-    .popup {
-      position: absolute;
-      right: 20px;
-      top: 20px;
-      background: var(--card);
-      padding: 15px;
-      border-radius: 12px;
-      width: 220px;
-      display: none;
-    }
-
-    /* FEATURES */
-    .features {
-      display: flex;
-      flex-direction: column;
-      max-width: 600px;
-      margin: auto;
-      gap: 20px;
-      padding: 40px;
-    }
-
-    .card {
-      background: var(--card);
-      padding: 20px;
-      border-radius: 16px;
-      border-left: 4px solid var(--primary);
-    }
-
-    /* CHATBOT */
-    .chatbot {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: var(--card);
-      padding: 10px;
-      border-radius: 12px;
-      width: 250px;
-    }
-
-    #chatBox {
-      height: 120px;
-      overflow-y: auto;
-      font-size: 14px;
-    }
-
-    #chatInput {
-      width: 100%;
-      padding: 8px;
+      width: 36px;
+      height: 36px;
       border-radius: 8px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius);
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+      background: rgba(22, 163, 74, 0.1);
+    }
+
+    .nav-links a.active {
+      color: var(--primary);
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%),
+        url('https://images.unsplash.com/photo-1500382017468-7049fae79128?w=1200&h=400&fit=crop') center/cover;
+      background-blend-mode: overlay;
+      padding: 5rem 2rem;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+      background-size: 50px 50px;
+      animation: float 20s infinite linear;
+    }
+
+    @keyframes float {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(50px, 50px); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      line-height: 1.1;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      margin-bottom: 2rem;
+      opacity: 0.95;
+      font-weight: 300;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.875rem 1.75rem;
       border: none;
-      margin-top: 5px;
+      border-radius: var(--radius-lg);
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: white;
+      color: var(--primary);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 2px solid white;
+    }
+
+    .btn-secondary:hover {
+      background: white;
+      color: var(--primary);
+    }
+
+    /* Demo Grid */
+    .demo-section {
+      padding: 3rem 2rem;
+      margin: 3rem 0;
+    }
+
+    .demo-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .demo-header h2 {
+      font-size: 2.25rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+
+    .demo-header p {
+      color: var(--text-secondary);
+      font-size: 1rem;
+    }
+
+    .farm-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+      gap: 0.75rem;
+      max-width: 800px;
+      margin: 0 auto 2rem;
+      padding: 2rem;
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+    }
+
+    .grid-block {
+      aspect-ratio: 1;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .grid-block:hover {
+      transform: scale(1.1);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .grid-block.healthy {
+      background: linear-gradient(135deg, var(--success), #34d399);
+    }
+
+    .grid-block.warning {
+      background: linear-gradient(135deg, var(--warning), #fbbf24);
+    }
+
+    .grid-block.critical {
+      background: linear-gradient(135deg, var(--danger), #f87171);
+    }
+
+    .popup-details {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: var(--surface);
+      padding: 1.5rem;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      min-width: 280px;
+      display: none;
+      z-index: 50;
+      border: 1px solid var(--border);
+    }
+
+    .popup-details.show {
+      display: block;
+      animation: slideIn 0.2s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .popup-details h3 {
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+    }
+
+    .popup-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    .popup-item strong {
+      color: var(--text-primary);
+    }
+
+    /* Features Section */
+    .features {
+      padding: 4rem 2rem;
+      background: linear-gradient(180deg, var(--background) 0%, var(--surface) 100%),
+        url('https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=1200&h=600&fit=crop') center/cover;
+      background-attachment: fixed;
+      background-blend-mode: overlay;
+      position: relative;
+    }
+
+    html.dark-mode .features {
+      background: linear-gradient(180deg, var(--background) 0%, var(--surface) 100%),
+        url('https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=1200&h=600&fit=crop') center/cover;
+      background-attachment: fixed;
+      background-blend-mode: darken;
+    }
+
+    .features-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .features-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .features-header h2 {
+      font-size: 2.25rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .features-header p {
+      color: var(--text-secondary);
+      font-size: 1rem;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: var(--surface);
+      padding: 2rem;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      transition: all 0.3s;
+      border: 1px solid var(--border);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--primary);
+    }
+
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .feature-card h3 {
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      font-size: 1.25rem;
+    }
+
+    .feature-card p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav {
+        padding: 1rem;
+      }
+
+      .nav-links {
+        gap: 1rem;
+      }
+
+      .nav-links a {
+        font-size: 0.85rem;
+        padding: 0.375rem 0.75rem;
+      }
+
+      .hero {
+        padding: 3rem 1rem;
+      }
+
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .hero p {
+        font-size: 1rem;
+      }
+
+      .hero-buttons {
+        gap: 0.75rem;
+      }
+
+      .btn {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+      }
+
+      .demo-header h2 {
+        font-size: 1.5rem;
+      }
+
+      .features {
+        padding: 2rem 1rem;
+      }
+
+      .features-header h2 {
+        font-size: 1.5rem;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: 1.75rem;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .nav-links {
+        gap: 0.5rem;
+      }
+
+      .nav-links a {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+      }
     }
   </style>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
+<!-- Navbar -->
 <nav>
-  <div class="logo">
-  <img src="logo.png" class="nav-logo">
-  <span class="brand-text">CropPulse</span>
-</div>
-
-  <div>
-    <a href="#">Home</a>
+  <a href="#" class="logo">
+    <img src="logo.png" alt="CropPulse">
+    <span>CropPulse</span>
+  </a>
+  <div class="nav-links">
+    <a href="#home">Home</a>
+    <a href="#demo">Demo</a>
     <a href="#features">Features</a>
     <a href="login.html">Login</a>
-    <a href="booking.html">Book Scan</a>
   </div>
 </nav>
 
-<!-- HERO -->
+<!-- Hero Section -->
 <section class="hero">
-  
-  <h1>Smart Crop Monitoring</h1>
-  <p>Drone + Rover based precision agriculture system</p>
-
-  <button onclick="runDemo()">Run Demo Scan</button>
-  <button onclick="location.href='login.html'">Login</button>
-  <button onclick="location.href='booking.html'">Book Scan</button>
-
-  <!-- GRID -->
-  <div class="farm-container">
-    <div id="grid" class="grid"></div>
-
-    <div id="popup" class="popup">
-      <h3>Block Details</h3>
-      <p id="popupContent"></p>
+  <div class="hero-content">
+    <h1>Smart Crop Monitoring</h1>
+    <p>Precision agriculture powered by drone & rover technology with AI-driven insights</p>
+    <div class="hero-buttons">
+      <button class="btn btn-primary" onclick="runDemo()">Try Demo Scan</button>
+      <a href="login.html" class="btn btn-secondary">Get Started</a>
+      <a href="booking.html" class="btn btn-secondary">Book Scan</a>
     </div>
   </div>
 </section>
 
-<!-- FEATURES -->
-<section id="features" class="features">
-  <div class="card">🚁 Drone Scanning – NDVI crop analysis</div>
-  <div class="card">🤖 AI System – Smart recommendations</div>
-  <div class="card">🚜 Ground Rover – Soil monitoring</div>
-  <div class="card">☁️ Cloud Platform – Real-time insights</div>
+<!-- Demo Section -->
+<section class="demo-section" id="demo">
+  <div class="demo-header">
+    <h2>Farm Health Visualization</h2>
+    <p>Interactive grid showing crop health status across your farm</p>
+  </div>
+
+  <div class="farm-grid" id="grid"></div>
+
+  <div class="popup-details" id="popup">
+    <h3 id="popupStatus">Block Details</h3>
+    <div id="popupContent"></div>
+  </div>
 </section>
 
-<!-- CHATBOT -->
-<div class="chatbot">
-  <div id="chatBox"></div>
-  <input id="chatInput" placeholder="Ask about your crop...">
-</div>
+<!-- Features Section -->
+<section class="features" id="features">
+  <div class="features-container">
+    <div class="features-header">
+      <h2>Powerful Features</h2>
+      <p>Everything you need for modern precision agriculture</p>
+    </div>
 
-<!-- SCRIPT -->
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🚁</div>
+        <h3>Drone Scanning</h3>
+        <p>NDVI analysis and thermal imaging for comprehensive crop health assessment</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🤖</div>
+        <h3>AI-Powered Insights</h3>
+        <p>Machine learning recommendations for optimal crop management</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🚜</div>
+        <h3>Ground Monitoring</h3>
+        <p>Rover-based soil analysis and real-time environmental data collection</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">☁️</div>
+        <h3>Cloud Platform</h3>
+        <p>Real-time insights and historical analytics accessible anywhere</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Advanced Analytics</h3>
+        <p>Detailed reports and predictive analytics for better decision making</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🔔</div>
+        <h3>Smart Alerts</h3>
+        <p>Instant notifications for critical issues requiring immediate action</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p>&copy; 2024 CropPulse. All rights reserved. | Precision Agriculture for Everyone</p>
+</footer>
+
 <script>
+// Load on page load
+function initTheme() {
+  runDemo();
+}
 
 function runDemo() {
   const grid = document.getElementById("grid");
   const popup = document.getElementById("popup");
   const popupContent = document.getElementById("popupContent");
+  const popupStatus = document.getElementById("popupStatus");
 
   grid.innerHTML = "";
 
   for (let i = 0; i < 36; i++) {
     let block = document.createElement("div");
-    block.classList.add("block");
-
-    let data = {
-      pH: (5 + Math.random() * 3).toFixed(1),
-      moisture: Math.floor(Math.random() * 100),
-      pests: Math.floor(Math.random() * 20)
-    };
+    block.classList.add("grid-block");
 
     let rand = Math.random();
     let status = "";
+    let statusClass = "";
 
-    if (rand > 0.6) {
-      block.style.background = "#22c55e";
+    const data = {
+      pH: (5 + Math.random() * 3).toFixed(1),
+      moisture: Math.floor(Math.random() * 100),
+      pests: Math.floor(Math.random() * 20),
+      temperature: (20 + Math.random() * 15).toFixed(1)
+    };
+
+    if (rand > 0.65) {
       status = "Healthy";
-    } else if (rand > 0.3) {
-      block.style.background = "#eab308";
-      status = "Moderate";
+      statusClass = "healthy";
+    } else if (rand > 0.35) {
+      status = "Warning";
+      statusClass = "warning";
     } else {
-      block.style.background = "#ef4444";
       status = "Critical";
+      statusClass = "critical";
     }
 
+    block.classList.add(statusClass);
+    block.dataset.status = status;
+    block.dataset.index = i + 1;
+
     block.onmouseover = () => {
-      popup.style.display = "block";
+      popup.classList.add("show");
+      popupStatus.textContent = `Block ${i + 1} - ${status}`;
       popupContent.innerHTML = `
-        <b>Status:</b> ${status}<br>
-        🌱 pH: ${data.pH}<br>
-        💧 Moisture: ${data.moisture}%<br>
-        🐛 Pest: ${data.pests}%<br>
+        <div class="popup-item"><strong>Status:</strong> ${status}</div>
+        <div class="popup-item"><strong>pH:</strong> ${data.pH}</div>
+        <div class="popup-item"><strong>Moisture:</strong> ${data.moisture}%</div>
+        <div class="popup-item"><strong>Pest Risk:</strong> ${data.pests}%</div>
+        <div class="popup-item"><strong>Temp:</strong> ${data.temperature}°C</div>
       `;
+    };
+
+    block.onmouseout = () => {
+      popup.classList.remove("show");
     };
 
     grid.appendChild(block);
   }
 }
 
-/* CHATBOT */
-document.getElementById("chatInput").addEventListener("keypress", function(e) {
-  if (e.key === "Enter") {
-    let input = this.value.toLowerCase();
-    let response = "";
-
-    if (input.includes("water")) {
-      response = "Increase irrigation in yellow/red zones.";
-    } else if (input.includes("pest")) {
-      response = "Apply pesticide in critical zones.";
-    } else {
-      response = "Crop health is monitored using drone + rover.";
-    }
-
-    document.getElementById("chatBox").innerHTML += `
-      <div>👨‍🌾 ${input}</div>
-      <div>🤖 ${response}</div>
-    `;
-
-    this.value = "";
-  }
-});
-
+// Auto-run demo on page load
+window.addEventListener('DOMContentLoaded', initTheme);
 </script>
 
 </body>
