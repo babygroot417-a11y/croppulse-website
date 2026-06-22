@@ -648,22 +648,39 @@
 </main>
 
 <script>
-document.getElementById('bookingForm').addEventListener('submit', function(e) {
-  e.preventDefault();
+var bookingForm = document.getElementById('bookingForm');
+if (bookingForm) {
+  bookingForm.addEventListener('submit', function (e) {
+    e.preventDefault();
 
-  const alertBox = document.getElementById('alertMessage');
-  alertBox.className = 'alert alert-success';
-  alertBox.innerHTML = '<i class="fas fa-check-circle"></i> Booking confirmed! You will receive a confirmation email shortly.';
-  alertBox.style.display = 'block';
+    var alertBox = document.getElementById('alertMessage');
+    try {
+      if (!alertBox) {
+        console.error('Alert container not found on booking page');
+        return;
+      }
 
-  // Reset form
-  this.reset();
+      alertBox.className = 'alert alert-success';
+      alertBox.innerHTML = '<i class="fas fa-check-circle"></i> Booking confirmed! You will receive a confirmation email shortly.';
+      alertBox.style.display = 'block';
 
-  // Redirect after 2 seconds
-  setTimeout(() => {
-    window.location.href = 'dashboard.html';
-  }, 2000);
-});
+      this.reset();
+
+      setTimeout(function () {
+        window.location.href = 'dashboard.html';
+      }, 2000);
+    } catch (err) {
+      console.error('Booking submission failed:', err);
+      if (alertBox) {
+        alertBox.className = 'alert alert-error';
+        alertBox.textContent = 'Something went wrong while submitting the booking. Please try again.';
+        alertBox.style.display = 'block';
+      }
+    }
+  });
+} else {
+  console.error('Booking form element not found');
+}
 </script>
 
 </body>

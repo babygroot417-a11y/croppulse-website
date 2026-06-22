@@ -585,64 +585,82 @@
 <script>
 // Load on page load
 function initTheme() {
-  runDemo();
+  try {
+    runDemo();
+  } catch (err) {
+    console.error('Failed to initialize demo:', err);
+  }
 }
 
 function runDemo() {
-  const grid = document.getElementById("grid");
-  const popup = document.getElementById("popup");
-  const popupContent = document.getElementById("popupContent");
-  const popupStatus = document.getElementById("popupStatus");
+  var grid = document.getElementById("grid");
+  var popup = document.getElementById("popup");
+  var popupContent = document.getElementById("popupContent");
+  var popupStatus = document.getElementById("popupStatus");
+
+  if (!grid || !popup || !popupContent || !popupStatus) {
+    console.error("Demo: one or more required elements are missing (grid, popup, popupContent, popupStatus)");
+    return;
+  }
 
   grid.innerHTML = "";
 
-  for (let i = 0; i < 36; i++) {
-    let block = document.createElement("div");
-    block.classList.add("grid-block");
+  for (var i = 0; i < 36; i++) {
+    (function (idx) {
+      try {
+        var block = document.createElement("div");
+        block.classList.add("grid-block");
 
-    let rand = Math.random();
-    let status = "";
-    let statusClass = "";
+        var rand = Math.random();
+        var status = "";
+        var statusClass = "";
 
-    const data = {
-      pH: (5 + Math.random() * 3).toFixed(1),
-      moisture: Math.floor(Math.random() * 100),
-      pests: Math.floor(Math.random() * 20),
-      temperature: (20 + Math.random() * 15).toFixed(1)
-    };
+        var data = {
+          pH: (5 + Math.random() * 3).toFixed(1),
+          moisture: Math.floor(Math.random() * 100),
+          pests: Math.floor(Math.random() * 20),
+          temperature: (20 + Math.random() * 15).toFixed(1)
+        };
 
-    if (rand > 0.65) {
-      status = "Healthy";
-      statusClass = "healthy";
-    } else if (rand > 0.35) {
-      status = "Warning";
-      statusClass = "warning";
-    } else {
-      status = "Critical";
-      statusClass = "critical";
-    }
+        if (rand > 0.65) {
+          status = "Healthy";
+          statusClass = "healthy";
+        } else if (rand > 0.35) {
+          status = "Warning";
+          statusClass = "warning";
+        } else {
+          status = "Critical";
+          statusClass = "critical";
+        }
 
-    block.classList.add(statusClass);
-    block.dataset.status = status;
-    block.dataset.index = i + 1;
+        block.classList.add(statusClass);
+        block.dataset.status = status;
+        block.dataset.index = idx + 1;
 
-    block.onmouseover = () => {
-      popup.classList.add("show");
-      popupStatus.textContent = `Block ${i + 1} - ${status}`;
-      popupContent.innerHTML = `
-        <div class="popup-item"><strong>Status:</strong> ${status}</div>
-        <div class="popup-item"><strong>pH:</strong> ${data.pH}</div>
-        <div class="popup-item"><strong>Moisture:</strong> ${data.moisture}%</div>
-        <div class="popup-item"><strong>Pest Risk:</strong> ${data.pests}%</div>
-        <div class="popup-item"><strong>Temp:</strong> ${data.temperature}°C</div>
-      `;
-    };
+        block.onmouseover = function () {
+          try {
+            popup.classList.add("show");
+            popupStatus.textContent = "Block " + (idx + 1) + " - " + status;
+            popupContent.innerHTML =
+              '<div class="popup-item"><strong>Status:</strong> ' + status + '</div>' +
+              '<div class="popup-item"><strong>pH:</strong> ' + data.pH + '</div>' +
+              '<div class="popup-item"><strong>Moisture:</strong> ' + data.moisture + '%</div>' +
+              '<div class="popup-item"><strong>Pest Risk:</strong> ' + data.pests + '%</div>' +
+              '<div class="popup-item"><strong>Temp:</strong> ' + data.temperature + '°C</div>';
+          } catch (err) {
+            console.error("Failed to show popup for block " + (idx + 1) + ":", err);
+          }
+        };
 
-    block.onmouseout = () => {
-      popup.classList.remove("show");
-    };
+        block.onmouseout = function () {
+          popup.classList.remove("show");
+        };
 
-    grid.appendChild(block);
+        grid.appendChild(block);
+      } catch (err) {
+        console.error("Failed to create demo block " + (idx + 1) + ":", err);
+      }
+    })(i);
   }
 }
 

@@ -895,64 +895,90 @@
 
 <script>
 // Sample farm data
-const farmData = Array.from({ length: 36 }, (_, i) => {
-  const statuses = ['healthy', 'warning', 'critical'];
-  const status = statuses[Math.floor(Math.random() * statuses.length)];
-  return {
-    id: i + 1,
-    status: status,
-    details: `Block ${i + 1} - ${status.toUpperCase()}: Advanced analytics and recommendations`
-  };
-});
+var farmData = [];
+try {
+  var statuses = ['healthy', 'warning', 'critical'];
+  for (var n = 0; n < 36; n++) {
+    var status = statuses[Math.floor(Math.random() * statuses.length)];
+    farmData.push({
+      id: n + 1,
+      status: status,
+      details: 'Block ' + (n + 1) + ' - ' + status.toUpperCase() + ': Advanced analytics and recommendations'
+    });
+  }
+} catch (err) {
+  console.error('Failed to generate farm data:', err);
+}
 
 // Initialize results
 function initializeResults() {
-  generateFarmGrid();
+  try {
+    generateFarmGrid();
+  } catch (err) {
+    console.error('Failed to initialize results:', err);
+  }
 }
 
 // Generate farm grid
 function generateFarmGrid() {
-  const gridContainer = document.getElementById('farmGrid');
+  var gridContainer = document.getElementById('farmGrid');
+  if (!gridContainer) {
+    console.error('Results: farm grid container not found');
+    return;
+  }
   gridContainer.innerHTML = '';
 
-  farmData.forEach(block => {
-    const blockElement = document.createElement('div');
-    blockElement.className = `grid-block ${block.status}`;
-    blockElement.textContent = block.id;
-    blockElement.style.cursor = 'pointer';
-    blockElement.onclick = () => {
-      showBlockDetails(block);
-    };
+  farmData.forEach(function (block) {
+    try {
+      var blockElement = document.createElement('div');
+      blockElement.className = 'grid-block ' + block.status;
+      blockElement.textContent = block.id;
+      blockElement.style.cursor = 'pointer';
+      blockElement.onclick = function () {
+        showBlockDetails(block);
+      };
 
-    gridContainer.appendChild(blockElement);
+      gridContainer.appendChild(blockElement);
+    } catch (err) {
+      console.error('Failed to create result grid block ' + block.id + ':', err);
+    }
   });
 }
 
 // Show block details
 function showBlockDetails(block) {
-  const statusEmojis = {
-    healthy: '✓',
-    warning: '⚠️',
-    critical: '🚨'
-  };
-
-  alert(`Section ${block.id}\nStatus: ${block.status.toUpperCase()}\n\n${block.details}`);
+  if (!block) {
+    console.error('showBlockDetails called with no block data');
+    return;
+  }
+  try {
+    alert('Section ' + block.id + '\nStatus: ' + block.status.toUpperCase() + '\n\n' + block.details);
+  } catch (err) {
+    console.error('Failed to show block details:', err);
+  }
 }
 
 // Download report
 function downloadReport() {
-  const reportData = {
-    scanDate: new Date().toISOString(),
-    farmHealth: '75% healthy',
-    criticalIssues: 3,
-    recommendations: ['Apply neem oil', 'Add urea fertilizer', 'Increase irrigation']
-  };
+  try {
+    var reportData = {
+      scanDate: new Date().toISOString(),
+      farmHealth: '75% healthy',
+      criticalIssues: 3,
+      recommendations: ['Apply neem oil', 'Add urea fertilizer', 'Increase irrigation']
+    };
 
-  const dataStr = 'data:application/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(reportData, null, 2));
-  const link = document.createElement('a');
-  link.setAttribute('href', dataStr);
-  link.setAttribute('download', 'crop-scan-report-' + new Date().toISOString().split('T')[0] + '.json');
-  link.click();
+    var dataStr = 'data:application/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(reportData, null, 2));
+    var link = document.createElement('a');
+    link.setAttribute('href', dataStr);
+    link.setAttribute('download', 'crop-scan-report-' + new Date().toISOString().split('T')[0] + '.json');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  } catch (err) {
+    console.error('Failed to download report:', err);
+    alert('Unable to download report. Please try again.');
+  }
 }
 
 // Initialize on load

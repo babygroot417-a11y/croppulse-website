@@ -630,83 +630,114 @@
 
 <script>
 function loadDashboard() {
-  const grid = document.getElementById("grid");
-  const popup = document.getElementById("popup");
-  const overlay = document.getElementById("overlay");
-  const popupTitle = document.getElementById("popupTitle");
-  const popupContent = document.getElementById("popupContent");
+  var grid = document.getElementById("grid");
+  var popup = document.getElementById("popup");
+  var overlay = document.getElementById("overlay");
+  var popupTitle = document.getElementById("popupTitle");
+  var popupContent = document.getElementById("popupContent");
+
+  if (!grid || !popup || !overlay || !popupTitle || !popupContent) {
+    console.error("Dashboard: one or more required elements are missing (grid, popup, overlay, popupTitle, popupContent)");
+    return;
+  }
 
   grid.innerHTML = "";
 
-  for (let i = 1; i <= 36; i++) {
-    let block = document.createElement("div");
-    block.classList.add("grid-block");
+  for (var i = 1; i <= 36; i++) {
+    (function (idx) {
+      try {
+        var block = document.createElement("div");
+        block.classList.add("grid-block");
 
-    let rand = Math.random();
-    let status = "";
-    let statusClass = "";
+        var rand = Math.random();
+        var status = "";
+        var statusClass = "";
 
-    const data = {
-      pH: (5.2 + Math.random() * 2.8).toFixed(1),
-      moisture: Math.floor(Math.random() * 40 + 40),
-      pests: Math.floor(Math.random() * 15),
-      temperature: (18 + Math.random() * 16).toFixed(1)
-    };
+        var data = {
+          pH: (5.2 + Math.random() * 2.8).toFixed(1),
+          moisture: Math.floor(Math.random() * 40 + 40),
+          pests: Math.floor(Math.random() * 15),
+          temperature: (18 + Math.random() * 16).toFixed(1)
+        };
 
-    if (rand > 0.65) {
-      status = "Healthy";
-      statusClass = "healthy";
-    } else if (rand > 0.35) {
-      status = "Warning";
-      statusClass = "warning";
-    } else {
-      status = "Critical";
-      statusClass = "critical";
-    }
+        if (rand > 0.65) {
+          status = "Healthy";
+          statusClass = "healthy";
+        } else if (rand > 0.35) {
+          status = "Warning";
+          statusClass = "warning";
+        } else {
+          status = "Critical";
+          statusClass = "critical";
+        }
 
-    block.classList.add(statusClass);
-    block.textContent = `#${i}`;
+        block.classList.add(statusClass);
+        block.textContent = "#" + idx;
 
-    block.onclick = () => {
-      popup.classList.add("show");
-      overlay.classList.add("show");
-      popupTitle.textContent = `Block ${i} - ${status}`;
-      popupContent.innerHTML = `
-        <div class="popup-item">
-          <span class="popup-label">Status</span>
-          <span class="popup-value">${status}</span>
-        </div>
-        <div class="popup-item">
-          <span class="popup-label">pH Level</span>
-          <span class="popup-value">${data.pH}</span>
-        </div>
-        <div class="popup-item">
-          <span class="popup-label">Moisture</span>
-          <span class="popup-value">${data.moisture}%</span>
-        </div>
-        <div class="popup-item">
-          <span class="popup-label">Pest Risk</span>
-          <span class="popup-value">${data.pests}%</span>
-        </div>
-        <div class="popup-item">
-          <span class="popup-label">Temperature</span>
-          <span class="popup-value">${data.temperature}°C</span>
-        </div>
-      `;
-    };
+        block.onclick = function () {
+          try {
+            popup.classList.add("show");
+            overlay.classList.add("show");
+            popupTitle.textContent = "Block " + idx + " - " + status;
+            popupContent.innerHTML =
+              '<div class="popup-item">' +
+                '<span class="popup-label">Status</span>' +
+                '<span class="popup-value">' + status + '</span>' +
+              '</div>' +
+              '<div class="popup-item">' +
+                '<span class="popup-label">pH Level</span>' +
+                '<span class="popup-value">' + data.pH + '</span>' +
+              '</div>' +
+              '<div class="popup-item">' +
+                '<span class="popup-label">Moisture</span>' +
+                '<span class="popup-value">' + data.moisture + '%</span>' +
+              '</div>' +
+              '<div class="popup-item">' +
+                '<span class="popup-label">Pest Risk</span>' +
+                '<span class="popup-value">' + data.pests + '%</span>' +
+              '</div>' +
+              '<div class="popup-item">' +
+                '<span class="popup-label">Temperature</span>' +
+                '<span class="popup-value">' + data.temperature + '°C</span>' +
+              '</div>';
+          } catch (err) {
+            console.error("Failed to show block details for block " + idx + ":", err);
+          }
+        };
 
-    grid.appendChild(block);
+        grid.appendChild(block);
+      } catch (err) {
+        console.error("Failed to create grid block " + idx + ":", err);
+      }
+    })(i);
   }
 }
 
 function closePopup() {
-  document.getElementById("popup").classList.remove("show");
-  document.getElementById("overlay").classList.remove("show");
+  try {
+    var popup = document.getElementById("popup");
+    var overlay = document.getElementById("overlay");
+    if (popup) popup.classList.remove("show");
+    if (overlay) overlay.classList.remove("show");
+  } catch (err) {
+    console.error("Failed to close popup:", err);
+  }
 }
 
-document.getElementById("overlay").addEventListener("click", closePopup);
+var overlayEl = document.getElementById("overlay");
+if (overlayEl) {
+  overlayEl.addEventListener("click", closePopup);
+} else {
+  console.error("Dashboard: overlay element not found");
+}
 
-window.addEventListener('DOMContentLoaded', loadDashboard);
+window.addEventListener('DOMContentLoaded', function () {
+  try {
+    loadDashboard();
+  } catch (err) {
+    console.error("Failed to initialize dashboard:", err);
+  }
+});
 </script>
 
 </body>
