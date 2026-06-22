@@ -8,44 +8,14 @@
   
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="shared.css">
 
   <style>
-    :root {
-      --primary: #16a34a;
-      --primary-light: #22c55e;
-      --secondary: #3b82f6;
-      --background: #f8fafc;
-      --surface: #ffffff;
-      --text-primary: #1e293b;
-      --text-secondary: #64748b;
-      --border: #e2e8f0;
-      --success: #10b981;
-      --warning: #f59e0b;
-      --danger: #ef4444;
-      --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-      --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
-      --radius: 8px;
-      --radius-lg: 12px;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
+    /* Page-specific: Results body background */
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: var(--background);
       background-image: url('https://images.unsplash.com/photo-1500382017468-7049fae79128?w=1200&q=80');
       background-size: cover;
       background-attachment: fixed;
-      color: var(--text-primary);
-      line-height: 1.6;
       position: relative;
       transition: background-color 0.3s ease;
     }
@@ -72,92 +42,14 @@
       background-blend-mode: darken;
     }
 
-    /* Navbar */
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      box-shadow: var(--shadow);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .logo-section {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .logo {
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      text-decoration: none;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 1.5rem;
-      list-style: none;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: var(--text-secondary);
-      font-weight: 500;
-      font-size: 0.95rem;
-      padding: 0.5rem 1rem;
-      border-radius: var(--radius);
-      transition: all 0.2s;
-    }
-
-    .nav-links a:hover {
-      color: var(--primary);
-      background: rgba(22, 163, 74, 0.1);
-    }
-
-    /* Theme Toggle */
-    .theme-toggle {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background: rgba(22, 163, 74, 0.1);
-      border: 2px solid var(--primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-size: 1.2rem;
-    }
-
-    .theme-toggle:hover {
-      background: rgba(22, 163, 74, 0.2);
-      transform: scale(1.1);
-    }
-
-    .theme-toggle-circle {
-      transition: transform 0.3s ease;
-    }
-
-    .theme-toggle:active .theme-toggle-circle {
-      transform: rotate(180deg);
-    }
-
-    /* Main Container */
+    /* Main container */
     main {
       max-width: 1400px;
       margin: 0 auto;
       padding: 2rem;
     }
 
+    /* Page Header */
     .page-header {
       margin-bottom: 2rem;
       background: var(--surface);
@@ -196,48 +88,14 @@
       color: var(--text-primary);
     }
 
-    /* Stats Grid */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-    }
-
-    .stat-card {
-      background: var(--surface);
-      padding: 1.5rem;
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--border);
-      text-align: center;
-      box-shadow: var(--shadow);
-      transition: all 0.2s;
-    }
-
-    .stat-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-lg);
-      border-color: var(--primary);
-    }
-
+    /* Stat icon for results page */
     .stat-icon {
       font-size: 2.5rem;
       margin-bottom: 0.75rem;
     }
 
-    .stat-label {
-      color: var(--text-secondary);
-      font-size: 0.85rem;
-      margin-bottom: 0.5rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .stat-value {
-      font-size: 2.5rem;
-      font-weight: 800;
-      color: var(--text-primary);
-      margin-bottom: 0.5rem;
+    .stat-card {
+      text-align: center;
     }
 
     .stat-subtitle {
@@ -245,7 +103,7 @@
       font-size: 0.9rem;
     }
 
-    /* Results Grid */
+    /* Content Card */
     .content-card {
       background: var(--surface);
       border-radius: var(--radius-lg);
@@ -269,72 +127,6 @@
     .card-subtitle {
       color: var(--text-secondary);
       font-size: 0.9rem;
-    }
-
-    /* Farm Grid */
-    .farm-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
-      gap: 1rem;
-      padding: 1.5rem;
-      background: var(--background);
-      border-radius: var(--radius-lg);
-      margin-bottom: 1.5rem;
-    }
-
-    .grid-block {
-      aspect-ratio: 1;
-      border-radius: var(--radius);
-      cursor: pointer;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 600;
-      font-size: 0.85rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .grid-block:hover {
-      transform: scale(1.15);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .grid-block.healthy {
-      background: linear-gradient(135deg, var(--success), #34d399);
-      color: white;
-    }
-
-    .grid-block.warning {
-      background: linear-gradient(135deg, var(--warning), #fbbf24);
-      color: white;
-    }
-
-    .grid-block.critical {
-      background: linear-gradient(135deg, var(--danger), #f87171);
-      color: white;
-    }
-
-    .legend {
-      display: flex;
-      gap: 2rem;
-      justify-content: center;
-      flex-wrap: wrap;
-      padding: 1rem 0;
-    }
-
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      font-size: 0.9rem;
-    }
-
-    .legend-color {
-      width: 20px;
-      height: 20px;
-      border-radius: var(--radius);
     }
 
     /* Issues Section */
@@ -438,7 +230,7 @@
     }
 
     .recommendation-section li::before {
-      content: '✓';
+      content: '\2713';
       color: var(--primary);
       font-weight: bold;
       display: flex;
@@ -497,7 +289,7 @@
       font-weight: 600;
     }
 
-    /* Action Buttons */
+    /* Action Section */
     .action-section {
       text-align: center;
       padding: 2rem;
@@ -522,49 +314,20 @@
       flex-wrap: wrap;
     }
 
-    .btn {
-      padding: 0.875rem 1.75rem;
-      border: none;
-      border-radius: var(--radius);
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .btn-primary {
+    .action-section .btn-primary {
       background: white;
       color: var(--primary);
     }
 
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .btn-secondary {
+    .action-section .btn-secondary {
       background: rgba(255, 255, 255, 0.2);
       color: white;
       border: 2px solid white;
     }
 
-    .btn-secondary:hover {
+    .action-section .btn-secondary:hover {
       background: white;
       color: var(--primary);
-    }
-
-    /* Footer */
-    footer {
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-      padding: 2rem;
-      text-align: center;
-      color: var(--text-secondary);
-      font-size: 0.9rem;
-      margin-top: 3rem;
     }
 
     /* Responsive */
@@ -584,10 +347,6 @@
     }
 
     @media (max-width: 768px) {
-      nav {
-        padding: 1rem;
-      }
-
       main {
         padding: 1rem;
       }
@@ -600,49 +359,21 @@
         font-size: 1.5rem;
       }
 
-      .stats-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 1rem;
-      }
-
-      .stat-value {
-        font-size: 2rem;
-      }
-
       .content-card {
         padding: 1.5rem;
-      }
-
-      .farm-grid {
-        gap: 0.75rem;
-        padding: 1rem;
       }
 
       .comparison-grid {
         grid-template-columns: 1fr;
       }
 
-      .nav-links {
-        gap: 1rem;
-      }
-
-      .nav-links a {
-        font-size: 0.85rem;
-        padding: 0.375rem 0.75rem;
-      }
-
       .action-buttons {
         flex-direction: column;
       }
 
-      .btn {
+      .action-buttons .btn {
         width: 100%;
         justify-content: center;
-      }
-
-      .legend {
-        gap: 1rem;
-        font-size: 0.85rem;
       }
     }
 
@@ -651,20 +382,8 @@
         padding: 0.5rem;
       }
 
-      .stats-grid {
-        grid-template-columns: 1fr;
-      }
-
       .comparison-grid {
         grid-template-columns: 1fr;
-      }
-
-      .nav-links {
-        gap: 0.5rem;
-      }
-
-      .farm-grid {
-        gap: 0.5rem;
       }
     }
   </style>
@@ -675,7 +394,7 @@
 <!-- Navbar -->
 <nav>
   <a href="index.html" class="logo-section">
-    <span class="logo"><i class="fas fa-leaf"></i> CropPulse</span>
+    <span class="nav-logo"><i class="fas fa-leaf"></i> CropPulse</span>
   </a>
   <div class="nav-links">
     <a href="dashboard.html"><i class="fas fa-chart-pie"></i> Dashboard</a>
@@ -893,69 +612,34 @@
   <p>&copy; 2024 CropPulse. Smart Crop Monitoring Technology.</p>
 </footer>
 
+<script src="shared.js"></script>
 <script>
-// Sample farm data
-const farmData = Array.from({ length: 36 }, (_, i) => {
-  const statuses = ['healthy', 'warning', 'critical'];
-  const status = statuses[Math.floor(Math.random() * statuses.length)];
-  return {
-    id: i + 1,
-    status: status,
-    details: `Block ${i + 1} - ${status.toUpperCase()}: Advanced analytics and recommendations`
-  };
-});
-
-// Initialize results
 function initializeResults() {
-  generateFarmGrid();
-}
-
-// Generate farm grid
-function generateFarmGrid() {
-  const gridContainer = document.getElementById('farmGrid');
-  gridContainer.innerHTML = '';
-
-  farmData.forEach(block => {
-    const blockElement = document.createElement('div');
-    blockElement.className = `grid-block ${block.status}`;
-    blockElement.textContent = block.id;
-    blockElement.style.cursor = 'pointer';
-    blockElement.onclick = () => {
-      showBlockDetails(block);
-    };
-
-    gridContainer.appendChild(blockElement);
+  generateFarmGrid({
+    gridId: 'farmGrid',
+    blockCount: 36,
+    showLabel: true,
+    onClick: function(index, status, data) {
+      alert('Section ' + index + '\nStatus: ' + status.toUpperCase() + '\n\nBlock ' + index + ' - ' + status.toUpperCase() + ': Advanced analytics and recommendations');
+    }
   });
 }
 
-// Show block details
-function showBlockDetails(block) {
-  const statusEmojis = {
-    healthy: '✓',
-    warning: '⚠️',
-    critical: '🚨'
-  };
-
-  alert(`Section ${block.id}\nStatus: ${block.status.toUpperCase()}\n\n${block.details}`);
-}
-
-// Download report
 function downloadReport() {
-  const reportData = {
+  var reportData = {
     scanDate: new Date().toISOString(),
     farmHealth: '75% healthy',
     criticalIssues: 3,
     recommendations: ['Apply neem oil', 'Add urea fertilizer', 'Increase irrigation']
   };
 
-  const dataStr = 'data:application/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(reportData, null, 2));
-  const link = document.createElement('a');
+  var dataStr = 'data:application/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(reportData, null, 2));
+  var link = document.createElement('a');
   link.setAttribute('href', dataStr);
   link.setAttribute('download', 'crop-scan-report-' + new Date().toISOString().split('T')[0] + '.json');
   link.click();
 }
 
-// Initialize on load
 document.addEventListener('DOMContentLoaded', initializeResults);
 </script>
 
