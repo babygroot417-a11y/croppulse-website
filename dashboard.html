@@ -538,6 +538,11 @@
 </head>
 
 <body>
+<script>
+  if (sessionStorage.getItem('croppulse_authenticated') !== 'true') {
+    window.location.replace('login.html');
+  }
+</script>
 
 <!-- Navbar -->
 <nav>
@@ -548,7 +553,7 @@
     <a href="index.html"><i class="fas fa-home"></i> Home</a>
     <a href="booking.html"><i class="fas fa-calendar"></i> Book Scan</a>
     <a href="results.html"><i class="fas fa-chart-line"></i> Results</a>
-    <a href="login.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    <a href="#" onclick="sessionStorage.removeItem('croppulse_authenticated'); window.location.href='login.html'; return false;"><i class="fas fa-sign-out-alt"></i> Logout</a>
   </div>
 </nav>
 
@@ -671,28 +676,27 @@ function loadDashboard() {
       popup.classList.add("show");
       overlay.classList.add("show");
       popupTitle.textContent = `Block ${i} - ${status}`;
-      popupContent.innerHTML = `
-        <div class="popup-item">
-          <span class="popup-label">Status</span>
-          <span class="popup-value">${status}</span>
-        </div>
-        <div class="popup-item">
-          <span class="popup-label">pH Level</span>
-          <span class="popup-value">${data.pH}</span>
-        </div>
-        <div class="popup-item">
-          <span class="popup-label">Moisture</span>
-          <span class="popup-value">${data.moisture}%</span>
-        </div>
-        <div class="popup-item">
-          <span class="popup-label">Pest Risk</span>
-          <span class="popup-value">${data.pests}%</span>
-        </div>
-        <div class="popup-item">
-          <span class="popup-label">Temperature</span>
-          <span class="popup-value">${data.temperature}°C</span>
-        </div>
-      `;
+      popupContent.textContent = '';
+      var fields = [
+        ['Status', status],
+        ['pH Level', data.pH],
+        ['Moisture', data.moisture + '%'],
+        ['Pest Risk', data.pests + '%'],
+        ['Temperature', data.temperature + '\u00B0C']
+      ];
+      fields.forEach(function(f) {
+        var row = document.createElement('div');
+        row.className = 'popup-item';
+        var lbl = document.createElement('span');
+        lbl.className = 'popup-label';
+        lbl.textContent = f[0];
+        var val = document.createElement('span');
+        val.className = 'popup-value';
+        val.textContent = f[1];
+        row.appendChild(lbl);
+        row.appendChild(val);
+        popupContent.appendChild(row);
+      });
     };
 
     grid.appendChild(block);
