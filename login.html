@@ -8,32 +8,11 @@
   
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="shared.css">
 
   <style>
-    :root {
-      --primary: #16a34a;
-      --primary-light: #22c55e;
-      --background: #f8fafc;
-      --surface: #ffffff;
-      --text-primary: #1e293b;
-      --text-secondary: #64748b;
-      --border: #e2e8f0;
-      --error: #ef4444;
-      --success: #10b981;
-      --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-      --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
-      --radius: 8px;
-      --radius-lg: 12px;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    /* Page-specific: Login layout */
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%),
         url('https://images.unsplash.com/photo-1500382017468-7049fae79128?w=1200&h=800&fit=crop') center/cover;
       background-attachment: fixed;
@@ -49,10 +28,6 @@
       background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.9) 100%),
         url('https://images.unsplash.com/photo-1500382017468-7049fae79128?w=1200&h=800&fit=crop') center/cover;
       background-attachment: fixed;
-    }
-
-    * {
-      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
     }
 
     .login-container {
@@ -114,52 +89,6 @@
       position: relative;
     }
 
-    .theme-toggle {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      width: 48px;
-      height: 28px;
-      background: var(--border);
-      border: 2px solid var(--border);
-      border-radius: 14px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      padding: 2px;
-      transition: all 0.3s ease;
-    }
-
-    .theme-toggle:hover {
-      border-color: var(--primary);
-    }
-
-    .theme-toggle-circle {
-      width: 22px;
-      height: 22px;
-      background: white;
-      border-radius: 50%;
-      position: absolute;
-      left: 2px;
-      transition: left 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.7rem;
-      color: var(--primary);
-    }
-
-    html.dark-mode .theme-toggle-circle {
-      left: 22px;
-      background: var(--surface);
-      color: #f59e0b;
-    }
-
-    html.dark-mode .theme-toggle {
-      background: var(--primary);
-      border-color: var(--primary);
-    }
-
     .form-header {
       text-align: center;
       margin-bottom: 2rem;
@@ -189,94 +118,12 @@
       font-size: 0.9rem;
     }
 
-    .form-group {
-      margin-bottom: 1.5rem;
-    }
-
-    .form-label {
-      display: block;
-      margin-bottom: 0.5rem;
-      color: var(--text-primary);
-      font-weight: 500;
-      font-size: 0.9rem;
-    }
-
-    .form-input {
-      display: flex;
-      align-items: center;
-      border: 2px solid var(--border);
-      border-radius: var(--radius);
-      padding: 0.75rem 1rem;
-      gap: 0.75rem;
-      transition: all 0.2s;
-      background: var(--surface);
-    }
-
-    .form-input:focus-within {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
-    }
-
-    .form-input i {
-      color: var(--text-secondary);
-      width: 20px;
-      text-align: center;
-    }
-
-    .form-input input {
-      flex: 1;
-      border: none;
-      outline: none;
-      background: transparent;
-      color: var(--text-primary);
-      font-size: 1rem;
-      font-family: inherit;
-    }
-
-    .form-input input::placeholder {
-      color: var(--text-secondary);
-    }
-
-    .btn {
+    .login-form-wrapper .btn {
       width: 100%;
-      padding: 0.875rem;
-      border: none;
-      border-radius: var(--radius);
-      font-weight: 600;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--primary), var(--primary-light));
-      color: white;
-      box-shadow: var(--shadow);
-    }
-
-    .btn-primary:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(22, 163, 74, 0.3);
-    }
-
-    .btn-primary:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
     }
 
     .btn-secondary {
-      background: transparent;
-      color: var(--primary);
-      border: 2px solid var(--primary);
       margin-top: 0.75rem;
-    }
-
-    .btn-secondary:hover {
-      background: rgba(22, 163, 74, 0.05);
     }
 
     .back-link {
@@ -297,43 +144,6 @@
 
     .back-link a:hover {
       color: var(--primary-light);
-    }
-
-    .alert {
-      padding: 1rem;
-      border-radius: var(--radius);
-      margin-bottom: 1rem;
-      display: none;
-      animation: slideIn 0.3s ease-out;
-    }
-
-    .alert-error {
-      background: #fee2e2;
-      color: #991b1b;
-      border: 1px solid #fecaca;
-    }
-
-    .alert-success {
-      background: #dcfce7;
-      color: #166534;
-      border: 1px solid #86efac;
-    }
-
-    .alert-info {
-      background: #dbeafe;
-      color: #0c2d6b;
-      border: 1px solid #93c5fd;
-    }
-
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
     }
 
     .divider {
@@ -400,11 +210,6 @@
       .form-header h2 {
         font-size: 1.5rem;
       }
-
-      .btn {
-        padding: 0.75rem;
-        font-size: 0.95rem;
-      }
     }
   </style>
 </head>
@@ -427,8 +232,6 @@
 
   <!-- Login Form -->
   <div class="login-form-wrapper">
-
-
     <div class="form-header">
       <div class="logo-mini">🌱</div>
       <h2>Welcome Back</h2>
@@ -481,66 +284,42 @@
   </div>
 </div>
 
+<script src="shared.js"></script>
 <script>
-  // Theme Toggle
-  function toggleTheme() {
-    const isDarkMode = document.documentElement.classList.toggle('dark-mode');
-    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
-  }
-
-  // Load theme preference on page load
-  window.addEventListener('DOMContentLoaded', () => {
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    if (savedTheme === 'dark') {
-      document.documentElement.classList.add('dark-mode');
-    }
-  });
-
-  function showAlert(message, type = 'info') {
-    const alertBox = document.getElementById('alertBox');
-    alertBox.className = `alert alert-${type}`;
-    alertBox.textContent = message;
-    alertBox.style.display = 'block';
-    setTimeout(() => {
-      alertBox.style.display = 'none';
-    }, 4000);
-  }
-
   function sendOTP() {
-    const phone = document.getElementById('phone').value.trim();
+    var phone = document.getElementById('phone').value.trim();
 
     if (!phone) {
-      showAlert('Please enter a phone number', 'error');
+      showAlert('alertBox', 'Please enter a phone number', 'error');
       return;
     }
 
     if (phone.length < 10) {
-      showAlert('Please enter a valid phone number (10+ digits)', 'error');
+      showAlert('alertBox', 'Please enter a valid phone number (10+ digits)', 'error');
       return;
     }
 
-    // Demo OTP
-    showAlert('✓ Demo OTP sent: 1234', 'success');
+    showAlert('alertBox', '\u2713 Demo OTP sent: 1234', 'success');
 
     document.getElementById('phoneBox').style.display = 'none';
     document.getElementById('otpBox').style.display = 'block';
   }
 
   function verifyOTP() {
-    const otp = document.getElementById('otp').value.trim();
+    var otp = document.getElementById('otp').value.trim();
 
     if (!otp) {
-      showAlert('Please enter the OTP', 'error');
+      showAlert('alertBox', 'Please enter the OTP', 'error');
       return;
     }
 
     if (otp === '1234') {
-      showAlert('✓ Login successful! Redirecting...', 'success');
-      setTimeout(() => {
+      showAlert('alertBox', '\u2713 Login successful! Redirecting...', 'success');
+      setTimeout(function() {
         window.location.href = 'dashboard.html';
       }, 1500);
     } else {
-      showAlert('Invalid OTP. Please try again', 'error');
+      showAlert('alertBox', 'Invalid OTP. Please try again', 'error');
     }
   }
 
@@ -551,10 +330,9 @@
     document.getElementById('otpBox').style.display = 'none';
   }
 
-  // Allow Enter key
   document.addEventListener('keypress', function(e) {
     if (e.key === 'Enter') {
-      const otpBox = document.getElementById('otpBox');
+      var otpBox = document.getElementById('otpBox');
       if (otpBox.style.display !== 'none') {
         verifyOTP();
       } else {
