@@ -5,957 +5,663 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Scan Results - CropPulse</title>
   <meta name="description" content="View your detailed crop analysis results with CropPulse's advanced monitoring system">
-  
+
+  <link rel="icon" type="image/x-icon" href="logo.ico">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
 
   <style>
-    :root {
-      --primary: #16a34a;
-      --primary-light: #22c55e;
-      --secondary: #3b82f6;
-      --background: #f8fafc;
-      --surface: #ffffff;
-      --text-primary: #1e293b;
-      --text-secondary: #64748b;
-      --border: #e2e8f0;
-      --success: #10b981;
-      --warning: #f59e0b;
-      --danger: #ef4444;
-      --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-      --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
-      --radius: 8px;
-      --radius-lg: 12px;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: var(--background);
-      background-image: url('https://images.unsplash.com/photo-1500382017468-7049fae79128?w=1200&q=80');
-      background-size: cover;
-      background-attachment: fixed;
-      color: var(--text-primary);
-      line-height: 1.6;
-      position: relative;
-      transition: background-color 0.3s ease;
-    }
-
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(15, 23, 42, 0.7);
-      pointer-events: none;
-      z-index: 1;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    html.dark-mode body::before {
-      opacity: 1;
-    }
-
-    html.dark-mode body {
-      background-blend-mode: darken;
-    }
-
-    /* Navbar */
-    nav {
+    .page-header-card {
+      background: var(--surface);
+      padding: 1.75rem 2rem;
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem 2rem;
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      box-shadow: var(--shadow);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .logo-section {
-      display: flex;
-      align-items: center;
+      margin-bottom: 1.75rem;
+      flex-wrap: wrap;
       gap: 1rem;
     }
 
-    .logo {
-      font-size: 1.5rem;
+    .page-header-card h1 {
+      font-size: 1.85rem;
       font-weight: 800;
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      text-decoration: none;
+      margin-bottom: .25rem;
     }
 
-    .nav-links {
-      display: flex;
-      gap: 1.5rem;
-      list-style: none;
+    .page-header-card .subtitle {
+      color: var(--text-muted);
+      font-size: .9rem;
     }
 
-    .nav-links a {
-      text-decoration: none;
-      color: var(--text-secondary);
-      font-weight: 500;
-      font-size: 0.95rem;
-      padding: 0.5rem 1rem;
-      border-radius: var(--radius);
-      transition: all 0.2s;
-    }
-
-    .nav-links a:hover {
-      color: var(--primary);
-      background: rgba(22, 163, 74, 0.1);
-    }
-
-    /* Theme Toggle */
-    .theme-toggle {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background: rgba(22, 163, 74, 0.1);
-      border: 2px solid var(--primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-size: 1.2rem;
-    }
-
-    .theme-toggle:hover {
-      background: rgba(22, 163, 74, 0.2);
-      transform: scale(1.1);
-    }
-
-    .theme-toggle-circle {
-      transition: transform 0.3s ease;
-    }
-
-    .theme-toggle:active .theme-toggle-circle {
-      transform: rotate(180deg);
-    }
-
-    /* Main Container */
-    main {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
-
-    .page-header {
-      margin-bottom: 2rem;
-      background: var(--surface);
-      padding: 2rem;
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-      display: flex;
-      justify-content: space-between;
-      align-items: start;
-    }
-
-    .header-content h1 {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .header-content p {
-      color: var(--text-secondary);
-    }
-
-    .scan-info {
+    .scan-meta {
       text-align: right;
     }
 
-    .scan-info .label {
-      color: var(--text-secondary);
-      font-size: 0.85rem;
+    .scan-meta .label {
+      color: var(--text-muted);
+      font-size: .75rem;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: .05em;
+      font-weight: 600;
     }
 
-    .scan-info .value {
-      font-size: 1.25rem;
+    .scan-meta .value {
+      font-size: 1.15rem;
       font-weight: 700;
-      color: var(--text-primary);
     }
 
-    /* Stats Grid */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-    }
-
-    .stat-card {
+    /* Stats with icons */
+    .stat-icon-card {
       background: var(--surface);
-      padding: 1.5rem;
-      border-radius: var(--radius-lg);
       border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
       text-align: center;
-      box-shadow: var(--shadow);
-      transition: all 0.2s;
+      transition: all var(--duration) var(--ease);
     }
 
-    .stat-card:hover {
+    .stat-icon-card:hover {
       transform: translateY(-4px);
-      box-shadow: var(--shadow-lg);
-      border-color: var(--primary);
+      box-shadow: var(--shadow-md);
+      border-color: var(--primary-300);
     }
 
-    .stat-icon {
-      font-size: 2.5rem;
-      margin-bottom: 0.75rem;
+    .stat-icon-card .icon {
+      font-size: 2rem;
+      margin-bottom: .6rem;
     }
 
-    .stat-label {
-      color: var(--text-secondary);
-      font-size: 0.85rem;
-      margin-bottom: 0.5rem;
+    .stat-icon-card .stat-label {
+      color: var(--text-muted);
+      font-size: .8rem;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: .04em;
+      font-weight: 600;
+      margin-bottom: .35rem;
     }
 
-    .stat-value {
-      font-size: 2.5rem;
+    .stat-icon-card .stat-value {
+      font-size: 2.25rem;
       font-weight: 800;
-      color: var(--text-primary);
-      margin-bottom: 0.5rem;
+      font-family: var(--font-display);
     }
 
-    .stat-subtitle {
-      color: var(--text-secondary);
-      font-size: 0.9rem;
+    .stat-icon-card .stat-note {
+      color: var(--text-muted);
+      font-size: .85rem;
+      margin-top: .25rem;
     }
 
-    /* Results Grid */
+    /* Content cards */
     .content-card {
       background: var(--surface);
-      border-radius: var(--radius-lg);
+      border-radius: var(--radius-xl);
       padding: 2rem;
-      box-shadow: var(--shadow);
-      margin-bottom: 2rem;
+      box-shadow: var(--shadow-sm);
       border: 1px solid var(--border);
+      margin-bottom: 1.75rem;
     }
 
     .card-header {
       margin-bottom: 1.5rem;
-      padding-bottom: 1.5rem;
+      padding-bottom: 1.25rem;
       border-bottom: 1px solid var(--border);
     }
 
     .card-title {
-      font-size: 1.5rem;
-      margin-bottom: 0.25rem;
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: .2rem;
     }
 
     .card-subtitle {
-      color: var(--text-secondary);
-      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-size: .875rem;
     }
 
-    /* Farm Grid */
-    .farm-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
-      gap: 1rem;
-      padding: 1.5rem;
-      background: var(--background);
-      border-radius: var(--radius-lg);
-      margin-bottom: 1.5rem;
-    }
-
-    .grid-block {
-      aspect-ratio: 1;
-      border-radius: var(--radius);
-      cursor: pointer;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 600;
-      font-size: 0.85rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .grid-block:hover {
-      transform: scale(1.15);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .grid-block.healthy {
-      background: linear-gradient(135deg, var(--success), #34d399);
-      color: white;
-    }
-
-    .grid-block.warning {
-      background: linear-gradient(135deg, var(--warning), #fbbf24);
-      color: white;
-    }
-
-    .grid-block.critical {
-      background: linear-gradient(135deg, var(--danger), #f87171);
-      color: white;
-    }
-
-    .legend {
-      display: flex;
-      gap: 2rem;
-      justify-content: center;
-      flex-wrap: wrap;
-      padding: 1rem 0;
-    }
-
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      font-size: 0.9rem;
-    }
-
-    .legend-color {
-      width: 20px;
-      height: 20px;
-      border-radius: var(--radius);
-    }
-
-    /* Issues Section */
+    /* Issues */
     .issues-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 2rem;
+      gap: 1.75rem;
     }
 
     .issue-item {
-      padding: 1.5rem;
-      background: var(--background);
-      border-radius: var(--radius);
-      border-left: 4px solid var(--primary);
+      padding: 1.25rem;
+      background: var(--surface-alt);
+      border-radius: var(--radius-md);
+      border-left: 4px solid var(--primary-500);
     }
 
-    .issue-item.warning {
-      border-left-color: var(--warning);
-    }
-
-    .issue-item.critical {
-      border-left-color: var(--danger);
-    }
+    .issue-item.warning { border-left-color: var(--warning); }
+    .issue-item.critical { border-left-color: var(--danger); }
 
     .issue-header {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 0.75rem;
+      gap: .6rem;
+      margin-bottom: .6rem;
+    }
+
+    .issue-title {
+      font-weight: 700;
+      font-size: .95rem;
     }
 
     .issue-badge {
       display: inline-flex;
       align-items: center;
-      padding: 0.25rem 0.75rem;
-      border-radius: 9999px;
-      font-size: 0.75rem;
+      padding: .2rem .6rem;
+      border-radius: var(--radius-full);
+      font-size: .7rem;
       font-weight: 600;
     }
 
-    .issue-badge.critical {
-      background: rgba(239, 68, 68, 0.1);
-      color: var(--danger);
-    }
-
-    .issue-badge.warning {
-      background: rgba(245, 158, 11, 0.1);
-      color: var(--warning);
-    }
-
-    .issue-title {
-      font-weight: 600;
-      color: var(--text-primary);
-    }
+    .issue-badge.critical { background: rgba(239,68,68,.1); color: var(--danger); }
+    .issue-badge.warning { background: rgba(245,158,11,.1); color: var(--warning); }
 
     .issue-description {
-      color: var(--text-secondary);
-      font-size: 0.9rem;
-      margin-bottom: 0.75rem;
+      color: var(--text-muted);
+      font-size: .875rem;
+      margin-bottom: .6rem;
+      line-height: 1.5;
     }
 
     .issue-recommendation {
-      background: white;
-      padding: 0.75rem;
+      background: var(--surface);
+      padding: .6rem .75rem;
       border-radius: var(--radius);
-      color: var(--text-secondary);
-      font-size: 0.85rem;
-      border-left: 2px solid var(--primary);
+      color: var(--text-muted);
+      font-size: .8rem;
+      border-left: 2px solid var(--primary-500);
     }
 
     /* Recommendations */
     .recommendations-list {
       display: flex;
       flex-direction: column;
-      gap: 1.5rem;
+      gap: 1.25rem;
     }
 
-    .recommendation-section {
-      padding: 1.5rem;
-      background: var(--background);
-      border-radius: var(--radius);
-      border-left: 4px solid var(--primary);
+    .rec-section {
+      padding: 1.25rem 1.5rem;
+      background: var(--surface-alt);
+      border-radius: var(--radius-md);
+      border-left: 4px solid var(--primary-500);
     }
 
-    .recommendation-section h4 {
-      margin-bottom: 1rem;
-      color: var(--text-primary);
+    .rec-section h4 {
+      margin-bottom: .75rem;
+      font-size: 1rem;
+      font-weight: 700;
     }
 
-    .recommendation-section ul {
+    .rec-section ul {
       list-style: none;
-      padding-left: 0;
+      padding: 0;
     }
 
-    .recommendation-section li {
+    .rec-section li {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
-      padding: 0.5rem 0;
-      color: var(--text-secondary);
+      gap: .6rem;
+      padding: .4rem 0;
+      color: var(--text-muted);
+      font-size: .9rem;
     }
 
-    .recommendation-section li::before {
-      content: '✓';
-      color: var(--primary);
-      font-weight: bold;
+    .rec-section li::before {
+      content: '';
+      width: 18px;
+      height: 18px;
+      border-radius: var(--radius-full);
+      background: var(--primary-50);
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 20px;
-      height: 20px;
-      background: rgba(22, 163, 74, 0.1);
-      border-radius: 50%;
       flex-shrink: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%2316a34a'%3E%3Cpath fill-rule='evenodd' d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z' clip-rule='evenodd'/%3E%3C/svg%3E");
+      background-size: 12px;
+      background-repeat: no-repeat;
+      background-position: center;
     }
 
     /* Comparison */
     .comparison-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1.5rem;
+      gap: 1.25rem;
     }
 
     .comparison-card {
       text-align: center;
       padding: 1.5rem;
-      background: var(--background);
-      border-radius: var(--radius);
+      background: var(--surface-alt);
+      border-radius: var(--radius-md);
     }
 
     .comparison-label {
-      color: var(--text-secondary);
-      font-size: 0.85rem;
-      margin-bottom: 0.5rem;
+      color: var(--text-muted);
+      font-size: .8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      margin-bottom: .35rem;
     }
 
     .comparison-main {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--text-secondary);
-      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: .35rem;
     }
 
     .comparison-value {
       font-size: 2rem;
       font-weight: 800;
-      color: var(--primary);
-      margin-bottom: 0.5rem;
+      font-family: var(--font-display);
+      color: var(--primary-600);
+      margin-bottom: .35rem;
     }
 
     .comparison-status {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      padding: 0.375rem 0.75rem;
-      background: rgba(16, 185, 129, 0.1);
+      gap: .35rem;
+      padding: .3rem .7rem;
+      background: rgba(16,185,129,.1);
       color: var(--success);
-      border-radius: 9999px;
-      font-size: 0.8rem;
+      border-radius: var(--radius-full);
+      font-size: .75rem;
       font-weight: 600;
     }
 
-    /* Action Buttons */
-    .action-section {
+    /* CTA */
+    .results-cta {
+      background: linear-gradient(135deg, var(--primary-700) 0%, var(--primary-500) 100%);
+      border-radius: var(--radius-xl);
+      padding: 3rem 2rem;
       text-align: center;
-      padding: 2rem;
-      background: linear-gradient(135deg, var(--primary), var(--primary-light));
-      border-radius: var(--radius-lg);
       color: white;
+      position: relative;
+      overflow: hidden;
     }
 
-    .action-section h3 {
-      margin-bottom: 0.5rem;
+    .results-cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 30% 50%, rgba(255,255,255,.08) 0%, transparent 50%);
+      pointer-events: none;
     }
 
-    .action-section p {
-      color: rgba(255, 255, 255, 0.9);
+    .results-cta h3 {
+      color: white;
+      font-size: 1.5rem;
+      margin-bottom: .4rem;
+      position: relative;
+    }
+
+    .results-cta p {
+      color: rgba(255,255,255,.85);
       margin-bottom: 1.5rem;
+      position: relative;
     }
 
-    .action-buttons {
+    .results-cta .action-buttons {
       display: flex;
       gap: 1rem;
       justify-content: center;
       flex-wrap: wrap;
+      position: relative;
     }
 
-    .btn {
-      padding: 0.875rem 1.75rem;
-      border: none;
-      border-radius: var(--radius);
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .btn-primary {
-      background: white;
-      color: var(--primary);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
-      border: 2px solid white;
-    }
-
-    .btn-secondary:hover {
-      background: white;
-      color: var(--primary);
-    }
-
-    /* Footer */
-    footer {
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-      padding: 2rem;
-      text-align: center;
-      color: var(--text-secondary);
-      font-size: 0.9rem;
-      margin-top: 3rem;
-    }
-
-    /* Responsive */
     @media (max-width: 1024px) {
-      .issues-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .page-header {
-        flex-direction: column;
-        gap: 1rem;
-      }
-
-      .scan-info {
-        text-align: left;
-      }
+      .issues-grid { grid-template-columns: 1fr; }
+      .page-header-card { flex-direction: column; }
+      .scan-meta { text-align: left; }
     }
 
     @media (max-width: 768px) {
-      nav {
-        padding: 1rem;
-      }
-
-      main {
-        padding: 1rem;
-      }
-
-      .page-header {
-        padding: 1.5rem;
-      }
-
-      .header-content h1 {
-        font-size: 1.5rem;
-      }
-
-      .stats-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 1rem;
-      }
-
-      .stat-value {
-        font-size: 2rem;
-      }
-
-      .content-card {
-        padding: 1.5rem;
-      }
-
-      .farm-grid {
-        gap: 0.75rem;
-        padding: 1rem;
-      }
-
-      .comparison-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .nav-links {
-        gap: 1rem;
-      }
-
-      .nav-links a {
-        font-size: 0.85rem;
-        padding: 0.375rem 0.75rem;
-      }
-
-      .action-buttons {
-        flex-direction: column;
-      }
-
-      .btn {
-        width: 100%;
-        justify-content: center;
-      }
-
-      .legend {
-        gap: 1rem;
-        font-size: 0.85rem;
-      }
-    }
-
-    @media (max-width: 480px) {
-      main {
-        padding: 0.5rem;
-      }
-
-      .stats-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .comparison-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .nav-links {
-        gap: 0.5rem;
-      }
-
-      .farm-grid {
-        gap: 0.5rem;
-      }
+      .page-header-card h1 { font-size: 1.5rem; }
+      .content-card { padding: 1.25rem; }
+      .comparison-grid { grid-template-columns: 1fr; }
+      .results-cta .action-buttons { flex-direction: column; }
+      .results-cta .action-buttons .btn { width: 100%; justify-content: center; }
     }
   </style>
 </head>
 
 <body>
 
+<!-- Mobile Nav Overlay -->
+<div class="mobile-overlay" id="mobileOverlay"></div>
+
 <!-- Navbar -->
-<nav>
-  <a href="index.html" class="logo-section">
-    <span class="logo"><i class="fas fa-leaf"></i> CropPulse</span>
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="nav-brand">
+    <span class="brand-icon"><i class="fas fa-leaf"></i></span>
+    <span>CropPulse</span>
   </a>
-  <div class="nav-links">
+  <div class="nav-links" id="navLinks">
     <a href="dashboard.html"><i class="fas fa-chart-pie"></i> Dashboard</a>
     <a href="booking.html"><i class="fas fa-calendar"></i> Book Scan</a>
     <a href="index.html"><i class="fas fa-home"></i> Home</a>
+    <a href="login.html" class="nav-cta"><i class="fas fa-user"></i> Login</a>
   </div>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Toggle navigation">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <!-- Main Content -->
-<main>
-  <!-- Page Header -->
-  <div class="page-header">
-    <div class="header-content">
-      <h1>📊 Crop Scan Results</h1>
-      <p>Comprehensive analysis of your farm's health and conditions</p>
-    </div>
-    <div class="scan-info">
-      <div class="label">Last Scan</div>
-      <div class="value">January 15, 2024</div>
-    </div>
-  </div>
+<main style="padding: 2rem;">
+  <div class="container-lg">
 
-  <!-- Summary Stats -->
-  <div class="stats-grid">
-    <div class="stat-card">
-      <div class="stat-icon">🌱</div>
-      <div class="stat-label">Healthy Areas</div>
-      <div class="stat-value">75%</div>
-      <div class="stat-subtitle">Optimal growth</div>
-    </div>
-
-    <div class="stat-card">
-      <div class="stat-icon">⚠️</div>
-      <div class="stat-label">Need Attention</div>
-      <div class="stat-value">20%</div>
-      <div class="stat-subtitle">Minor issues</div>
-    </div>
-
-    <div class="stat-card">
-      <div class="stat-icon">🚨</div>
-      <div class="stat-label">Critical Issues</div>
-      <div class="stat-value">5%</div>
-      <div class="stat-subtitle">Urgent action</div>
-    </div>
-
-    <div class="stat-card">
-      <div class="stat-icon">📈</div>
-      <div class="stat-label">Yield Prediction</div>
-      <div class="stat-value">85%</div>
-      <div class="stat-subtitle">Expected output</div>
-    </div>
-  </div>
-
-  <!-- Farm Grid -->
-  <div class="content-card">
-    <div class="card-header">
-      <h2 class="card-title">🌾 Farm Health Map</h2>
-      <p class="card-subtitle">Click on any block to view detailed analysis</p>
-    </div>
-
-    <div class="farm-grid" id="farmGrid"></div>
-
-    <div class="legend">
-      <div class="legend-item">
-        <div class="legend-color" style="background: linear-gradient(135deg, #10b981, #34d399);"></div>
-        <span>Healthy</span>
+    <!-- Page Header -->
+    <div class="page-header-card">
+      <div>
+        <h1>Crop Scan Results</h1>
+        <p class="subtitle">Comprehensive analysis of your farm's health and conditions</p>
       </div>
-      <div class="legend-item">
-        <div class="legend-color" style="background: linear-gradient(135deg, #f59e0b, #fbbf24);"></div>
-        <span>Warning</span>
-      </div>
-      <div class="legend-item">
-        <div class="legend-color" style="background: linear-gradient(135deg, #ef4444, #f87171);"></div>
-        <span>Critical</span>
+      <div class="scan-meta">
+        <div class="label">Last Scan</div>
+        <div class="value">January 15, 2024</div>
       </div>
     </div>
-  </div>
 
-  <!-- Issues & Recommendations -->
-  <div class="issues-grid">
-    <!-- Issues -->
+    <!-- Summary Stats -->
+    <div class="metrics-grid" style="margin-bottom: 1.75rem; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+      <div class="stat-icon-card">
+        <div class="icon"><i class="fas fa-seedling" style="color: var(--success);"></i></div>
+        <div class="stat-label">Healthy Areas</div>
+        <div class="stat-value" style="color: var(--success);">75%</div>
+        <div class="stat-note">Optimal growth</div>
+      </div>
+
+      <div class="stat-icon-card">
+        <div class="icon"><i class="fas fa-exclamation-triangle" style="color: var(--warning);"></i></div>
+        <div class="stat-label">Need Attention</div>
+        <div class="stat-value" style="color: var(--warning);">20%</div>
+        <div class="stat-note">Minor issues</div>
+      </div>
+
+      <div class="stat-icon-card">
+        <div class="icon"><i class="fas fa-times-circle" style="color: var(--danger);"></i></div>
+        <div class="stat-label">Critical Issues</div>
+        <div class="stat-value" style="color: var(--danger);">5%</div>
+        <div class="stat-note">Urgent action</div>
+      </div>
+
+      <div class="stat-icon-card">
+        <div class="icon"><i class="fas fa-arrow-trend-up" style="color: var(--primary-600);"></i></div>
+        <div class="stat-label">Yield Prediction</div>
+        <div class="stat-value" style="color: var(--primary-600);">85%</div>
+        <div class="stat-note">Expected output</div>
+      </div>
+    </div>
+
+    <!-- Farm Grid -->
     <div class="content-card">
       <div class="card-header">
-        <h2 class="card-title">🔍 Issues Found</h2>
-        <p class="card-subtitle">Problems detected in your crops</p>
+        <h2 class="card-title">Farm Health Map</h2>
+        <p class="card-subtitle">Click on any block to view detailed analysis</p>
       </div>
 
-      <div style="display: flex; flex-direction: column; gap: 1rem;">
-        <div class="issue-item critical">
-          <div class="issue-header">
-            <span class="issue-title">Pest Infestation</span>
-            <span class="issue-badge critical">Critical</span>
-          </div>
-          <div class="issue-description">Aphid infestation detected in sections 3, 7, and 12</div>
-          <div class="issue-recommendation">
-            <i class="fas fa-lightbulb"></i> Apply neem oil spray immediately
-          </div>
+      <div class="farm-grid-container">
+        <div class="farm-grid" id="farmGrid" style="grid-template-columns: repeat(auto-fit, minmax(65px, 1fr));"></div>
+      </div>
+
+      <div class="legend">
+        <div class="legend-item">
+          <div class="legend-color" style="background: linear-gradient(135deg, #10b981, #34d399);"></div>
+          <span>Healthy</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background: linear-gradient(135deg, #f59e0b, #fbbf24);"></div>
+          <span>Warning</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background: linear-gradient(135deg, #ef4444, #f87171);"></div>
+          <span>Critical</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Issues & Recommendations -->
+    <div class="issues-grid">
+      <div class="content-card">
+        <div class="card-header">
+          <h2 class="card-title">Issues Found</h2>
+          <p class="card-subtitle">Problems detected in your crops</p>
         </div>
 
-        <div class="issue-item warning">
-          <div class="issue-header">
-            <span class="issue-title">Nitrogen Deficiency</span>
-            <span class="issue-badge warning">Warning</span>
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          <div class="issue-item critical">
+            <div class="issue-header">
+              <span class="issue-title">Pest Infestation</span>
+              <span class="issue-badge critical">Critical</span>
+            </div>
+            <div class="issue-description">Aphid infestation detected in sections 3, 7, and 12</div>
+            <div class="issue-recommendation">
+              <i class="fas fa-lightbulb" style="color: var(--primary-500);"></i> Apply neem oil spray immediately
+            </div>
           </div>
-          <div class="issue-description">Low nitrogen levels in northern sections</div>
-          <div class="issue-recommendation">
-            <i class="fas fa-lightbulb"></i> Apply urea fertilizer within 7 days
+
+          <div class="issue-item warning">
+            <div class="issue-header">
+              <span class="issue-title">Nitrogen Deficiency</span>
+              <span class="issue-badge warning">Warning</span>
+            </div>
+            <div class="issue-description">Low nitrogen levels in northern sections</div>
+            <div class="issue-recommendation">
+              <i class="fas fa-lightbulb" style="color: var(--primary-500);"></i> Apply urea fertilizer within 7 days
+            </div>
+          </div>
+
+          <div class="issue-item warning">
+            <div class="issue-header">
+              <span class="issue-title">Water Stress</span>
+              <span class="issue-badge warning">Warning</span>
+            </div>
+            <div class="issue-description">Irregular watering pattern detected</div>
+            <div class="issue-recommendation">
+              <i class="fas fa-lightbulb" style="color: var(--primary-500);"></i> Increase irrigation frequency
+            </div>
           </div>
         </div>
+      </div>
 
-        <div class="issue-item warning">
-          <div class="issue-header">
-            <span class="issue-title">Water Stress</span>
-            <span class="issue-badge warning">Warning</span>
+      <div class="content-card">
+        <div class="card-header">
+          <h2 class="card-title">Recommendations</h2>
+          <p class="card-subtitle">Action items for better crop health</p>
+        </div>
+
+        <div class="recommendations-list">
+          <div class="rec-section">
+            <h4><i class="fas fa-bolt" style="color: var(--danger);"></i> Immediate (1-3 days)</h4>
+            <ul>
+              <li>Apply neem oil spray to affected areas</li>
+              <li>Increase irrigation frequency by 20%</li>
+              <li>Monitor pest activity daily</li>
+            </ul>
           </div>
-          <div class="issue-description">Irregular watering pattern detected</div>
-          <div class="issue-recommendation">
-            <i class="fas fa-lightbulb"></i> Increase irrigation frequency
+
+          <div class="rec-section">
+            <h4><i class="fas fa-clipboard-list" style="color: var(--warning);"></i> Short-term (1-2 weeks)</h4>
+            <ul>
+              <li>Apply urea fertilizer to deficient areas</li>
+              <li>Schedule follow-up scan</li>
+              <li>Implement pest management</li>
+            </ul>
+          </div>
+
+          <div class="rec-section">
+            <h4><i class="fas fa-calendar-alt" style="color: var(--primary-600);"></i> Long-term (1-3 months)</h4>
+            <ul>
+              <li>Optimize irrigation system</li>
+              <li>Plan crop rotation strategy</li>
+              <li>Schedule regular monitoring</li>
+            </ul>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Recommendations -->
+    <!-- Historical Comparison -->
     <div class="content-card">
       <div class="card-header">
-        <h2 class="card-title">💡 Recommendations</h2>
-        <p class="card-subtitle">Action items for better crop health</p>
+        <h2 class="card-title">Scan Comparison</h2>
+        <p class="card-subtitle">Track improvements over time</p>
       </div>
 
-      <div class="recommendations-list">
-        <div class="recommendation-section">
-          <h4>⚡ Immediate (1-3 days)</h4>
-          <ul>
-            <li>Apply neem oil spray to affected areas</li>
-            <li>Increase irrigation frequency by 20%</li>
-            <li>Monitor pest activity daily</li>
-          </ul>
+      <div class="comparison-grid">
+        <div class="comparison-card">
+          <div class="comparison-label">Previous Scan</div>
+          <div class="comparison-main">Dec 15, 2023</div>
+          <div class="comparison-value">70%</div>
+          <div class="comparison-status"><i class="fas fa-leaf"></i> Healthy</div>
         </div>
 
-        <div class="recommendation-section">
-          <h4>📋 Short-term (1-2 weeks)</h4>
-          <ul>
-            <li>Apply urea fertilizer to deficient areas</li>
-            <li>Schedule follow-up scan</li>
-            <li>Implement pest management</li>
-          </ul>
+        <div class="comparison-card">
+          <div class="comparison-label">Current Scan</div>
+          <div class="comparison-main">Jan 15, 2024</div>
+          <div class="comparison-value">75%</div>
+          <div class="comparison-status"><i class="fas fa-leaf"></i> Healthy</div>
         </div>
 
-        <div class="recommendation-section">
-          <h4>📅 Long-term (1-3 months)</h4>
-          <ul>
-            <li>Optimize irrigation system</li>
-            <li>Plan crop rotation strategy</li>
-            <li>Schedule regular monitoring</li>
-          </ul>
+        <div class="comparison-card">
+          <div class="comparison-label">Improvement</div>
+          <div class="comparison-main">+5%</div>
+          <div class="comparison-value" style="color: var(--success);">+5%</div>
+          <div class="comparison-status"><i class="fas fa-arrow-up"></i> Positive</div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Historical Comparison -->
-  <div class="content-card">
-    <div class="card-header">
-      <h2 class="card-title">📈 Scan Comparison</h2>
-      <p class="card-subtitle">Track improvements over time</p>
-    </div>
-
-    <div class="comparison-grid">
-      <div class="comparison-card">
-        <div class="comparison-label">Previous Scan</div>
-        <div class="comparison-main">Dec 15, 2023</div>
-        <div class="comparison-value">70%</div>
-        <div class="comparison-status"><i class="fas fa-leaf"></i> Healthy</div>
-      </div>
-
-      <div class="comparison-card">
-        <div class="comparison-label">Current Scan</div>
-        <div class="comparison-main">Jan 15, 2024</div>
-        <div class="comparison-value">75%</div>
-        <div class="comparison-status"><i class="fas fa-leaf"></i> Healthy</div>
-      </div>
-
-      <div class="comparison-card">
-        <div class="comparison-label">Improvement</div>
-        <div class="comparison-main">+5%</div>
-        <div class="comparison-value">↗️</div>
-        <div class="comparison-status"><i class="fas fa-arrow-up"></i> Positive</div>
+    <!-- CTA -->
+    <div class="content-card" style="padding: 0; border: none; box-shadow: none;">
+      <div class="results-cta">
+        <h3>Ready to take action?</h3>
+        <p>Schedule a follow-up scan or get personalized recommendations</p>
+        <div class="action-buttons">
+          <a href="booking.html" class="btn btn-white btn-lg">
+            <i class="fas fa-calendar-check"></i> Schedule Follow-up
+          </a>
+          <button class="btn btn-ghost btn-lg" onclick="downloadReport()">
+            <i class="fas fa-download"></i> Download Report
+          </button>
+          <a href="dashboard.html" class="btn btn-ghost btn-lg">
+            <i class="fas fa-chart-pie"></i> Dashboard
+          </a>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Action Section -->
-  <div class="content-card">
-    <div class="action-section">
-      <h3>Ready to take action?</h3>
-      <p>Schedule a follow-up scan or get personalized recommendations</p>
-      <div class="action-buttons">
-        <a href="booking.html" class="btn btn-primary">
-          <i class="fas fa-calendar"></i> Schedule Follow-up
-        </a>
-        <button class="btn btn-secondary" onclick="downloadReport()">
-          <i class="fas fa-download"></i> Download Report
-        </button>
-        <a href="dashboard.html" class="btn btn-secondary">
-          <i class="fas fa-chart-pie"></i> Dashboard
-        </a>
-      </div>
-    </div>
   </div>
 </main>
 
 <!-- Footer -->
-<footer>
-  <p>&copy; 2024 CropPulse. Smart Crop Monitoring Technology.</p>
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">
+        <span class="brand-icon"><i class="fas fa-leaf"></i></span>
+        CropPulse
+      </div>
+      <p class="footer-desc">Precision agriculture platform empowering farmers with drone, rover, and AI technology.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <a href="index.html#features">Features</a>
+      <a href="index.html#demo">Demo</a>
+      <a href="booking.html">Book a Scan</a>
+    </div>
+    <div class="footer-col">
+      <h4>Platform</h4>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="login.html">Login</a>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <a href="#">Help Center</a>
+      <a href="#">Contact Us</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2024 CropPulse. All rights reserved.</span>
+    <span>Precision Agriculture for Everyone</span>
+  </div>
 </footer>
 
 <script>
-// Sample farm data
-const farmData = Array.from({ length: 36 }, (_, i) => {
-  const statuses = ['healthy', 'warning', 'critical'];
-  const status = statuses[Math.floor(Math.random() * statuses.length)];
-  return {
-    id: i + 1,
-    status: status,
-    details: `Block ${i + 1} - ${status.toUpperCase()}: Advanced analytics and recommendations`
-  };
-});
+// Mobile nav
+var hamburger = document.getElementById('navHamburger');
+var navLinks = document.getElementById('navLinks');
+var mobileOverlay = document.getElementById('mobileOverlay');
 
-// Initialize results
-function initializeResults() {
-  generateFarmGrid();
+function toggleNav() {
+  hamburger.classList.toggle('active');
+  navLinks.classList.toggle('open');
+  mobileOverlay.classList.toggle('show');
 }
 
-// Generate farm grid
-function generateFarmGrid() {
-  const gridContainer = document.getElementById('farmGrid');
+hamburger.addEventListener('click', toggleNav);
+mobileOverlay.addEventListener('click', toggleNav);
+navLinks.querySelectorAll('a').forEach(function(link) {
+  link.addEventListener('click', function() {
+    if (navLinks.classList.contains('open')) toggleNav();
+  });
+});
+
+// Navbar scroll
+window.addEventListener('scroll', function() {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 10);
+});
+
+// Farm grid
+var farmData = Array.from({ length: 36 }, function(_, i) {
+  var statuses = ['healthy', 'warning', 'critical'];
+  var status = statuses[Math.floor(Math.random() * statuses.length)];
+  return { id: i + 1, status: status };
+});
+
+function initializeResults() {
+  var gridContainer = document.getElementById('farmGrid');
   gridContainer.innerHTML = '';
 
-  farmData.forEach(block => {
-    const blockElement = document.createElement('div');
-    blockElement.className = `grid-block ${block.status}`;
-    blockElement.textContent = block.id;
-    blockElement.style.cursor = 'pointer';
-    blockElement.onclick = () => {
-      showBlockDetails(block);
+  farmData.forEach(function(block) {
+    var el = document.createElement('div');
+    el.className = 'grid-block ' + block.status;
+    el.textContent = block.id;
+    el.style.cursor = 'pointer';
+    el.onclick = function() {
+      alert('Section ' + block.id + '\nStatus: ' + block.status.toUpperCase());
     };
-
-    gridContainer.appendChild(blockElement);
+    gridContainer.appendChild(el);
   });
 }
 
-// Show block details
-function showBlockDetails(block) {
-  const statusEmojis = {
-    healthy: '✓',
-    warning: '⚠️',
-    critical: '🚨'
-  };
-
-  alert(`Section ${block.id}\nStatus: ${block.status.toUpperCase()}\n\n${block.details}`);
-}
-
-// Download report
 function downloadReport() {
-  const reportData = {
+  var reportData = {
     scanDate: new Date().toISOString(),
     farmHealth: '75% healthy',
     criticalIssues: 3,
     recommendations: ['Apply neem oil', 'Add urea fertilizer', 'Increase irrigation']
   };
-
-  const dataStr = 'data:application/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(reportData, null, 2));
-  const link = document.createElement('a');
+  var dataStr = 'data:application/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(reportData, null, 2));
+  var link = document.createElement('a');
   link.setAttribute('href', dataStr);
   link.setAttribute('download', 'crop-scan-report-' + new Date().toISOString().split('T')[0] + '.json');
   link.click();
 }
 
-// Initialize on load
 document.addEventListener('DOMContentLoaded', initializeResults);
 </script>
 

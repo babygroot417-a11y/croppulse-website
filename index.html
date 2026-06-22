@@ -5,605 +5,446 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CropPulse - Smart Crop Monitoring & Analysis</title>
   <meta name="description" content="Precision agriculture platform using drone & rover technology for crop monitoring and AI-driven insights">
-  
+
   <link rel="icon" type="image/x-icon" href="logo.ico">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
 
   <style>
-    :root {
-      /* Primary Colors */
-      --primary: #16a34a;
-      --primary-light: #22c55e;
-      --primary-dark: #15803d;
-      --secondary: #3b82f6;
-      --success: #10b981;
-      --warning: #f59e0b;
-      --danger: #ef4444;
-
-      /* Light Mode */
-      --background: #f8fafc;
-      --surface: #ffffff;
-      --text-primary: #1e293b;
-      --text-secondary: #64748b;
-      --border: #e2e8f0;
-      --shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
-      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-      
-      --radius: 8px;
-      --radius-lg: 12px;
-    }
-
-
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: var(--background);
-      color: var(--text-primary);
-      line-height: 1.6;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    /* Theme Transition */
-    * {
-      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-    }
-
-    /* Navbar */
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: var(--shadow);
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 1.25rem;
-      color: var(--text-primary);
-      transition: transform 0.2s;
-    }
-
-    .logo:hover {
-      transform: scale(1.05);
-    }
-
-    .logo img {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: var(--text-secondary);
-      font-weight: 500;
-      font-size: 0.95rem;
-      transition: color 0.2s;
-      padding: 0.5rem 1rem;
-      border-radius: var(--radius);
-    }
-
-    .nav-links a:hover {
-      color: var(--primary);
-      background: rgba(22, 163, 74, 0.1);
-    }
-
-    .nav-links a.active {
-      color: var(--primary);
-    }
-
-    /* Hero Section */
-    .hero {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%),
-        url('https://images.unsplash.com/photo-1500382017468-7049fae79128?w=1200&h=400&fit=crop') center/cover;
-      background-blend-mode: overlay;
-      padding: 5rem 2rem;
-      color: white;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: '';
+    /* --- Page-specific: Demo Grid Popup --- */
+    .demo-popup {
       position: absolute;
-      top: -50%;
-      right: -50%;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
-      background-size: 50px 50px;
-      animation: float 20s infinite linear;
-    }
-
-    @keyframes float {
-      0% { transform: translate(0, 0); }
-      100% { transform: translate(50px, 50px); }
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 1;
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    .hero h1 {
-      font-size: 3.5rem;
-      font-weight: 800;
-      margin-bottom: 1rem;
-      line-height: 1.1;
-    }
-
-    .hero p {
-      font-size: 1.25rem;
-      margin-bottom: 2rem;
-      opacity: 0.95;
-      font-weight: 300;
-    }
-
-    .hero-buttons {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      padding: 0.875rem 1.75rem;
-      border: none;
-      border-radius: var(--radius-lg);
-      font-weight: 600;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.2s;
-      text-decoration: none;
-      white-space: nowrap;
-    }
-
-    .btn-primary {
-      background: white;
-      color: var(--primary);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-    }
-
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
-      border: 2px solid white;
-    }
-
-    .btn-secondary:hover {
-      background: white;
-      color: var(--primary);
-    }
-
-    /* Demo Grid */
-    .demo-section {
-      padding: 3rem 2rem;
-      margin: 3rem 0;
-    }
-
-    .demo-header {
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-
-    .demo-header h2 {
-      font-size: 2.25rem;
-      margin-bottom: 0.5rem;
-      color: var(--text-primary);
-    }
-
-    .demo-header p {
-      color: var(--text-secondary);
-      font-size: 1rem;
-    }
-
-    .farm-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
-      gap: 0.75rem;
-      max-width: 800px;
-      margin: 0 auto 2rem;
-      padding: 2rem;
+      top: 1rem;
+      right: 1rem;
       background: var(--surface);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow);
-    }
-
-    .grid-block {
-      aspect-ratio: 1;
-      border-radius: var(--radius);
-      cursor: pointer;
-      transition: all 0.2s;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .grid-block:hover {
-      transform: scale(1.1);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .grid-block.healthy {
-      background: linear-gradient(135deg, var(--success), #34d399);
-    }
-
-    .grid-block.warning {
-      background: linear-gradient(135deg, var(--warning), #fbbf24);
-    }
-
-    .grid-block.critical {
-      background: linear-gradient(135deg, var(--danger), #f87171);
-    }
-
-    .popup-details {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: var(--surface);
-      padding: 1.5rem;
+      padding: 1.25rem 1.5rem;
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow-lg);
-      min-width: 280px;
+      min-width: 260px;
       display: none;
       z-index: 50;
       border: 1px solid var(--border);
     }
 
-    .popup-details.show {
+    .demo-popup.show {
       display: block;
-      animation: slideIn 0.2s ease-out;
+      animation: popIn .2s var(--ease);
     }
 
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    @keyframes popIn {
+      from { opacity: 0; transform: translateY(-6px) scale(.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
     }
 
-    .popup-details h3 {
-      color: var(--text-primary);
-      margin-bottom: 1rem;
+    .demo-popup h4 {
+      font-size: 1rem;
+      margin-bottom: .75rem;
+      color: var(--text);
     }
 
-    .popup-item {
+    .demo-popup-row {
+      display: flex;
+      justify-content: space-between;
+      padding: .4rem 0;
+      font-size: .875rem;
+      color: var(--text-muted);
+    }
+
+    .demo-popup-row strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* How It Works */
+    .how-it-works-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 2rem;
+      counter-reset: step;
+    }
+
+    .step-card {
+      position: relative;
+      text-align: center;
+      padding: 2rem 1.5rem 1.5rem;
+    }
+
+    .step-number {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-full);
+      background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+      color: white;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 0.75rem;
-      font-size: 0.9rem;
-      color: var(--text-secondary);
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.2rem;
+      font-family: var(--font-display);
+      margin: 0 auto 1.25rem;
+      box-shadow: 0 4px 12px rgba(22,163,74,.25);
     }
 
-    .popup-item strong {
-      color: var(--text-primary);
+    .step-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: .5rem;
     }
 
-    /* Features Section */
-    .features {
+    .step-card p {
+      color: var(--text-muted);
+      font-size: .9rem;
+      line-height: 1.6;
+    }
+
+    /* CTA Banner */
+    .cta-section {
+      background: linear-gradient(135deg, var(--primary-700) 0%, var(--primary-500) 100%);
+      border-radius: var(--radius-xl);
       padding: 4rem 2rem;
-      background: linear-gradient(180deg, var(--background) 0%, var(--surface) 100%),
-        url('https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=1200&h=600&fit=crop') center/cover;
-      background-attachment: fixed;
-      background-blend-mode: overlay;
+      color: white;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 30% 50%, rgba(255,255,255,.08) 0%, transparent 50%),
+        radial-gradient(circle at 70% 30%, rgba(255,255,255,.05) 0%, transparent 40%);
+      pointer-events: none;
+    }
+
+    .cta-section h2 {
+      font-size: 2.25rem;
+      color: white;
+      margin-bottom: .75rem;
       position: relative;
     }
 
-    html.dark-mode .features {
-      background: linear-gradient(180deg, var(--background) 0%, var(--surface) 100%),
-        url('https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=1200&h=600&fit=crop') center/cover;
-      background-attachment: fixed;
-      background-blend-mode: darken;
+    .cta-section p {
+      color: rgba(255,255,255,.85);
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+      position: relative;
     }
 
-    .features-container {
-      max-width: 1200px;
+    .cta-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+    }
+
+    /* Demo grid wrapper */
+    .demo-grid-wrapper {
+      position: relative;
+      max-width: 720px;
       margin: 0 auto;
     }
 
-    .features-header {
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-
-    .features-header h2 {
-      font-size: 2.25rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .features-header p {
-      color: var(--text-secondary);
-      font-size: 1rem;
-    }
-
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-    }
-
-    .feature-card {
-      background: var(--surface);
-      padding: 2rem;
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow);
-      transition: all 0.3s;
-      border: 1px solid var(--border);
-    }
-
-    .feature-card:hover {
-      transform: translateY(-8px);
-      box-shadow: var(--shadow-lg);
-      border-color: var(--primary);
-    }
-
-    .feature-icon {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .feature-card h3 {
-      color: var(--text-primary);
-      margin-bottom: 0.5rem;
-      font-size: 1.25rem;
-    }
-
-    .feature-card p {
-      color: var(--text-secondary);
-      font-size: 0.95rem;
-    }
-
-    /* Footer */
-    footer {
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-      padding: 2rem;
-      text-align: center;
-      color: var(--text-secondary);
-      font-size: 0.9rem;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      nav {
-        padding: 1rem;
-      }
-
-      .nav-links {
-        gap: 1rem;
-      }
-
-      .nav-links a {
-        font-size: 0.85rem;
-        padding: 0.375rem 0.75rem;
-      }
-
-      .hero {
-        padding: 3rem 1rem;
-      }
-
-      .hero h1 {
-        font-size: 2rem;
-      }
-
-      .hero p {
-        font-size: 1rem;
-      }
-
-      .hero-buttons {
-        gap: 0.75rem;
-      }
-
-      .btn {
-        padding: 0.75rem 1.5rem;
-        font-size: 0.9rem;
-      }
-
-      .demo-header h2 {
-        font-size: 1.5rem;
-      }
-
-      .features {
-        padding: 2rem 1rem;
-      }
-
-      .features-header h2 {
-        font-size: 1.5rem;
-      }
-
-      .features-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .hero h1 {
-        font-size: 1.75rem;
-      }
-
-      .hero-buttons {
-        flex-direction: column;
-      }
-
-      .btn {
-        width: 100%;
-      }
-
-      .nav-links {
-        gap: 0.5rem;
-      }
-
-      .nav-links a {
-        font-size: 0.75rem;
-        padding: 0.25rem 0.5rem;
-      }
+    .demo-grid-wrapper .farm-grid {
+      grid-template-columns: repeat(auto-fit, minmax(55px, 1fr));
+      gap: .6rem;
     }
   </style>
 </head>
 
 <body>
 
+<!-- Mobile Nav Overlay -->
+<div class="mobile-overlay" id="mobileOverlay"></div>
+
 <!-- Navbar -->
-<nav>
-  <a href="#" class="logo">
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="nav-brand">
     <img src="logo.png" alt="CropPulse">
     <span>CropPulse</span>
   </a>
-  <div class="nav-links">
-    <a href="#home">Home</a>
-    <a href="#demo">Demo</a>
-    <a href="#features">Features</a>
-    <a href="login.html">Login</a>
+
+  <div class="nav-links" id="navLinks">
+    <a href="#home" class="active"><i class="fas fa-home"></i> Home</a>
+    <a href="#demo"><i class="fas fa-th"></i> Demo</a>
+    <a href="#features"><i class="fas fa-bolt"></i> Features</a>
+    <a href="#how-it-works"><i class="fas fa-route"></i> How It Works</a>
+    <a href="login.html" class="nav-cta"><i class="fas fa-arrow-right"></i> Get Started</a>
   </div>
+
+  <button class="nav-hamburger" id="navHamburger" aria-label="Toggle navigation">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <!-- Hero Section -->
-<section class="hero">
-  <div class="hero-content">
-    <h1>Smart Crop Monitoring</h1>
-    <p>Precision agriculture powered by drone & rover technology with AI-driven insights</p>
-    <div class="hero-buttons">
-      <button class="btn btn-primary" onclick="runDemo()">Try Demo Scan</button>
-      <a href="login.html" class="btn btn-secondary">Get Started</a>
-      <a href="booking.html" class="btn btn-secondary">Book Scan</a>
+<section class="hero" id="home">
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <i class="fas fa-satellite-dish"></i> Precision Agriculture Platform
+    </div>
+    <h1>Smart Crop<br><span class="gradient-text">Monitoring & Analysis</span></h1>
+    <p class="hero-subtitle">
+      Harness drone & rover technology with AI-driven insights to monitor crop health, detect issues early, and maximize your yield.
+    </p>
+    <div class="hero-actions">
+      <button class="btn btn-white btn-lg" onclick="scrollToDemo()">
+        <i class="fas fa-play"></i> Try Live Demo
+      </button>
+      <a href="login.html" class="btn btn-ghost btn-lg">
+        <i class="fas fa-arrow-right"></i> Get Started Free
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="hero-stat-value">10K+</span>
+        <span class="hero-stat-label">Acres Monitored</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-value">95%</span>
+        <span class="hero-stat-label">Detection Accuracy</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-value">500+</span>
+        <span class="hero-stat-label">Farms Active</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-value">24/7</span>
+        <span class="hero-stat-label">Real-time Monitoring</span>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- Demo Section -->
-<section class="demo-section" id="demo">
-  <div class="demo-header">
-    <h2>Farm Health Visualization</h2>
-    <p>Interactive grid showing crop health status across your farm</p>
-  </div>
+<section class="section" id="demo">
+  <div class="container">
+    <div class="text-center" style="margin-bottom: 3rem;">
+      <span class="section-badge"><i class="fas fa-microscope"></i> Interactive Demo</span>
+      <h2 class="section-title">Farm Health Visualization</h2>
+      <p class="section-subtitle">Hover over any block to view real-time crop health data across your farm</p>
+    </div>
 
-  <div class="farm-grid" id="grid"></div>
+    <div class="demo-grid-wrapper">
+      <div class="farm-grid-container">
+        <div class="farm-grid" id="grid"></div>
+      </div>
+      <div class="demo-popup" id="popup">
+        <h4 id="popupStatus">Block Details</h4>
+        <div id="popupContent"></div>
+      </div>
+    </div>
 
-  <div class="popup-details" id="popup">
-    <h3 id="popupStatus">Block Details</h3>
-    <div id="popupContent"></div>
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-color" style="background: linear-gradient(135deg, #10b981, #34d399);"></div>
+        <span>Healthy</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background: linear-gradient(135deg, #f59e0b, #fbbf24);"></div>
+        <span>Warning</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background: linear-gradient(135deg, #ef4444, #f87171);"></div>
+        <span>Critical</span>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 1.5rem;">
+      <button class="btn btn-secondary" onclick="runDemo()">
+        <i class="fas fa-sync-alt"></i> Regenerate Data
+      </button>
+    </div>
   </div>
 </section>
 
 <!-- Features Section -->
-<section class="features" id="features">
-  <div class="features-container">
-    <div class="features-header">
-      <h2>Powerful Features</h2>
-      <p>Everything you need for modern precision agriculture</p>
+<section class="section" id="features" style="background: var(--surface-alt);">
+  <div class="container">
+    <div class="text-center" style="margin-bottom: 3rem;">
+      <span class="section-badge"><i class="fas fa-star"></i> Core Features</span>
+      <h2 class="section-title">Everything You Need for<br>Modern Agriculture</h2>
+      <p class="section-subtitle">Comprehensive tools to help you grow smarter, save resources, and increase yield</p>
     </div>
 
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">🚁</div>
+    <div class="features-grid stagger-children">
+      <div class="feature-card animate-on-scroll">
+        <div class="feature-icon-wrap"><i class="fas fa-helicopter" style="color: var(--primary-600);"></i></div>
         <h3>Drone Scanning</h3>
-        <p>NDVI analysis and thermal imaging for comprehensive crop health assessment</p>
+        <p>NDVI analysis and thermal imaging for comprehensive crop health assessment from above</p>
       </div>
 
-      <div class="feature-card">
-        <div class="feature-icon">🤖</div>
+      <div class="feature-card animate-on-scroll">
+        <div class="feature-icon-wrap"><i class="fas fa-brain" style="color: var(--primary-600);"></i></div>
         <h3>AI-Powered Insights</h3>
-        <p>Machine learning recommendations for optimal crop management</p>
+        <p>Machine learning models analyze your data and deliver actionable recommendations</p>
       </div>
 
-      <div class="feature-card">
-        <div class="feature-icon">🚜</div>
+      <div class="feature-card animate-on-scroll">
+        <div class="feature-icon-wrap"><i class="fas fa-robot" style="color: var(--primary-600);"></i></div>
         <h3>Ground Monitoring</h3>
-        <p>Rover-based soil analysis and real-time environmental data collection</p>
+        <p>Rover-based soil analysis with real-time environmental data collection at ground level</p>
       </div>
 
-      <div class="feature-card">
-        <div class="feature-icon">☁️</div>
+      <div class="feature-card animate-on-scroll">
+        <div class="feature-icon-wrap"><i class="fas fa-cloud" style="color: var(--primary-600);"></i></div>
         <h3>Cloud Platform</h3>
-        <p>Real-time insights and historical analytics accessible anywhere</p>
+        <p>Access real-time insights, historical analytics, and reports from anywhere on any device</p>
       </div>
 
-      <div class="feature-card">
-        <div class="feature-icon">📊</div>
+      <div class="feature-card animate-on-scroll">
+        <div class="feature-icon-wrap"><i class="fas fa-chart-line" style="color: var(--primary-600);"></i></div>
         <h3>Advanced Analytics</h3>
-        <p>Detailed reports and predictive analytics for better decision making</p>
+        <p>Detailed reports with predictive analytics to help you make data-driven decisions</p>
       </div>
 
-      <div class="feature-card">
-        <div class="feature-icon">🔔</div>
+      <div class="feature-card animate-on-scroll">
+        <div class="feature-icon-wrap"><i class="fas fa-bell" style="color: var(--primary-600);"></i></div>
         <h3>Smart Alerts</h3>
-        <p>Instant notifications for critical issues requiring immediate action</p>
+        <p>Instant push notifications for critical issues requiring your immediate attention</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works -->
+<section class="section" id="how-it-works">
+  <div class="container">
+    <div class="text-center" style="margin-bottom: 3rem;">
+      <span class="section-badge"><i class="fas fa-cog"></i> How It Works</span>
+      <h2 class="section-title">Get Started in 4 Simple Steps</h2>
+      <p class="section-subtitle">From booking to actionable insights in under 48 hours</p>
+    </div>
+
+    <div class="how-it-works-grid stagger-children">
+      <div class="step-card card animate-on-scroll">
+        <div class="step-number">1</div>
+        <h3>Book a Scan</h3>
+        <p>Schedule a drone or rover scan for your farmland through our simple booking system</p>
+      </div>
+
+      <div class="step-card card animate-on-scroll">
+        <div class="step-number">2</div>
+        <h3>We Scan Your Farm</h3>
+        <p>Our drones and rovers capture NDVI, thermal, and soil data across your entire farm</p>
+      </div>
+
+      <div class="step-card card animate-on-scroll">
+        <div class="step-number">3</div>
+        <h3>AI Analyzes Data</h3>
+        <p>Advanced AI processes your data to identify issues, predict trends, and generate insights</p>
+      </div>
+
+      <div class="step-card card animate-on-scroll">
+        <div class="step-number">4</div>
+        <h3>Get Recommendations</h3>
+        <p>Receive a detailed report with actionable steps to improve crop health and yield</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="section">
+  <div class="container">
+    <div class="cta-section">
+      <h2>Ready to Grow Smarter?</h2>
+      <p>Join hundreds of farmers using CropPulse to monitor crop health and boost yields</p>
+      <div class="cta-actions">
+        <a href="booking.html" class="btn btn-white btn-lg">
+          <i class="fas fa-calendar-check"></i> Book Your First Scan
+        </a>
+        <a href="login.html" class="btn btn-ghost btn-lg">
+          <i class="fas fa-user-plus"></i> Create Account
+        </a>
       </div>
     </div>
   </div>
 </section>
 
 <!-- Footer -->
-<footer>
-  <p>&copy; 2024 CropPulse. All rights reserved. | Precision Agriculture for Everyone</p>
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">
+        <span class="brand-icon"><i class="fas fa-leaf"></i></span>
+        CropPulse
+      </div>
+      <p class="footer-desc">
+        Precision agriculture platform empowering farmers with drone, rover, and AI technology to make smarter decisions and maximize yield.
+      </p>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <a href="#features">Features</a>
+      <a href="#demo">Demo</a>
+      <a href="booking.html">Book a Scan</a>
+      <a href="results.html">Results</a>
+    </div>
+    <div class="footer-col">
+      <h4>Platform</h4>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="login.html">Login</a>
+      <a href="#how-it-works">How It Works</a>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <a href="#">Help Center</a>
+      <a href="#">Contact Us</a>
+      <a href="#">Privacy Policy</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2024 CropPulse. All rights reserved.</span>
+    <span>Precision Agriculture for Everyone</span>
+  </div>
 </footer>
 
 <script>
-// Load on page load
-function initTheme() {
-  runDemo();
+// --- Mobile Nav ---
+const hamburger = document.getElementById('navHamburger');
+const navLinks = document.getElementById('navLinks');
+const mobileOverlay = document.getElementById('mobileOverlay');
+
+function toggleNav() {
+  hamburger.classList.toggle('active');
+  navLinks.classList.toggle('open');
+  mobileOverlay.classList.toggle('show');
 }
 
-function runDemo() {
-  const grid = document.getElementById("grid");
-  const popup = document.getElementById("popup");
-  const popupContent = document.getElementById("popupContent");
-  const popupStatus = document.getElementById("popupStatus");
+hamburger.addEventListener('click', toggleNav);
+mobileOverlay.addEventListener('click', toggleNav);
 
-  grid.innerHTML = "";
+navLinks.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    if (navLinks.classList.contains('open')) toggleNav();
+  });
+});
+
+// --- Navbar scroll effect ---
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 10);
+});
+
+// --- Demo Grid ---
+function runDemo() {
+  const grid = document.getElementById('grid');
+  const popup = document.getElementById('popup');
+  const popupContent = document.getElementById('popupContent');
+  const popupStatus = document.getElementById('popupStatus');
+
+  grid.innerHTML = '';
 
   for (let i = 0; i < 36; i++) {
-    let block = document.createElement("div");
-    block.classList.add("grid-block");
+    const block = document.createElement('div');
+    block.classList.add('grid-block');
 
-    let rand = Math.random();
-    let status = "";
-    let statusClass = "";
-
+    const rand = Math.random();
+    let status, statusClass;
     const data = {
       pH: (5 + Math.random() * 3).toFixed(1),
       moisture: Math.floor(Math.random() * 100),
@@ -611,43 +452,46 @@ function runDemo() {
       temperature: (20 + Math.random() * 15).toFixed(1)
     };
 
-    if (rand > 0.65) {
-      status = "Healthy";
-      statusClass = "healthy";
-    } else if (rand > 0.35) {
-      status = "Warning";
-      statusClass = "warning";
-    } else {
-      status = "Critical";
-      statusClass = "critical";
-    }
+    if (rand > 0.65) { status = 'Healthy'; statusClass = 'healthy'; }
+    else if (rand > 0.35) { status = 'Warning'; statusClass = 'warning'; }
+    else { status = 'Critical'; statusClass = 'critical'; }
 
     block.classList.add(statusClass);
-    block.dataset.status = status;
-    block.dataset.index = i + 1;
+    block.textContent = '#' + (i + 1);
 
     block.onmouseover = () => {
-      popup.classList.add("show");
-      popupStatus.textContent = `Block ${i + 1} - ${status}`;
-      popupContent.innerHTML = `
-        <div class="popup-item"><strong>Status:</strong> ${status}</div>
-        <div class="popup-item"><strong>pH:</strong> ${data.pH}</div>
-        <div class="popup-item"><strong>Moisture:</strong> ${data.moisture}%</div>
-        <div class="popup-item"><strong>Pest Risk:</strong> ${data.pests}%</div>
-        <div class="popup-item"><strong>Temp:</strong> ${data.temperature}°C</div>
-      `;
+      popup.classList.add('show');
+      popupStatus.textContent = 'Block ' + (i + 1) + ' \u2014 ' + status;
+      popupContent.innerHTML =
+        '<div class="demo-popup-row"><span>Status</span><strong>' + status + '</strong></div>' +
+        '<div class="demo-popup-row"><span>pH Level</span><strong>' + data.pH + '</strong></div>' +
+        '<div class="demo-popup-row"><span>Moisture</span><strong>' + data.moisture + '%</strong></div>' +
+        '<div class="demo-popup-row"><span>Pest Risk</span><strong>' + data.pests + '%</strong></div>' +
+        '<div class="demo-popup-row"><span>Temperature</span><strong>' + data.temperature + '\u00B0C</strong></div>';
     };
 
-    block.onmouseout = () => {
-      popup.classList.remove("show");
-    };
-
+    block.onmouseout = () => { popup.classList.remove('show'); };
     grid.appendChild(block);
   }
 }
 
-// Auto-run demo on page load
-window.addEventListener('DOMContentLoaded', initTheme);
+function scrollToDemo() {
+  document.getElementById('demo').scrollIntoView({ behavior: 'smooth' });
+}
+
+// --- Scroll animations ---
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+
+// --- Init ---
+window.addEventListener('DOMContentLoaded', runDemo);
 </script>
 
 </body>
