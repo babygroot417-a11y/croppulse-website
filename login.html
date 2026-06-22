@@ -535,7 +535,8 @@
     }
 
     if (otp === '1234') {
-      showAlert('✓ Login successful! Redirecting...', 'success');
+      sessionStorage.setItem('croppulse_authenticated', 'true');
+      showAlert('Login successful! Redirecting...', 'success');
       setTimeout(() => {
         window.location.href = 'dashboard.html';
       }, 1500);

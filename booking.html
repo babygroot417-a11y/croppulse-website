@@ -500,6 +500,11 @@
 </head>
 
 <body>
+<script>
+  if (sessionStorage.getItem('croppulse_authenticated') !== 'true') {
+    window.location.replace('login.html');
+  }
+</script>
 
 <!-- Navbar -->
 <nav>
@@ -653,7 +658,7 @@ document.getElementById('bookingForm').addEventListener('submit', function(e) {
 
   const alertBox = document.getElementById('alertMessage');
   alertBox.className = 'alert alert-success';
-  alertBox.innerHTML = '<i class="fas fa-check-circle"></i> Booking confirmed! You will receive a confirmation email shortly.';
+  alertBox.textContent = 'Booking confirmed! You will receive a confirmation email shortly.';
   alertBox.style.display = 'block';
 
   // Reset form

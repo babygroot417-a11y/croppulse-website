@@ -671,6 +671,11 @@
 </head>
 
 <body>
+<script>
+  if (sessionStorage.getItem('croppulse_authenticated') !== 'true') {
+    window.location.replace('login.html');
+  }
+</script>
 
 <!-- Navbar -->
 <nav>

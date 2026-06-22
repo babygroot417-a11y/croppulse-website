@@ -629,13 +629,23 @@ function runDemo() {
     block.onmouseover = () => {
       popup.classList.add("show");
       popupStatus.textContent = `Block ${i + 1} - ${status}`;
-      popupContent.innerHTML = `
-        <div class="popup-item"><strong>Status:</strong> ${status}</div>
-        <div class="popup-item"><strong>pH:</strong> ${data.pH}</div>
-        <div class="popup-item"><strong>Moisture:</strong> ${data.moisture}%</div>
-        <div class="popup-item"><strong>Pest Risk:</strong> ${data.pests}%</div>
-        <div class="popup-item"><strong>Temp:</strong> ${data.temperature}°C</div>
-      `;
+      popupContent.textContent = '';
+      var fields = [
+        ['Status', status],
+        ['pH', data.pH],
+        ['Moisture', data.moisture + '%'],
+        ['Pest Risk', data.pests + '%'],
+        ['Temp', data.temperature + '\u00B0C']
+      ];
+      fields.forEach(function(f) {
+        var row = document.createElement('div');
+        row.className = 'popup-item';
+        var label = document.createElement('strong');
+        label.textContent = f[0] + ': ';
+        row.appendChild(label);
+        row.appendChild(document.createTextNode(f[1]));
+        popupContent.appendChild(row);
+      });
     };
 
     block.onmouseout = () => {
