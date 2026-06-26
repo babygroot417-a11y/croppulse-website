@@ -1,5 +1,20 @@
 {
+  "name": "croppulse",
+  "version": "1.0.0",
+  "description": "CropPulse - Smart Crop Monitoring & Analysis",
+  "scripts": {
+    "build:web": "mkdir -p www && cp index.html login.html booking.html dashboard.html results.html style.css script.js sw.js logo.ico logo.png www/ && cp -r assets www/",
+    "cap:sync": "npx cap sync android",
+    "build:android": "npm run build:web && npm run cap:sync && cd android && ./gradlew assembleDebug",
+    "build:android:release": "npm run build:web && npm run cap:sync && cd android && ./gradlew assembleRelease"
+  },
   "dependencies": {
+    "@capacitor/android": "^8.4.1",
+    "@capacitor/cli": "^8.4.1",
+    "@capacitor/core": "^8.4.1",
     "firebase": "^12.3.0"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3"
   }
 }
