@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">CropPulse</string>
+    <string name="title_activity_main">CropPulse</string>
+    <string name="package_name">com.croppulse.app</string>
+    <string name="custom_url_scheme">com.croppulse.app</string>
+</resources>
