@@ -1,5 +1,16 @@
 {
+  "name": "croppulse-website",
+  "version": "1.0.0",
+  "description": "CropPulse - Smart Farming Dashboard",
+  "scripts": {
+    "test": "jest --coverage",
+    "test:watch": "jest --watch"
+  },
   "dependencies": {
     "firebase": "^12.3.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
   }
 }
