@@ -44,5 +44,7 @@
 </section>
 <section class="feature-strip" id="features"><article><div class="feature-icon"><i data-lucide="plane"></i></div><div><b>Drone intelligence</b><p>Aerial RGB mapping identifies crop stress patterns across the field.</p></div></article><article><div class="feature-icon"><i data-lucide="bot"></i></div><div><b>Targeted rover sensing</b><p>Ground readings focus attention where aerial analysis finds anomalies.</p></div></article><article><div class="feature-icon"><i data-lucide="chart-no-axes-combined"></i></div><div><b>Actionable analytics</b><p>Zone-level health, moisture, pH and risk signals in one view.</p></div></article><article><div class="feature-icon"><i data-lucide="leaf"></i></div><div><b>Farmer-first workflow</b><p>From scan to recommendation without overwhelming dashboards.</p></div></article></section>
 </main>
-<script src="script.js"></script><script>lucide.createIcons();</script>
+<script>
+(function(){const h=document.querySelector('.page-head h1');if(!h)return;const parts=new Intl.DateTimeFormat('en-IN',{hour:'numeric',hour12:false,timeZone:'Asia/Kolkata'}).formatToParts(new Date());const hour=Number(parts.find(p=>p.type==='hour').value);const greeting=hour>=5&&hour<12?'Good morning, farmer.':hour>=12&&hour<17?'Good afternoon, farmer.':'Good evening, farmer.';h.textContent=greeting;})();
+</script><script src="script.js"></script><script>lucide.createIcons();</script>
 </body></html>

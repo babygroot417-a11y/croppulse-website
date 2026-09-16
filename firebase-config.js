@@ -1,10 +1,10 @@
-// Paste the Web App configuration from Firebase Console here.
-// This file contains identifiers used by Firebase; do not put private server keys here.
+// CropPulse Firebase Web App configuration
 window.CROPULSE_FIREBASE_CONFIG = {
-  apiKey: "REPLACE_ME",
-  authDomain: "REPLACE_ME.firebaseapp.com",
-  projectId: "REPLACE_ME",
-  storageBucket: "REPLACE_ME.firebasestorage.app",
-  messagingSenderId: "REPLACE_ME",
-  appId: "REPLACE_ME"
+  apiKey: "AIzaSyCQ7q-b-uX4rNv8pOYOeu3mOa__jtGvo3M",
+  authDomain: "croppulse-0316.firebaseapp.com",
+  projectId: "croppulse-0316",
+  storageBucket: "croppulse-0316.firebasestorage.app",
+  messagingSenderId: "139230612217",
+  appId: "1:139230612217:web:c5887c9c02de587ba47028",
+  measurementId: "G-7EFC8C7SY2"
 };
