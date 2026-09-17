@@ -1,0 +1,13 @@
+/* CropPulse — dark-only visual layer */
+:root{color-scheme:dark}
+html,body{background:#050806!important;color:#eef7ef!important}
+body:before{opacity:.85}
+.feature-light{background:linear-gradient(145deg,#101a13 0%,#0a100c 100%)!important;color:#eef7ef!important;border-color:rgba(160,205,169,.14)!important}
+.feature-light .feature-icon{color:var(--green)!important}
+.feature-light p{color:#8e9e92!important}
+.feature-light .feature-index{color:#7e9284!important}
+.feature-card{background-clip:padding-box}
+.section-space{background:transparent}
+.split-section,.metrics,.intro,.feature-intro{position:relative}
+.site-footer{background:#040705!important;border-top:1px solid rgba(160,205,169,.14)!important;color:#8e9e92}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.001ms!important}}
