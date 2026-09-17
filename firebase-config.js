@@ -1,7 +1,7 @@
 // CropPulse Firebase Web App configuration
 window.CROPULSE_FIREBASE_CONFIG = {
   apiKey: "AIzaSyCQ7q-b-uX4rNv8pOYOeu3mOa__jtGvo3M",
-  authDomain: "croppulse-0316.firebaseapp.com",
+  authDomain: "thecroppulse.in",
   projectId: "croppulse-0316",
   storageBucket: "croppulse-0316.firebasestorage.app",
   messagingSenderId: "139230612217",
