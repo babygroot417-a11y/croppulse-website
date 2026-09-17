@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CropPulse — Precision Agriculture Intelligence</title>
+  <meta name="description" content="CropPulse combines drone intelligence and targeted rover sensing to turn field data into actionable crop insights.">
+  <link rel="icon" href="assets/logo.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="features-animations.css">
+</head>
+<body>
+  <div class="progress" aria-hidden="true"><span id="scrollProgress"></span></div>
+
+  <header class="site-nav" id="siteNav">
+    <a class="brand" href="features.html">
+      <img src="assets/logo.png" alt="CropPulse">
+      <span>Crop<span>Pulse</span></span>
+    </a>
+    <nav>
+      <a href="#platform">Platform</a>
+      <a href="#workflow">How it works</a>
+      <a href="#features">Features</a>
+      <a href="#impact">Impact</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="nav-login" href="login.html">Log in</a>
+      <a class="nav-cta" href="signup.html">Get started <span>↗</span></a>
+    </div>
+    <button class="nav-menu" id="navMenu" aria-label="Open menu">☰</button>
+  </header>
+
+  <main>
+    <section class="hero" id="platform">
+      <div class="hero-orb orb-one"></div>
+      <div class="hero-orb orb-two"></div>
+      <div class="hero-grid"></div>
+      <div class="hero-copy reveal">
+        <p class="eyebrow"><span class="pulse-dot"></span> Precision agriculture intelligence</p>
+        <h1>See the field.<br><em>Know what to do.</em></h1>
+        <p class="hero-text">CropPulse combines aerial crop intelligence with targeted ground sensing to turn field anomalies into clear, actionable decisions.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="signup.html">Start monitoring <span>→</span></a>
+          <a class="button ghost" href="#workflow">Explore the platform <span>↓</span></a>
+        </div>
+        <div class="hero-proof">
+          <div><strong data-count="36">0</strong><span>field zones</span></div>
+          <div><strong data-count="74" data-suffix="%">0</strong><span>healthy area</span></div>
+          <div><strong data-count="2">0</strong><span>sensor layers</span></div>
+        </div>
+      </div>
+
+      <div class="hero-visual reveal reveal-delay-2" data-parallax="0.16">
+        <div class="scan-ring ring-a"></div><div class="scan-ring ring-b"></div>
+        <div class="drone-orbit"><span class="drone-dot">✦</span></div>
+        <div class="field-card">
+          <div class="field-card-top"><span>LIVE FIELD SCAN</span><b><i></i> ONLINE</b></div>
+          <div class="mini-field">
+            <span class="zone z1"></span><span class="zone z2"></span><span class="zone z3"></span><span class="zone z4"></span><span class="zone z5"></span><span class="zone z6"></span>
+            <div class="scan-line"></div>
+          </div>
+          <div class="field-card-bottom"><span>Zone C04</span><strong>18% pest risk</strong></div>
+        </div>
+        <div class="floating-card float-top"><span class="float-icon">◌</span><div><b>Drone mapped</b><small>2.4 ha · 14:32</small></div></div>
+        <div class="floating-card float-bottom"><span class="float-icon rover">⌁</span><div><b>Rover verified</b><small>Moisture 24% · pH 6.4</small></div></div>
+      </div>
+    </section>
+
+    <section class="ticker" aria-label="CropPulse capabilities">
+      <div class="ticker-track">
+        <span>DRONE INTELLIGENCE</span><i>✦</i><span>TARGETED ROVER SENSING</span><i>✦</i><span>ZONE-LEVEL ANALYTICS</span><i>✦</i><span>ACTIONABLE INSIGHTS</span><i>✦</i><span>DRONE INTELLIGENCE</span><i>✦</i><span>TARGETED ROVER SENSING</span><i>✦</i>
+      </div>
+    </section>
+
+    <section class="intro section-space reveal" id="workflow">
+      <div class="section-label">01 — HOW IT WORKS</div>
+      <div class="intro-grid">
+        <h2>From the sky to the soil — <em>one connected workflow.</em></h2>
+        <p>CropPulse starts broad with aerial scanning, narrows down the zones that need attention, then sends the rover where ground truth matters. The result is a focused field intelligence loop instead of disconnected sensor readings.</p>
+      </div>
+    </section>
+
+    <section class="sticky-workflow section-space">
+      <div class="workflow-sticky">
+        <div class="workflow-stage" id="workflowStage">
+          <div class="stage-bg"></div>
+          <div class="stage-map">
+            <span class="map-grid"></span>
+            <span class="map-route route-one"></span><span class="map-route route-two"></span>
+            <span class="target target-one">A12</span><span class="target target-two">B07</span><span class="target target-three">C04</span>
+            <div class="stage-drone">◆</div><div class="stage-rover">▣</div>
+          </div>
+          <div class="stage-panel" id="stagePanel">
+            <span class="step-number">01</span><h3>Map the field</h3><p>Drone imagery creates a field-wide view and highlights unusual crop patterns.</p>
+          </div>
+          <div class="stage-metrics"><span><b>36</b> zones</span><span><b>2.4</b> hectares</span><span><b>RGB</b> imaging</span></div>
+        </div>
+      </div>
+      <div class="workflow-scroll-copy">
+        <article class="workflow-step active" data-step="0"><span>01</span><h3>Map the field</h3><p>Capture an aerial view of the farm and segment it into actionable zones.</p></article>
+        <article class="workflow-step" data-step="1"><span>02</span><h3>Detect anomalies</h3><p>Surface low-vigor, water-stress and pest-risk patterns so the farmer sees where attention is needed.</p></article>
+        <article class="workflow-step" data-step="2"><span>03</span><h3>Verify on the ground</h3><p>Dispatch the rover to targeted zones for moisture, pH and other ground measurements.</p></article>
+        <article class="workflow-step" data-step="3"><span>04</span><h3>Act and rescan</h3><p>Turn the evidence into recommendations, then compare the next scan against the baseline.</p></article>
+      </div>
+    </section>
+
+    <section class="feature-intro section-space reveal" id="features">
+      <div class="section-label">02 — PLATFORM FEATURES</div>
+      <h2>Designed around the questions <em>farmers actually ask.</em></h2>
+      <p>Not another wall of dashboards. CropPulse organizes complex sensing into a simple sequence: what changed, where it changed, why it matters, and what to check next.</p>
+    </section>
+
+    <section class="feature-cards section-space">
+      <article class="feature-card feature-green reveal" data-tilt>
+        <div class="feature-index">01</div><div class="feature-icon">⌁</div>
+        <h3>Drone intelligence</h3><p>Aerial RGB mapping gives a fast field-wide picture and identifies zones worth investigating.</p>
+        <div class="feature-art drone-art"><div class="art-drone">✦</div><div class="art-lines"></div></div>
+        <a href="dashboard.html">Explore fleet <span>↗</span></a>
+      </article>
+      <article class="feature-card feature-dark reveal reveal-delay-1" data-tilt>
+        <div class="feature-index">02</div><div class="feature-icon">⌗</div>
+        <h3>Targeted rover sensing</h3><p>Ground measurements validate the exact zones flagged by aerial analysis instead of scanning blindly.</p>
+        <div class="feature-art rover-art"><div class="rover-wheel"></div><div class="rover-body"></div><div class="rover-beam"></div></div>
+        <a href="booking.html">Book a scan <span>↗</span></a>
+      </article>
+      <article class="feature-card feature-light reveal reveal-delay-2" data-tilt>
+        <div class="feature-index">03</div><div class="feature-icon">◒</div>
+        <h3>Actionable analytics</h3><p>Translate crop health, soil signals and pest risk into clear priority recommendations.</p>
+        <div class="feature-art chart-art"><span style="height:35%"></span><span style="height:58%"></span><span style="height:48%"></span><span style="height:76%"></span><span style="height:92%"></span></div>
+        <a href="results.html">View analysis <span>↗</span></a>
+      </article>
+    </section>
+
+    <section class="split-section section-space">
+      <div class="split-visual reveal" data-parallax="0.12">
+        <div class="analytics-window">
+          <div class="window-bar"><span></span><span></span><span></span><b>FIELD / CROP HEALTH</b></div>
+          <div class="analytics-map"><div class="heat h1"></div><div class="heat h2"></div><div class="heat h3"></div><div class="heat h4"></div><div class="map-cross"></div></div>
+          <div class="analytics-row"><div><small>Healthy</small><strong>74%</strong></div><div><small>Attention</small><strong>19%</strong></div><div><small>Critical</small><strong>7%</strong></div></div>
+        </div>
+      </div>
+      <div class="split-copy reveal reveal-delay-1">
+        <div class="section-label">03 — FIELD INTELLIGENCE</div>
+        <h2>Every anomaly gets a <em>location.</em></h2>
+        <p>Instead of giving you a single field-wide score, CropPulse breaks the farm into zones. Click a zone, inspect its signals, and decide whether it needs a rover visit, irrigation check, pest verification or another scan.</p>
+        <ul class="check-list"><li><span>✓</span> Zone-level crop health</li><li><span>✓</span> Soil moisture and pH</li><li><span>✓</span> Pest-risk prioritization</li><li><span>✓</span> Scan-to-scan comparison</li></ul>
+      </div>
+    </section>
+
+    <section class="metrics section-space" id="impact">
+      <div class="metrics-head reveal"><div class="section-label">04 — THE INTELLIGENCE LOOP</div><h2>Less noise.<br><em>More signal.</em></h2></div>
+      <div class="metric-grid">
+        <div class="metric reveal"><strong data-count="74" data-suffix="%">0</strong><span>healthy area in demo scan</span></div>
+        <div class="metric reveal reveal-delay-1"><strong data-count="36">0</strong><span>zones ready for inspection</span></div>
+        <div class="metric reveal reveal-delay-2"><strong data-count="3">0</strong><span>critical zones surfaced</span></div>
+        <div class="metric reveal reveal-delay-3"><strong data-count="2">0</strong><span>sensor perspectives</span></div>
+      </div>
+    </section>
+
+    <section class="cta section-space reveal">
+      <div class="cta-glow"></div>
+      <p class="eyebrow">READY TO SEE YOUR FIELD DIFFERENTLY?</p>
+      <h2>Turn every scan into<br><em>the next right action.</em></h2>
+      <p>Build your CropPulse workspace and move from field data to targeted decisions.</p>
+      <div class="hero-actions"><a class="button primary" href="signup.html">Create your account <span>↗</span></a><a class="button ghost" href="login.html">I already have an account</a></div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><a class="brand" href="features.html"><img src="assets/logo.png" alt="CropPulse"><span>Crop<span>Pulse</span></span></a><p>Precision agriculture intelligence for smarter field decisions.</p><div><a href="login.html">Login</a><a href="signup.html">Sign up</a><a href="index.html">Overview</a></div></footer>
+
+  <script src="features-animations.js"></script>
+</body>
+</html>
