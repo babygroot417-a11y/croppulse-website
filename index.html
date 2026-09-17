@@ -1,0 +1,50 @@
+<!DOCTYPE html><div data-user-greeting class="user-greeting">Good evening, Farmer</div>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>CropPulse — Overview</title>
+<link rel="icon" href="assets/logo.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="app-shell">
+<aside class="sidebar" id="sidebar">
+  <a class="brand" href="index.html"><img src="assets/logo.png" alt="CropPulse"><span>Crop<span>Pulse</span></span></a>
+  <div class="side-label">WORKSPACE</div>
+  <nav class="side-nav">
+    <a class="active" href="index.html"><i data-lucide="layout-dashboard"></i>Overview</a>
+    <a href="results.html"><i data-lucide="sprout"></i>Farm Health</a>
+    <a href="dashboard.html"><i data-lucide="map"></i>Field Map</a>
+    <a href="dashboard.html#drone"><i data-lucide="plane"></i>Drone Fleet</a>
+    <a href="results.html#analytics"><i data-lucide="chart-no-axes-combined"></i>Analytics</a>
+  </nav>
+  <div class="side-label">ACTIONS</div>
+  <nav class="side-nav">
+    <a href="booking.html"><i data-lucide="calendar-days"></i>Book a Scan</a>
+    <a href="settings.html"><i data-lucide="settings-2"></i>Settings</a>
+  </nav>
+  <div class="side-bottom"><a href="login.html" class="profile-mini"><img src="assets/logo.png" alt=""><span><b>Farmer account</b><small>Sign in / manage</small></span></a></div>
+</aside>
+<main class="main-content">
+<header class="topbar"><button class="icon-btn mobile-menu" id="menuBtn" aria-label="Menu"><i data-lucide="menu"></i></button><div class="search"><i data-lucide="search"></i><input placeholder="Search fields, scans, alerts..."></div><div class="top-actions"><a class="icon-btn" href="results.html" title="Alerts"><i data-lucide="bell"></i><span class="notif-dot"></span></a><a class="user-chip" href="settings.html"><span class="avatar">CP</span><span><b>CropPulse</b><small>Farmer workspace</small></span></a></div></header>
+<section class="page-head"><div><p class="eyebrow">FARM OVERVIEW</p><h1>Good morning, farmer.</h1><p class="subhead">Your field intelligence at a glance. Drone scans find patterns, and the rover validates the zones that need attention.</p></div><div class="head-actions"><a class="btn btn-primary" href="booking.html"><i data-lucide="scan-line"></i>Book a Scan</a><button class="btn btn-ghost" id="runScan"><i data-lucide="play"></i>Run Demo Scan</button></div></section>
+<section class="stats-grid">
+  <article class="stat-card"><div class="stat-icon green"><i data-lucide="leaf"></i></div><div><small>Healthy area</small><strong>74%</strong><span class="positive">+5.2% this scan</span></div></article>
+  <article class="stat-card"><div class="stat-icon yellow"><i data-lucide="triangle-alert"></i></div><div><small>Needs attention</small><strong>19%</strong><span>8 zones flagged</span></div></article>
+  <article class="stat-card"><div class="stat-icon red"><i data-lucide="bug"></i></div><div><small>Critical zones</small><strong>7%</strong><span>3 zones need action</span></div></article>
+  <article class="stat-card"><div class="stat-icon blue"><i data-lucide="droplets"></i></div><div><small>Soil moisture</small><strong>42%</strong><span class="positive">Within target</span></div></article>
+</section>
+<section class="dashboard-grid">
+  <article class="panel field-panel"><div class="panel-head"><div><h2>Crop Health Overview</h2><p>36 field zones · latest demo scan</p></div><div class="legend"><span><i class="dot green-dot"></i>Healthy</span><span><i class="dot yellow-dot"></i>Attention</span><span><i class="dot red-dot"></i>Critical</span></div></div><div class="field-layout"><div class="field-map-wrap"><div id="fieldGrid" class="field-map"></div><div class="map-scale"><span>North</span><i data-lucide="arrow-up"></i></div></div><div class="zone-card" id="zoneCard"><span class="status-pill healthy">ZONE A12 · HEALTHY</span><h3>Select a zone</h3><p>Click a field block to inspect pH, moisture, canopy temperature and pest risk.</p><div class="zone-values"><div><small>pH</small><b>6.5</b></div><div><small>Moisture</small><b>42%</b></div><div><small>Pest risk</small><b>6%</b></div></div><a href="results.html" class="text-link">Open full analysis <i data-lucide="arrow-right"></i></a></div></div></article>
+  <article class="panel trend-panel"><div class="panel-head"><div><h2>Health trend</h2><p>Last 6 scans</p></div><span class="trend-badge">+8.4%</span></div><div class="chart"><div class="chart-grid"><span>100</span><span>75</span><span>50</span><span>25</span><span>0</span></div><svg viewBox="0 0 420 190" preserveAspectRatio="none" aria-label="Health trend"><polyline points="10,145 85,125 160,132 235,88 310,98 410,55" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><polyline points="10,145 85,125 160,132 235,88 310,98 410,55 410,190 10,190" fill="currentColor" opacity=".08" stroke="none"/></svg></div><div class="chart-labels"><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span><span>Now</span></div></article>
+  <article class="panel device-panel" id="drone"><div class="panel-head"><div><h2>Drone fleet</h2><p>Survey hardware status</p></div><span class="online"><i></i>2 online</span></div><div class="device"><div class="device-icon"><i data-lucide="plane"></i></div><div><b>CropPulse Air-01</b><small>RGB mapping · 86% battery</small></div><span class="device-status">Ready</span></div><div class="device"><div class="device-icon"><i data-lucide="bot"></i></div><div><b>Ground Rover-01</b><small>pH + moisture · 72% battery</small></div><span class="device-status">Ready</span></div><a href="dashboard.html#drone" class="panel-link">View fleet details <i data-lucide="arrow-right"></i></a></article>
+  <article class="panel insights-panel"><div class="panel-head"><div><h2>Actionable insights</h2><p>Priority recommendations</p></div></div><div class="insight critical"><i data-lucide="bug"></i><div><b>Pest risk in Zone C04</b><small>18% estimated risk · rover verification recommended</small></div><span>High</span></div><div class="insight warning"><i data-lucide="droplets"></i><div><b>Moisture low in Zone B07</b><small>24% moisture · consider irrigation</small></div><span>Medium</span></div><div class="insight good"><i data-lucide="flask-conical"></i><div><b>Soil pH stable</b><small>6.2–6.8 across most monitored zones</small></div><span>Good</span></div><a href="results.html" class="panel-link">See all recommendations <i data-lucide="arrow-right"></i></a></article>
+</section>
+<section class="feature-strip" id="features"><article><div class="feature-icon"><i data-lucide="plane"></i></div><div><b>Drone intelligence</b><p>Aerial RGB mapping identifies crop stress patterns across the field.</p></div></article><article><div class="feature-icon"><i data-lucide="bot"></i></div><div><b>Targeted rover sensing</b><p>Ground readings focus attention where aerial analysis finds anomalies.</p></div></article><article><div class="feature-icon"><i data-lucide="chart-no-axes-combined"></i></div><div><b>Actionable analytics</b><p>Zone-level health, moisture, pH and risk signals in one view.</p></div></article><article><div class="feature-icon"><i data-lucide="leaf"></i></div><div><b>Farmer-first workflow</b><p>From scan to recommendation without overwhelming dashboards.</p></div></article></section>
+</main>
+<script>
+(function(){const h=document.querySelector('.page-head h1');if(!h)return;const parts=new Intl.DateTimeFormat('en-IN',{hour:'numeric',hour12:false,timeZone:'Asia/Kolkata'}).formatToParts(new Date());const hour=Number(parts.find(p=>p.type==='hour').value);const greeting=hour>=5&&hour<12?'Good morning, farmer.':hour>=12&&hour<17?'Good afternoon, farmer.':'Good evening, farmer.';h.textContent=greeting;})();
+</script><script src="script.js"></script><script>lucide.createIcons();</script>
+<script src="firebase-config.js"></script><script type="module" src="profile.js"></script></body></html>
