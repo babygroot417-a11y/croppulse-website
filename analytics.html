@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Analytics — CropPulse</title>
+<link rel="icon" href="assets/logo.png">
+<link rel="stylesheet" href="style.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="app-shell">
+<aside class="sidebar">
+<a class="brand" href="overview.html"><img src="assets/logo.png" alt="CropPulse"><span>Crop<span>Pulse</span></span></a>
+<div class="side-label">WORKSPACE</div>
+<nav class="side-nav">
+<a href="overview.html"><i data-lucide="layout-dashboard"></i>Overview</a>
+<a href="results.html"><i data-lucide="sprout"></i>Farm Health</a>
+<a href="dashboard.html"><i data-lucide="map"></i>Field Map</a>
+<a href="drones.html"><i data-lucide="plane"></i>Drone Fleet</a>
+<a class="active" href="analytics.html"><i data-lucide="chart-no-axes-combined"></i>Analytics</a>
+</nav>
+<div class="side-label">ACTIONS</div>
+<nav class="side-nav"><a href="booking.html"><i data-lucide="calendar-days"></i>Book a Scan</a><a href="settings.html"><i data-lucide="settings-2"></i>Settings</a></nav>
+</aside>
+<main class="main-content">
+<header class="topbar"><a class="icon-btn" href="overview.html" title="Overview"><i data-lucide="arrow-left"></i></a><div class="search"><i data-lucide="search"></i><input placeholder="Search analytics..."></div><div class="top-actions"><a class="user-chip" href="settings.html"><span class="avatar">CP</span><span><b>CropPulse</b><small>Farmer workspace</small></span></a></div></header>
+<section class="page-head"><div><p class="eyebrow">ANALYTICS</p><h1>Field trends & intelligence</h1><p class="subhead">Track how crop health, moisture, pest risk and nitrogen indicators change across scans.</p></div><a class="btn btn-primary" href="booking.html"><i data-lucide="scan-line"></i>Run new scan</a></section>
+<section class="stats-grid">
+<article class="stat-card"><div class="stat-icon green"><i data-lucide="trending-up"></i></div><div><small>Crop health trend</small><strong>+4.8%</strong><span>vs previous scan</span></div></article>
+<article class="stat-card"><div class="stat-icon blue"><i data-lucide="droplets"></i></div><div><small>Avg moisture</small><strong>45%</strong><span>target range</span></div></article>
+<article class="stat-card"><div class="stat-icon yellow"><i data-lucide="bug"></i></div><div><small>Avg pest risk</small><strong>24%</strong><span>3 priority zones</span></div></article>
+<article class="stat-card"><div class="stat-icon green"><i data-lucide="flask-conical"></i></div><div><small>Nitrogen index</small><strong>68/100</strong><span>demo indicator</span></div></article>
+</section>
+<section class="dashboard-grid">
+<article class="panel"><div class="panel-head"><div><h2>Crop health trend</h2><p>Healthy-area percentage across recent scans</p></div><span class="trend-badge">+4.8%</span></div>
+<div class="chart"><div class="chart-grid"><span>100</span><span>75</span><span>50</span><span>25</span><span>0</span></div><svg viewBox="0 0 620 225" preserveAspectRatio="none" aria-label="Crop health trend chart"><g stroke="currentColor" opacity=".10"><line x1="0" y1="20" x2="620" y2="20"/><line x1="0" y1="70" x2="620" y2="70"/><line x1="0" y1="120" x2="620" y2="120"/><line x1="0" y1="170" x2="620" y2="170"/><line x1="0" y1="215" x2="620" y2="215"/></g><polyline points="15,145 115,132 215,151 315,105 415,92 515,70 605,57" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><polyline points="15,145 115,132 215,151 315,105 415,92 515,70 605,57 605,215 15,215" fill="currentColor" opacity=".06"/></svg></div>
+<div class="chart-labels"><span>Scan 01</span><span>Scan 02</span><span>Scan 03</span><span>Scan 04</span><span>Scan 05</span><span>Scan 06</span><span>Today</span></div></article>
+<article class="panel"><div class="panel-head"><div><h2>Zone distribution</h2><p>Current field condition mix</p></div></div>
+<div class="issue-row"><div class="issue-icon" style="background:rgba(134,229,137,.09);color:var(--green)"><i data-lucide="leaf"></i></div><div><b>Healthy</b><small>27 of 36 zones</small></div><strong class="positive">75%</strong></div>
+<div class="issue-row warning"><div class="issue-icon"><i data-lucide="triangle-alert"></i></div><div><b>Attention</b><small>6 of 36 zones</small></div><strong>17%</strong></div>
+<div class="issue-row critical"><div class="issue-icon"><i data-lucide="circle-alert"></i></div><div><b>Critical</b><small>3 of 36 zones</small></div><strong>8%</strong></div>
+<div class="panel-head" style="margin-top:8px"><div><h2>Signal interpretation</h2><p>Demo indicators for presentation</p></div></div><div class="mini-reading"><span>Green: stable crop + soil signals</span><span>Yellow: monitor and verify</span><span>Red: targeted rover inspection</span></div></article>
+</section>
+<section class="dashboard-grid two-col">
+<article class="panel"><div class="panel-head"><div><h2>Soil & canopy indicators</h2><p>Average values from the demo field model</p></div></div>
+<div class="issue-row"><div class="issue-icon" style="background:rgba(120,184,255,.09);color:var(--blue)"><i data-lucide="droplets"></i></div><div><b>Soil moisture</b><small>Field average</small></div><strong>45%</strong></div>
+<div class="issue-row"><div class="issue-icon" style="background:rgba(134,229,137,.09);color:var(--green)"><i data-lucide="flask-conical"></i></div><div><b>Soil pH</b><small>Field average</small></div><strong>6.3</strong></div>
+<div class="issue-row"><div class="issue-icon" style="background:rgba(243,201,92,.09);color:var(--yellow)"><i data-lucide="thermometer"></i></div><div><b>Canopy temperature</b><small>Field average</small></div><strong>29.1°C</strong></div></article>
+<article class="panel"><div class="panel-head"><div><h2>Priority analytics</h2><p>Signals worth checking next</p></div></div>
+<div class="recommend"><span>01</span><div><b>North section nitrogen signal</b><p>Indicator is below the demo target; compare with rover readings.</p></div></div>
+<div class="recommend"><span>02</span><div><b>Three pest-risk zones</b><p>Use targeted ground verification before treatment decisions.</p></div></div>
+<div class="recommend"><span>03</span><div><b>Moisture spread</b><p>Two zones are approaching the lower moisture range.</p></div></div></article>
+</section>
+</main><script>lucide.createIcons();</script></body></html>
