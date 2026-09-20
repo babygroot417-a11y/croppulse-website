@@ -1,1 +1,949 @@
-<!DOCTYPE html><div data-user-greeting class="user-greeting">Good evening, Farmer</div><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Field Map — CropPulse</title><link rel="icon" href="assets/logo.png"><link rel="stylesheet" href="style.css"><script src="https://unpkg.com/lucide@latest"></script></head><body class="app-shell"><aside class="sidebar"><a class="brand" href="overview.html"><img src="assets/logo.png" alt="CropPulse"><span>Crop<span>Pulse</span></span></a><div class="side-label">WORKSPACE</div><nav class="side-nav"><a href="overview.html"><i data-lucide="layout-dashboard"></i>Overview</a><a href="results.html"><i data-lucide="sprout"></i>Farm Health</a><a class="active" href="dashboard.html"><i data-lucide="map"></i>Field Map</a><a href="drones.html"><i data-lucide="plane"></i>Drone Fleet</a><a href="analytics.html"><i data-lucide="chart-no-axes-combined"></i>Analytics</a></nav><div class="side-label">ACTIONS</div><nav class="side-nav"><a href="booking.html"><i data-lucide="calendar-days"></i>Book a Scan</a><a href="settings.html"><i data-lucide="settings-2"></i>Settings</a></nav></aside><main class="main-content"><header class="topbar"><a class="icon-btn" href="overview.html"><i data-lucide="arrow-left"></i></a><div class="search"><i data-lucide="search"></i><input placeholder="Search zones..."></div><div class="top-actions"><a class="user-chip" href="settings.html"><span class="avatar">CP</span><span><b>CropPulse</b><small>Farmer workspace</small></span></a></div></header><section class="page-head"><div><p class="eyebrow">FIELD MAP</p><h1>Zone-level crop intelligence</h1><p class="subhead">Click any block to inspect the demo readings collected from aerial analysis and targeted rover sensing.</p></div><a class="btn btn-primary" href="analytics.html"><i data-lucide="chart-no-axes-combined"></i>Open Analysis</a></section><section class="panel field-panel full-field"><div class="panel-head"><div><h2>36-zone health map</h2><p>Latest demo scan · click a zone</p></div><div class="legend"><span><i class="dot green-dot"></i>Healthy</span><span><i class="dot yellow-dot"></i>Attention</span><span><i class="dot red-dot"></i>Critical</span></div></div><div class="field-layout"><div class="field-map-wrap"><div id="fieldGrid" class="field-map large"></div></div><div class="zone-card" id="zoneCard"></div></div></section><section class="stats-grid compact"><article class="stat-card"><div class="stat-icon green"><i data-lucide="leaf"></i></div><div><small>Healthy</small><strong>27</strong><span>zones</span></div></article><article class="stat-card"><div class="stat-icon yellow"><i data-lucide="triangle-alert"></i></div><div><small>Attention</small><strong>6</strong><span>zones</span></div></article><article class="stat-card"><div class="stat-icon red"><i data-lucide="bug"></i></div><div><small>Critical</small><strong>3</strong><span>zones</span></div></article></section></main><script src="script.js"></script><script>lucide.createIcons();</script><script src="firebase-config.js"></script><script type="module" src="profile.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Field Map — CropPulse</title>
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="style.css">
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="app-shell">
+
+  <!-- =====================================================
+       SIDEBAR
+       ===================================================== -->
+
+  <aside class="sidebar">
+
+    <a class="brand" href="overview.html">
+      <img src="assets/logo.png" alt="CropPulse logo">
+      <span>Crop<span>Pulse</span></span>
+    </a>
+
+    <div class="side-label">WORKSPACE</div>
+
+    <nav class="side-nav">
+
+      <a href="overview.html">
+        <i data-lucide="layout-dashboard"></i>
+        <span>Overview</span>
+      </a>
+
+      <a href="results.html">
+        <i data-lucide="sprout"></i>
+        <span>Farm Health</span>
+      </a>
+
+      <a class="active" href="dashboard.html">
+        <i data-lucide="map"></i>
+        <span>Field Map</span>
+      </a>
+
+      <a href="drones.html">
+        <i data-lucide="plane"></i>
+        <span>Drone Fleet</span>
+      </a>
+
+      <a href="analytics.html">
+        <i data-lucide="chart-no-axes-combined"></i>
+        <span>Analytics</span>
+      </a>
+
+    </nav>
+
+    <div class="side-label">ACTIONS</div>
+
+    <nav class="side-nav">
+
+      <a href="booking.html">
+        <i data-lucide="calendar-days"></i>
+        <span>Book a Scan</span>
+      </a>
+
+      <a href="settings.html">
+        <i data-lucide="settings-2"></i>
+        <span>Settings</span>
+      </a>
+
+    </nav>
+
+  </aside>
+
+
+  <!-- =====================================================
+       MAIN CONTENT
+       ===================================================== -->
+
+  <main class="main-content">
+
+    <!-- TOP BAR -->
+
+    <header class="topbar">
+
+      <a
+        class="icon-btn"
+        href="overview.html"
+        title="Back to Overview"
+        aria-label="Back to Overview"
+      >
+        <i data-lucide="arrow-left"></i>
+      </a>
+
+
+      <div class="search">
+
+        <i data-lucide="search"></i>
+
+        <input
+          type="search"
+          id="zoneSearch"
+          placeholder="Search zones..."
+          aria-label="Search zones"
+        >
+
+      </div>
+
+
+      <div class="top-actions">
+
+        <a
+          class="user-chip"
+          href="settings.html"
+          aria-label="Open account settings"
+        >
+
+          <span class="avatar">CP</span>
+
+          <span>
+            <b>CropPulse</b>
+            <small>Farmer workspace</small>
+          </span>
+
+        </a>
+
+      </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         PAGE HEADER
+         ===================================================== -->
+
+    <section class="page-head">
+
+      <div>
+
+        <p class="eyebrow">
+          FIELD MAP
+        </p>
+
+        <h1>
+          Zone-level crop intelligence
+        </h1>
+
+        <p class="subhead">
+          Explore the health of each field block and inspect
+          the demo readings collected from aerial analysis
+          and targeted rover sensing.
+        </p>
+
+      </div>
+
+
+      <!-- IMPORTANT:
+           This goes to Analytics, NOT Farm Health.
+      -->
+
+      <a
+        class="btn btn-primary"
+        href="analytics.html"
+      >
+        <i data-lucide="chart-no-axes-combined"></i>
+        Open Analysis
+      </a>
+
+    </section>
+
+
+    <!-- =====================================================
+         FIELD MAP PANEL
+         ===================================================== -->
+
+    <section class="panel field-panel full-field">
+
+      <div class="panel-head">
+
+        <div>
+
+          <h2>
+            36-zone health map
+          </h2>
+
+          <p>
+            Latest demo scan · click any zone to inspect
+          </p>
+
+        </div>
+
+
+        <!-- MAP LEGEND -->
+
+        <div class="legend">
+
+          <span>
+            <i class="dot green-dot"></i>
+            Healthy
+          </span>
+
+          <span>
+            <i class="dot yellow-dot"></i>
+            Attention
+          </span>
+
+          <span>
+            <i class="dot red-dot"></i>
+            Critical
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- MAP + ZONE INFORMATION -->
+
+      <div class="field-layout">
+
+
+        <!-- FIELD MAP -->
+
+        <div class="field-map-wrap">
+
+          <div
+            id="fieldGrid"
+            class="field-map large"
+            aria-label="Crop health field map"
+          ></div>
+
+        </div>
+
+
+        <!-- SELECTED ZONE CARD -->
+
+        <div
+          class="zone-card"
+          id="zoneCard"
+          aria-live="polite"
+        >
+
+          <span class="status-pill healthy">
+            ZONE 12 · HEALTHY
+          </span>
+
+          <h3>
+            Zone 12
+          </h3>
+
+          <p>
+            Crop conditions are stable.
+          </p>
+
+          <div class="zone-values">
+
+            <div>
+              <small>pH</small>
+              <b>6.4</b>
+            </div>
+
+            <div>
+              <small>Moisture</small>
+              <b>39%</b>
+            </div>
+
+            <div>
+              <small>Pest risk</small>
+              <b>9%</b>
+            </div>
+
+          </div>
+
+          <div class="mini-reading">
+
+            <span>
+              Canopy temp
+              <b>26.1°C</b>
+            </span>
+
+            <span>
+              N indicator
+              <b>Normal</b>
+            </span>
+
+          </div>
+
+          <a
+            href="analytics.html"
+            class="text-link"
+          >
+            Open full analysis
+            <i data-lucide="arrow-right"></i>
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         FIELD SUMMARY
+         ===================================================== -->
+
+    <section class="stats-grid compact">
+
+
+      <!-- HEALTHY -->
+
+      <article class="stat-card">
+
+        <div class="stat-icon green">
+          <i data-lucide="leaf"></i>
+        </div>
+
+        <div>
+
+          <small>
+            Healthy
+          </small>
+
+          <strong>
+            27
+          </strong>
+
+          <span>
+            zones
+          </span>
+
+        </div>
+
+      </article>
+
+
+      <!-- ATTENTION -->
+
+      <article class="stat-card">
+
+        <div class="stat-icon yellow">
+          <i data-lucide="triangle-alert"></i>
+        </div>
+
+        <div>
+
+          <small>
+            Attention
+          </small>
+
+          <strong>
+            6
+          </strong>
+
+          <span>
+            zones
+          </span>
+
+        </div>
+
+      </article>
+
+
+      <!-- CRITICAL -->
+
+      <article class="stat-card">
+
+        <div class="stat-icon red">
+          <i data-lucide="bug"></i>
+        </div>
+
+        <div>
+
+          <small>
+            Critical
+          </small>
+
+          <strong>
+            3
+          </strong>
+
+          <span>
+            zones
+          </span>
+
+        </div>
+
+      </article>
+
+    </section>
+
+
+    <!-- =====================================================
+         FIELD INSIGHT PANEL
+         ===================================================== -->
+
+    <section class="dashboard-grid two-col">
+
+
+      <!-- MAP INFORMATION -->
+
+      <article class="panel">
+
+        <div class="panel-head">
+
+          <div>
+
+            <h2>
+              How the map works
+            </h2>
+
+            <p>
+              Hybrid drone + rover workflow
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="recommend">
+
+          <span>01</span>
+
+          <div>
+
+            <b>
+              Aerial scan
+            </b>
+
+            <p>
+              The drone captures RGB imagery across
+              the monitored field.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="recommend">
+
+          <span>02</span>
+
+          <div>
+
+            <b>
+              AI zone detection
+            </b>
+
+            <p>
+              Crop-health signals divide the field into
+              healthy, attention and critical zones.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="recommend">
+
+          <span>03</span>
+
+          <div>
+
+            <b>
+              Rover verification
+            </b>
+
+            <p>
+              The rover can be directed to priority zones
+              for soil and ground-level measurements.
+            </p>
+
+          </div>
+
+        </div>
+
+
+      </article>
+
+
+      <!-- SELECTED DATA -->
+
+      <article class="panel">
+
+        <div class="panel-head">
+
+          <div>
+
+            <h2>
+              Demo field indicators
+            </h2>
+
+            <p>
+              Current map-level summary
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="issue-row">
+
+          <div class="issue-icon">
+            <i data-lucide="droplets"></i>
+          </div>
+
+          <div>
+
+            <b>
+              Soil moisture
+            </b>
+
+            <small>
+              Field average
+            </small>
+
+          </div>
+
+          <strong>
+            45%
+          </strong>
+
+        </div>
+
+
+        <div class="issue-row">
+
+          <div class="issue-icon">
+            <i data-lucide="flask-conical"></i>
+          </div>
+
+          <div>
+
+            <b>
+              Soil pH
+            </b>
+
+            <small>
+              Field average
+            </small>
+
+          </div>
+
+          <strong>
+            6.3
+          </strong>
+
+        </div>
+
+
+        <div class="issue-row">
+
+          <div class="issue-icon">
+            <i data-lucide="thermometer"></i>
+          </div>
+
+          <div>
+
+            <b>
+              Canopy temperature
+            </b>
+
+            <small>
+              Field average
+            </small>
+
+          </div>
+
+          <strong>
+            29.1°C
+          </strong>
+
+        </div>
+
+
+        <div class="issue-row">
+
+          <div class="issue-icon">
+            <i data-lucide="bug"></i>
+          </div>
+
+          <div>
+
+            <b>
+              Pest risk
+            </b>
+
+            <small>
+              Field average
+            </small>
+
+          </div>
+
+          <strong>
+            24%
+          </strong>
+
+        </div>
+
+      </article>
+
+    </section>
+
+  </main>
+
+
+  <!-- =====================================================
+       FIELD MAP JAVASCRIPT
+       ===================================================== -->
+
+  <script>
+
+    /*
+     * 36 demo field zones.
+     *
+     * status:
+     * 0 = healthy
+     * 1 = attention
+     * 2 = critical
+     */
+
+    const zones = Array.from(
+      { length: 36 },
+      (_, i) => ({
+
+        id: i + 1,
+
+        status: [
+          0,1,0,0,1,0,
+          0,2,0,1,0,0,
+          0,2,1,0,0,0,
+          1,0,2,0,1,0,
+          0,0,1,0,2,0,
+          1,0,0,1,0,0
+        ][i],
+
+        ph:
+          (
+            6.1 +
+            (i % 7) * 0.12
+          ).toFixed(1),
+
+        moisture:
+          28 + ((i * 7) % 31),
+
+        temp:
+          (
+            25.4 +
+            (i % 6) * 0.7
+          ).toFixed(1),
+
+        pest:
+          3 + ((i * 5) % 18)
+
+      })
+    );
+
+
+    const statusNames = [
+      "healthy",
+      "warning",
+      "critical"
+    ];
+
+
+    const fieldGrid =
+      document.getElementById("fieldGrid");
+
+    const zoneCard =
+      document.getElementById("zoneCard");
+
+
+    /*
+     * Create the 36 map blocks.
+     */
+
+    function createFieldMap() {
+
+      if (!fieldGrid) {
+        return;
+      }
+
+      fieldGrid.innerHTML = "";
+
+
+      zones.forEach(zone => {
+
+        const block =
+          document.createElement("button");
+
+        const status =
+          statusNames[zone.status];
+
+
+        block.className =
+          `zone ${status}`;
+
+
+        block.type =
+          "button";
+
+
+        block.title =
+          `Zone ${String(zone.id).padStart(2, "0")}`;
+
+
+        block.setAttribute(
+          "aria-label",
+          `Zone ${String(zone.id).padStart(2, "0")}, ${status}`
+        );
+
+
+        block.innerHTML = `
+          <span>
+            ${String(zone.id).padStart(2, "0")}
+          </span>
+        `;
+
+
+        block.addEventListener(
+          "click",
+          () => selectZone(zone)
+        );
+
+
+        fieldGrid.appendChild(block);
+
+      });
+
+    }
+
+
+    /*
+     * Show information for selected zone.
+     */
+
+    function selectZone(zone) {
+
+      if (!zoneCard) {
+        return;
+      }
+
+
+      const status =
+        statusNames[zone.status];
+
+
+      const zoneNumber =
+        String(zone.id).padStart(2, "0");
+
+
+      let description;
+
+
+      if (status === "healthy") {
+
+        description =
+          "Crop conditions are stable. No immediate intervention is indicated.";
+
+      } else if (status === "warning") {
+
+        description =
+          "This zone needs monitoring and targeted intervention.";
+
+      } else {
+
+        description =
+          "Critical anomaly detected. Ground verification is recommended.";
+
+      }
+
+
+      const nitrogen =
+        status === "critical"
+          ? "Low"
+          : status === "warning"
+            ? "Monitor"
+            : "Normal";
+
+
+      zoneCard.innerHTML = `
+
+        <span class="status-pill ${status}">
+          ZONE ${zoneNumber} · ${status.toUpperCase()}
+        </span>
+
+        <h3>
+          Zone ${zoneNumber}
+        </h3>
+
+        <p>
+          ${description}
+        </p>
+
+        <div class="zone-values">
+
+          <div>
+            <small>
+              pH
+            </small>
+
+            <b>
+              ${zone.ph}
+            </b>
+          </div>
+
+
+          <div>
+            <small>
+              Moisture
+            </small>
+
+            <b>
+              ${zone.moisture}%
+            </b>
+          </div>
+
+
+          <div>
+            <small>
+              Pest risk
+            </small>
+
+            <b>
+              ${zone.pest}%
+            </b>
+          </div>
+
+        </div>
+
+
+        <div class="mini-reading">
+
+          <span>
+            Canopy temp
+            <b>
+              ${zone.temp}°C
+            </b>
+          </span>
+
+          <span>
+            N indicator
+            <b>
+              ${nitrogen}
+            </b>
+          </span>
+
+        </div>
+
+
+        <a
+          href="analytics.html"
+          class="text-link"
+        >
+          Open full analysis
+          <i data-lucide="arrow-right"></i>
+        </a>
+
+      `;
+
+
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+
+    }
+
+
+    /*
+     * Zone search.
+     */
+
+    const zoneSearch =
+      document.getElementById("zoneSearch");
+
+
+    if (zoneSearch) {
+
+      zoneSearch.addEventListener(
+        "input",
+        event => {
+
+          const query =
+            event.target.value
+              .trim()
+              .toLowerCase();
+
+
+          const blocks =
+            fieldGrid.querySelectorAll(".zone");
+
+
+          blocks.forEach((block, index) => {
+
+            const zone =
+              zones[index];
+
+
+            const zoneName =
+              `zone ${zone.id}`;
+
+
+            const matches =
+              zoneName.includes(query);
+
+
+            block.style.opacity =
+              query === "" || matches
+                ? "1"
+                : "0.22";
+
+          });
+
+        }
+      );
+
+    }
+
+
+    /*
+     * Initial map.
+     */
+
+    createFieldMap();
+
+
+    /*
+     * Start with Zone 12 selected.
+     */
+
+    selectZone(zones[11]);
+
+
+    /*
+     * Create Lucide icons.
+     */
+
+    lucide.createIcons();
+
+  </script>
+
+</body>
+</html>
