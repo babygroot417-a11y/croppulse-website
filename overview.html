@@ -1,20 +1,1129 @@
-<!DOCTYPE html><div data-user-greeting class="user-greeting">Good evening, Farmer</div>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>CropPulse — Overview</title>
-<link rel="icon" href="assets/logo.png" type="image/png">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#06100a">
+<title>Overview — CropPulse</title>
+<link rel="icon" href="assets/logo.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/lucide@latest"></script>
+
+<style>
+:root{
+  --bg:#06100a;
+  --panel:#0b1710;
+  --panel2:#0e1d14;
+  --line:rgba(134,229,137,.14);
+  --line2:rgba(255,255,255,.08);
+  --green:#86e589;
+  --green2:#b7f7a5;
+  --text:#eef7ef;
+  --muted:#899a90;
+  --yellow:#e8c76b;
+  --red:#ef7770;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 75% 5%,rgba(91,190,96,.10),transparent 27%),
+    radial-gradient(circle at 15% 70%,rgba(55,135,75,.08),transparent 30%),
+    var(--bg);
+  color:var(--text);
+  font-family:"DM Sans",sans-serif;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+button{
+  font:inherit;
+}
+
+.app{
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:245px 1fr;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+  position:fixed;
+  inset:0 auto 0 0;
+  width:245px;
+  border-right:1px solid var(--line);
+  background:rgba(5,14,9,.91);
+  backdrop-filter:blur(20px);
+  padding:25px 17px;
+  z-index:10;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:0 10px 28px;
+  font-family:"Space Grotesk",sans-serif;
+  font-weight:700;
+  font-size:20px;
+}
+
+.logo img{
+  width:37px;
+  height:37px;
+  border-radius:10px;
+}
+
+.logo span span{
+  color:var(--green);
+}
+
+.nav-label{
+  color:#526158;
+  font-size:9px;
+  letter-spacing:1.4px;
+  font-weight:700;
+  padding:0 12px;
+  margin:18px 0 8px;
+}
+
+.nav a{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:11px 12px;
+  margin:3px 0;
+  border-radius:10px;
+  color:#829188;
+  font-size:12px;
+  transition:.2s;
+}
+
+.nav a svg{
+  width:16px;
+  height:16px;
+}
+
+.nav a:hover{
+  color:var(--text);
+  background:rgba(134,229,137,.06);
+}
+
+.nav a.active{
+  color:var(--green);
+  background:rgba(134,229,137,.09);
+  border:1px solid rgba(134,229,137,.12);
+}
+
+.sidebar-bottom{
+  position:absolute;
+  left:17px;
+  right:17px;
+  bottom:20px;
+}
+
+.account{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px;
+  border:1px solid var(--line);
+  border-radius:13px;
+  background:rgba(255,255,255,.025);
+}
+
+.avatar{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:rgba(134,229,137,.14);
+  color:var(--green);
+  font-weight:700;
+  font-size:11px;
+}
+
+.account-info{
+  min-width:0;
+}
+
+.account-info strong{
+  display:block;
+  font-size:11px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.account-info span{
+  display:block;
+  color:#637269;
+  font-size:9px;
+  margin-top:2px;
+}
+
+/* MAIN */
+
+.main{
+  grid-column:2;
+  padding:0 34px 50px;
+  max-width:1550px;
+  width:100%;
+  margin:auto;
+}
+
+.topbar{
+  height:76px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid rgba(255,255,255,.055);
+}
+
+.breadcrumb{
+  color:#607067;
+  font-size:11px;
+}
+
+.breadcrumb b{
+  color:#b8c7bd;
+}
+
+.top-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.top-btn{
+  width:36px;
+  height:36px;
+  border:1px solid var(--line2);
+  border-radius:10px;
+  background:rgba(255,255,255,.025);
+  color:#899990;
+  display:grid;
+  place-items:center;
+  cursor:pointer;
+}
+
+.top-btn svg{
+  width:16px;
+}
+
+.hero{
+  padding:38px 0 28px;
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:30px;
+}
+
+.eyebrow{
+  color:var(--green);
+  font-size:9px;
+  letter-spacing:1.5px;
+  font-weight:700;
+  margin-bottom:9px;
+}
+
+.hero h1{
+  margin:0;
+  font-family:"Space Grotesk",sans-serif;
+  font-size:36px;
+  letter-spacing:-1.5px;
+}
+
+.hero h1 span{
+  color:var(--green);
+}
+
+.hero p{
+  margin:9px 0 0;
+  color:var(--muted);
+  font-size:13px;
+}
+
+.scan-btn{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  border:0;
+  border-radius:10px;
+  background:linear-gradient(135deg,var(--green),#a6f0a0);
+  color:#06100a;
+  font-weight:700;
+  font-size:11px;
+  padding:12px 17px;
+  cursor:pointer;
+  box-shadow:0 12px 30px rgba(75,180,84,.15);
+}
+
+.scan-btn svg{
+  width:15px;
+}
+
+/* METRICS */
+
+.metrics{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+}
+
+.metric{
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:18px;
+  background:linear-gradient(145deg,rgba(13,29,18,.82),rgba(8,18,11,.82));
+  transition:.2s;
+}
+
+.metric:hover{
+  transform:translateY(-2px);
+  border-color:rgba(134,229,137,.25);
+}
+
+.metric-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  color:#788980;
+  font-size:10px;
+}
+
+.metric-icon{
+  width:30px;
+  height:30px;
+  display:grid;
+  place-items:center;
+  border-radius:9px;
+  background:rgba(134,229,137,.08);
+  color:var(--green);
+}
+
+.metric-icon svg{
+  width:15px;
+}
+
+.metric strong{
+  display:block;
+  font-family:"Space Grotesk",sans-serif;
+  font-size:27px;
+  margin-top:14px;
+}
+
+.metric small{
+  color:#637269;
+  font-size:9px;
+}
+
+.good{
+  color:var(--green)!important;
+}
+
+.warning{
+  color:var(--yellow)!important;
+}
+
+.critical{
+  color:var(--red)!important;
+}
+
+/* CONTENT GRID */
+
+.content-grid{
+  display:grid;
+  grid-template-columns:1.45fr .75fr;
+  gap:14px;
+  margin-top:14px;
+}
+
+.panel{
+  border:1px solid var(--line);
+  border-radius:17px;
+  background:linear-gradient(145deg,rgba(12,27,17,.82),rgba(7,16,10,.82));
+  overflow:hidden;
+}
+
+.panel-head{
+  padding:18px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid rgba(255,255,255,.055);
+}
+
+.panel-head h2{
+  font-family:"Space Grotesk",sans-serif;
+  font-size:15px;
+  margin:0;
+}
+
+.panel-head p{
+  color:#64736b;
+  font-size:9px;
+  margin:5px 0 0;
+}
+
+.view-link{
+  color:var(--green);
+  font-size:10px;
+}
+
+/* FIELD */
+
+.field{
+  padding:20px;
+}
+
+.field-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:7px;
+}
+
+.zone{
+  aspect-ratio:1.35;
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,.06);
+  background:rgba(90,183,93,.20);
+  position:relative;
+  cursor:pointer;
+  transition:.18s;
+  overflow:hidden;
+}
+
+.zone:hover{
+  transform:scale(1.025);
+  border-color:rgba(255,255,255,.2);
+}
+
+.zone:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,rgba(190,255,160,.25),transparent 60%);
+}
+
+.zone.yellow{
+  background:rgba(217,174,66,.24);
+}
+
+.zone.red{
+  background:rgba(208,79,72,.27);
+}
+
+.zone span{
+  position:absolute;
+  z-index:1;
+  bottom:6px;
+  left:7px;
+  font-size:8px;
+  color:rgba(255,255,255,.72);
+}
+
+/* ZONE DETAIL */
+
+.zone-detail{
+  padding:20px;
+}
+
+.status{
+  display:inline-flex;
+  padding:5px 8px;
+  border-radius:999px;
+  font-size:8px;
+  letter-spacing:.7px;
+  font-weight:700;
+  background:rgba(134,229,137,.09);
+  color:var(--green);
+}
+
+.status.warning{
+  background:rgba(232,199,107,.09);
+  color:var(--yellow)!important;
+}
+
+.status.critical{
+  background:rgba(239,119,112,.09);
+  color:var(--red)!important;
+}
+
+.zone-detail h3{
+  font-family:"Space Grotesk",sans-serif;
+  margin:13px 0 5px;
+  font-size:22px;
+}
+
+.zone-detail>p{
+  color:#78877f;
+  font-size:10px;
+  line-height:1.6;
+  margin:0 0 18px;
+}
+
+.readings{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+}
+
+.reading{
+  padding:11px;
+  border-radius:10px;
+  background:rgba(255,255,255,.035);
+  border:1px solid rgba(255,255,255,.055);
+}
+
+.reading small{
+  display:block;
+  color:#637269;
+  font-size:8px;
+  margin-bottom:4px;
+}
+
+.reading strong{
+  font-family:"Space Grotesk",sans-serif;
+  font-size:15px;
+}
+
+/* LOWER */
+
+.lower{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+  margin-top:14px;
+}
+
+.list{
+  padding:5px 18px 14px;
+}
+
+.list-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:13px 2px;
+  border-bottom:1px solid rgba(255,255,255,.055);
+}
+
+.list-item:last-child{
+  border-bottom:0;
+}
+
+.list-left{
+  display:flex;
+  align-items:center;
+  gap:11px;
+}
+
+.list-icon{
+  width:32px;
+  height:32px;
+  border-radius:9px;
+  display:grid;
+  place-items:center;
+  background:rgba(134,229,137,.07);
+  color:var(--green);
+}
+
+.list-icon svg{
+  width:15px;
+}
+
+.list-item strong{
+  display:block;
+  font-size:10px;
+}
+
+.list-item small{
+  display:block;
+  color:#65746b;
+  font-size:8px;
+  margin-top:3px;
+}
+
+.list-value{
+  color:var(--green);
+  font-family:"Space Grotesk",sans-serif;
+  font-size:11px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1050px){
+  .metrics{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .content-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:800px){
+  .app{
+    display:block;
+  }
+
+  .sidebar{
+    position:relative;
+    width:100%;
+    height:auto;
+    border-right:0;
+    border-bottom:1px solid var(--line);
+  }
+
+  .sidebar-bottom{
+    position:static;
+    margin-top:20px;
+  }
+
+  .main{
+    padding:0 16px 40px;
+  }
+
+  .hero{
+    display:block;
+  }
+
+  .scan-btn{
+    margin-top:18px;
+  }
+
+  .lower{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:520px){
+  .metrics{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .hero h1{
+    font-size:29px;
+  }
+
+  .field-grid{
+    grid-template-columns:repeat(3,1fr);
+  }
+}
+</style>
 </head>
-<body class="app-shell">
-<aside class="sidebar" id="sidebar"><a class="brand" href="index.html"><img src="assets/logo.png" alt="CropPulse"><span>Crop<span>Pulse</span></span></a><div class="side-label">WORKSPACE</div><nav class="side-nav"><a class="active" href="overview.html"><i data-lucide="layout-dashboard"></i>Overview</a><a href="results.html"><i data-lucide="sprout"></i>Farm Health</a><a href="dashboard.html"><i data-lucide="map"></i>Field Map</a><a href="dashboard.html#drone"><i data-lucide="plane"></i>Drone Fleet</a><a href="results.html#analytics"><i data-lucide="chart-no-axes-combined"></i>Analytics</a></nav><div class="side-label">ACTIONS</div><nav class="side-nav"><a href="booking.html"><i data-lucide="calendar-days"></i>Book a Scan</a><a href="settings.html"><i data-lucide="settings-2"></i>Settings</a></nav><div class="side-bottom"><a href="login.html" class="profile-mini"><img src="assets/logo.png" alt=""><span><b>Farmer account</b><small>Sign in / manage</small></span></a></div></aside>
-<main class="main-content"><header class="topbar"><button class="icon-btn mobile-menu" id="menuBtn" aria-label="Menu"><i data-lucide="menu"></i></button><div class="search"><i data-lucide="search"></i><input placeholder="Search fields, scans, alerts..."></div><div class="top-actions"><a class="icon-btn" href="results.html" title="Alerts"><i data-lucide="bell"></i><span class="notif-dot"></span></a><a class="user-chip" href="settings.html"><span class="avatar">CP</span><span><b>CropPulse</b><small>Farmer workspace</small></span></a></div></header>
-<section class="page-head"><div><p class="eyebrow">FARM OVERVIEW</p><h1>Good morning, farmer.</h1><p class="subhead">Your field intelligence at a glance. Drone scans find patterns, and the rover validates the zones that need attention.</p></div><div class="head-actions"><a class="btn btn-primary" href="booking.html"><i data-lucide="scan-line"></i>Book a Scan</a><button class="btn btn-ghost" id="runScan"><i data-lucide="play"></i>Run Demo Scan</button></div></section>
-<section class="stats-grid"><article class="stat-card"><div class="stat-icon green"><i data-lucide="leaf"></i></div><div><small>Healthy area</small><strong>74%</strong><span class="positive">+5.2% this scan</span></div></article><article class="stat-card"><div class="stat-icon yellow"><i data-lucide="triangle-alert"></i></div><div><small>Needs attention</small><strong>19%</strong><span>8 zones flagged</span></div></article><article class="stat-card"><div class="stat-icon red"><i data-lucide="bug"></i></div><div><small>Critical zones</small><strong>7%</strong><span>3 zones need action</span></div></article><article class="stat-card"><div class="stat-icon blue"><i data-lucide="droplets"></i></div><div><small>Soil moisture</small><strong>42%</strong><span class="positive">Within target</span></div></article></section>
-<section class="dashboard-grid"><article class="panel field-panel"><div class="panel-head"><div><h2>Crop Health Overview</h2><p>12 field zones · latest demo scan</p></div><div class="legend"><span><i class="dot green-dot"></i>Healthy</span><span><i class="dot yellow-dot"></i>Attention</span><span><i class="dot red-dot"></i>Critical</span></div></div><div class="field-layout"><div class="field-map-wrap"><div id="fieldGrid" class="field-map"></div><div class="map-scale"><span>North</span><i data-lucide="arrow-up"></i></div></div><div class="zone-card" id="zoneCard"><span class="status-pill healthy">ZONE 12 · HEALTHY</span><h3>Select a zone</h3><p>Click a field block to inspect pH, moisture, canopy temperature and pest risk.</p><div class="zone-values"><div><small>pH</small><b>6.5</b></div><div><small>Moisture</small><b>42%</b></div><div><small>Pest risk</small><b>6%</b></div></div><a href="results.html" class="text-link">Open full analysis <i data-lucide="arrow-right"></i></a></div></div></article>
-<article class="panel trend-panel"><div class="panel-head"><div><h2>Health trend</h2><p>Last 6 scans</p></div><span class="trend-badge">+8.4%</span></div><div class="chart"><div class="chart-grid"><span>100</span><span>75</span><span>50</span><span>25</span><span>0</span></div><svg viewBox="0 0 420 190" preserveAspectRatio="none" aria-label="Health trend"><polyline points="10,145 85,125 160,132 235,88 310,98 410,55" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><polyline points="10,145 85,125 160,132 235,88 310,98 410,55 410,190 10,190" fill="currentColor" opacity=".08" stroke="none"/></svg></div><div class="chart-labels"><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span><span>Now</span></div></article><article class="panel device-panel" id="drone"><div class="panel-head"><div><h2>Drone fleet</h2><p>Survey hardware status</p></div><span class="online"><i></i>2 online</span></div><div class="device"><div class="device-icon"><i data-lucide="plane"></i></div><div><b>CropPulse Air-01</b><small>RGB mapping · 86% battery</small></div><span class="device-status">Ready</span></div><div class="device"><div class="device-icon"><i data-lucide="bot"></i></div><div><b>Ground Rover-01</b><small>pH + moisture · 72% battery</small></div><span class="device-status">Ready</span></div><a href="dashboard.html#drone" class="panel-link">View fleet details <i data-lucide="arrow-right"></i></a></article><article class="panel insights-panel"><div class="panel-head"><div><h2>Actionable insights</h2><p>Priority recommendations</p></div></div><div class="insight critical"><i data-lucide="bug"></i><div><b>Pest risk in Zone C04</b><small>18% estimated risk · rover verification recommended</small></div><span>High</span></div><div class="insight warning"><i data-lucide="droplets"></i><div><b>Moisture low in Zone B07</b><small>24% moisture · consider irrigation</small></div><span>Medium</span></div><div class="insight good"><i data-lucide="flask-conical"></i><div><b>Soil pH stable</b><small>6.2–6.8 across most monitored zones</small></div><span>Good</span></div><a href="results.html" class="panel-link">See all recommendations <i data-lucide="arrow-right"></i></a></article></section>
-<section class="feature-strip" id="features"><article><div class="feature-icon"><i data-lucide="plane"></i></div><div><b>Drone intelligence</b><p>Aerial RGB mapping identifies crop stress patterns across the field.</p></div></article><article><div class="feature-icon"><i data-lucide="bot"></i></div><div><b>Targeted rover sensing</b><p>Ground readings focus attention where aerial analysis finds anomalies.</p></div></article><article><div class="feature-icon"><i data-lucide="chart-no-axes-combined"></i></div><div><b>Actionable analytics</b><p>Zone-level health, moisture, pH and risk signals in one view.</p></div></article><article><div class="feature-icon"><i data-lucide="leaf"></i></div><div><b>Farmer-first workflow</b><p>From scan to recommendation without overwhelming dashboards.</p></div></article></section></main>
-<script>(function(){const h=document.querySelector('.page-head h1');if(!h)return;const parts=new Intl.DateTimeFormat('en-IN',{hour:'numeric',hour12:false,timeZone:'Asia/Kolkata'}).formatToParts(new Date());const hour=Number(parts.find(p=>p.type==='hour').value);h.textContent=hour>=5&&hour<12?'Good morning, farmer.':hour>=12&&hour<17?'Good afternoon, farmer.':'Good evening, farmer.';})();</script><script src="overview-map.js"></script><script>lucide.createIcons();</script><script src="firebase-config.js"></script><script type="module" src="profile.js"></script></body></html>
+
+<body>
+
+<div class="app">
+
+<aside class="sidebar">
+
+  <a class="logo" href="index.html">
+    <img src="assets/logo.png" alt="CropPulse">
+    <span>Crop<span>Pulse</span></span>
+  </a>
+
+  <div class="nav-label">WORKSPACE</div>
+
+  <nav class="nav">
+    <a class="active" href="overview.html">
+      <i data-lucide="layout-dashboard"></i>
+      Overview
+    </a>
+
+    <a href="results.html">
+      <i data-lucide="sprout"></i>
+      Farm Health
+    </a>
+
+    <a href="dashboard.html">
+      <i data-lucide="map"></i>
+      Field Map
+    </a>
+
+    <a href="dashboard.html#drone">
+      <i data-lucide="plane"></i>
+      Drone Fleet
+    </a>
+
+    <a href="results.html#analytics">
+      <i data-lucide="chart-no-axes-combined"></i>
+      Analytics
+    </a>
+  </nav>
+
+  <div class="nav-label">ACTIONS</div>
+
+  <nav class="nav">
+    <a href="booking.html">
+      <i data-lucide="calendar-days"></i>
+      Book a Scan
+    </a>
+
+    <a href="settings.html">
+      <i data-lucide="settings-2"></i>
+      Settings
+    </a>
+  </nav>
+
+  <div class="sidebar-bottom">
+    <div class="account">
+      <div class="avatar" data-avatar>CP</div>
+      <div class="account-info">
+        <strong data-username>Farmer</strong>
+        <span>Authenticated workspace</span>
+      </div>
+    </div>
+  </div>
+
+</aside>
+
+<main class="main">
+
+  <header class="topbar">
+    <div class="breadcrumb">
+      CropPulse / <b>Overview</b>
+    </div>
+
+    <div class="top-actions">
+      <button class="top-btn" title="Notifications">
+        <i data-lucide="bell"></i>
+      </button>
+
+      <button class="top-btn" id="logoutBtn" title="Sign out">
+        <i data-lucide="log-out"></i>
+      </button>
+    </div>
+  </header>
+
+  <section class="hero">
+
+    <div>
+      <div class="eyebrow">FIELD INTELLIGENCE WORKSPACE</div>
+
+      <h1>
+        <span data-user-greeting>Good evening, Farmer</span>
+      </h1>
+
+      <p>
+        Here's your latest field intelligence and crop health overview.
+      </p>
+    </div>
+
+    <button class="scan-btn" id="runScan">
+      <i data-lucide="scan-line"></i>
+      Run new scan
+    </button>
+
+  </section>
+
+  <section class="metrics">
+
+    <article class="metric">
+      <div class="metric-top">
+        Crop health
+        <div class="metric-icon">
+          <i data-lucide="leaf"></i>
+        </div>
+      </div>
+      <strong class="good">87%</strong>
+      <small>+4.8% from previous scan</small>
+    </article>
+
+    <article class="metric">
+      <div class="metric-top">
+        Soil moisture
+        <div class="metric-icon">
+          <i data-lucide="droplets"></i>
+        </div>
+      </div>
+      <strong>64%</strong>
+      <small>Within target range</small>
+    </article>
+
+    <article class="metric">
+      <div class="metric-top">
+        Pest risk
+        <div class="metric-icon">
+          <i data-lucide="bug"></i>
+        </div>
+      </div>
+      <strong class="warning">14%</strong>
+      <small>3 zones need attention</small>
+    </article>
+
+    <article class="metric">
+      <div class="metric-top">
+        Field temperature
+        <div class="metric-icon">
+          <i data-lucide="thermometer"></i>
+        </div>
+      </div>
+      <strong>27.8°C</strong>
+      <small>Stable canopy conditions</small>
+    </article>
+
+  </section>
+
+  <section class="content-grid">
+
+    <article class="panel">
+
+      <div class="panel-head">
+        <div>
+          <h2>Field health map</h2>
+          <p>Latest aerial analysis · 12 monitored zones</p>
+        </div>
+
+        <a class="view-link" href="dashboard.html">
+          Detailed map →
+        </a>
+      </div>
+
+      <div class="field">
+        <div class="field-grid" id="overviewGrid"></div>
+      </div>
+
+    </article>
+
+    <article class="panel">
+
+      <div class="panel-head">
+        <div>
+          <h2>Selected zone</h2>
+          <p>Targeted rover intelligence</p>
+        </div>
+      </div>
+
+      <div class="zone-detail">
+
+        <span class="status" id="zoneStatus">
+          ZONE 08 · ATTENTION
+        </span>
+
+        <h3 id="zoneTitle">Zone 08</h3>
+
+        <p id="zoneDescription">
+          This area requires monitoring and targeted intervention.
+        </p>
+
+        <div class="readings">
+
+          <div class="reading">
+            <small>Soil pH</small>
+            <strong id="zonePh">6.9</strong>
+          </div>
+
+          <div class="reading">
+            <small>Moisture</small>
+            <strong id="zoneMoisture">51%</strong>
+          </div>
+
+          <div class="reading">
+            <small>Temperature</small>
+            <strong id="zoneTemp">27.5°C</strong>
+          </div>
+
+          <div class="reading">
+            <small>Pest risk</small>
+            <strong class="warning" id="zonePest">18%</strong>
+          </div>
+
+        </div>
+
+      </div>
+
+    </article>
+
+  </section>
+
+  <section class="lower">
+
+    <article class="panel">
+
+      <div class="panel-head">
+        <div>
+          <h2>Latest scan</h2>
+          <p>Drone analysis status</p>
+        </div>
+        <span class="status">COMPLETE</span>
+      </div>
+
+      <div class="list">
+
+        <div class="list-item">
+          <div class="list-left">
+            <div class="list-icon">
+              <i data-lucide="plane"></i>
+            </div>
+            <div>
+              <strong>Aerial field scan</strong>
+              <small>RGB crop-health analysis</small>
+            </div>
+          </div>
+          <span class="list-value">12 zones</span>
+        </div>
+
+        <div class="list-item">
+          <div class="list-left">
+            <div class="list-icon">
+              <i data-lucide="radio-tower"></i>
+            </div>
+            <div>
+              <strong>Rover verification</strong>
+              <small>Ground sensing completed</small>
+            </div>
+          </div>
+          <span class="list-value">4 zones</span>
+        </div>
+
+        <div class="list-item">
+          <div class="list-left">
+            <div class="list-icon">
+              <i data-lucide="clock-3"></i>
+            </div>
+            <div>
+              <strong>Last scan</strong>
+              <small>Latest available field data</small>
+            </div>
+          </div>
+          <span class="list-value">Today</span>
+        </div>
+
+      </div>
+
+    </article>
+
+    <article class="panel">
+
+      <div class="panel-head">
+        <div>
+          <h2>Recommended actions</h2>
+          <p>Based on current field conditions</p>
+        </div>
+      </div>
+
+      <div class="list">
+
+        <div class="list-item">
+          <div class="list-left">
+            <div class="list-icon">
+              <i data-lucide="droplet"></i>
+            </div>
+            <div>
+              <strong>Review irrigation</strong>
+              <small>2 zones approaching lower moisture range</small>
+            </div>
+          </div>
+          <span class="list-value">Review</span>
+        </div>
+
+        <div class="list-item">
+          <div class="list-left">
+            <div class="list-icon">
+              <i data-lucide="bug"></i>
+            </div>
+            <div>
+              <strong>Inspect pest-risk zones</strong>
+              <small>Targeted rover verification recommended</small>
+            </div>
+          </div>
+          <span class="list-value">Inspect</span>
+        </div>
+
+        <div class="list-item">
+          <div class="list-left">
+            <div class="list-icon">
+              <i data-lucide="flask-conical"></i>
+            </div>
+            <div>
+              <strong>Review soil readings</strong>
+              <small>Compare pH and nutrient indicators</small>
+            </div>
+          </div>
+          <span class="list-value">Open</span>
+        </div>
+
+      </div>
+
+    </article>
+
+  </section>
+
+</main>
+
+</div>
+
+<script src="firebase-config.js"></script>
+
+<script type="module">
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+
+import {
+  getAuth,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+
+import {
+  getFirestore,
+  doc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+
+const config = window.CROPULSE_FIREBASE_CONFIG || {};
+
+if(!config.apiKey){
+  window.location.href = "login.html";
+}
+
+const app = initializeApp(config);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+onAuthStateChanged(auth, async user => {
+
+  if(!user){
+    window.location.href = "login.html";
+    return;
+  }
+
+  let username =
+    user.displayName ||
+    user.email?.split("@")[0] ||
+    "Farmer";
+
+  try{
+    const snap = await getDoc(doc(db,"users",user.uid));
+
+    if(snap.exists() && snap.data().username){
+      username = snap.data().username;
+    }
+  }catch(error){
+    console.log("Profile lookup unavailable",error);
+  }
+
+  const hour = new Date().getHours();
+
+  const greeting =
+    hour >= 5 && hour < 12 ? "Good morning" :
+    hour >= 12 && hour < 17 ? "Good afternoon" :
+    "Good evening";
+
+  document.querySelector("[data-user-greeting]").textContent =
+    `${greeting}, ${username}`;
+
+  document.querySelector("[data-username]").textContent =
+    username;
+
+  document.querySelector("[data-avatar]").textContent =
+    username.substring(0,2).toUpperCase();
+});
+
+document.getElementById("logoutBtn").addEventListener("click",async()=>{
+  await signOut(auth);
+  window.location.href="login.html";
+});
+</script>
+
+<script>
+const zones = [
+  {id:1,status:"healthy",ph:"6.1",moisture:39,temp:"25.4",pest:5},
+  {id:2,status:"healthy",ph:"6.2",moisture:46,temp:"26.1",pest:8},
+  {id:3,status:"warning",ph:"6.3",moisture:51,temp:"26.8",pest:14},
+  {id:4,status:"healthy",ph:"6.5",moisture:58,temp:"27.2",pest:6},
+  {id:5,status:"healthy",ph:"6.6",moisture:63,temp:"27.5",pest:7},
+  {id:6,status:"healthy",ph:"6.7",moisture:48,temp:"26.9",pest:5},
+  {id:7,status:"healthy",ph:"6.8",moisture:54,temp:"27.1",pest:9},
+  {id:8,status:"warning",ph:"6.9",moisture:51,temp:"27.5",pest:18},
+  {id:9,status:"healthy",ph:"6.4",moisture:61,temp:"27.0",pest:4},
+  {id:10,status:"healthy",ph:"6.5",moisture:57,temp:"26.7",pest:7},
+  {id:11,status:"critical",ph:"6.8",moisture:29,temp:"29.2",pest:21},
+  {id:12,status:"healthy",ph:"6.2",moisture:49,temp:"26.4",pest:6}
+];
+
+const grid=document.getElementById("overviewGrid");
+
+function selectZone(z){
+
+  document.getElementById("zoneTitle").textContent =
+    `Zone ${String(z.id).padStart(2,"0")}`;
+
+  document.getElementById("zoneStatus").textContent =
+    `ZONE ${String(z.id).padStart(2,"0")} · ${z.status.toUpperCase()}`;
+
+  document.getElementById("zoneStatus").className =
+    `status ${z.status}`;
+
+  document.getElementById("zoneDescription").textContent =
+    z.status==="healthy"
+      ? "Crop conditions are stable. No immediate intervention is indicated."
+      : z.status==="warning"
+        ? "This zone requires monitoring and targeted intervention."
+        : "Critical anomaly detected. Ground verification is recommended.";
+
+  document.getElementById("zonePh").textContent=z.ph;
+  document.getElementById("zoneMoisture").textContent=`${z.moisture}%`;
+  document.getElementById("zoneTemp").textContent=`${z.temp}°C`;
+  document.getElementById("zonePest").textContent=`${z.pest}%`;
+}
+
+zones.forEach(z=>{
+
+  const el=document.createElement("button");
+
+  el.className=`zone ${z.status==="warning"?"yellow":z.status==="critical"?"red":""}`;
+
+  el.innerHTML=`<span>${String(z.id).padStart(2,"0")}</span>`;
+
+  el.addEventListener("click",()=>selectZone(z));
+
+  grid.appendChild(el);
+});
+
+selectZone(zones[7]);
+
+document.getElementById("runScan").addEventListener("click",function(){
+
+  const button=this;
+
+  button.disabled=true;
+  button.innerHTML=`<i data-lucide="loader-circle"></i> Scanning...`;
+
+  lucide.createIcons();
+
+  setTimeout(()=>{
+
+    button.disabled=false;
+    button.innerHTML=`<i data-lucide="check"></i> Scan complete`;
+
+    lucide.createIcons();
+
+    setTimeout(()=>{
+      button.innerHTML=`<i data-lucide="scan-line"></i> Run new scan`;
+      lucide.createIcons();
+    },1800);
+
+  },1500);
+});
+
+lucide.createIcons();
+</script>
+
+</body>
+</html>

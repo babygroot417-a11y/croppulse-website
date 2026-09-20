@@ -1,5 +1,0 @@
-.field-map{grid-template-columns:repeat(12,1fr)!important;gap:3px;width:min(100%,390px)}
-.field-map.large{grid-template-columns:repeat(12,1fr)!important;gap:3px;width:min(100%,600px)}
-.field-map .zone{border-radius:4px;display:grid;place-items:center;min-height:0}
-.field-map .zone span{font-size:5px;line-height:1;letter-spacing:-.2px}
-@media(max-width:700px){.field-map{gap:2px}.field-map .zone span{font-size:4px}}

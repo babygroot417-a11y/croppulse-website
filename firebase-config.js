@@ -1,10 +1,7 @@
 // CropPulse Firebase Web App configuration
-// The site is currently hosted on GitHub Pages, so Firebase's default
-// auth helper domain must be used for OAuth sign-in. Using the GitHub Pages
-// custom domain as authDomain makes /__/auth/handler return a 404.
 window.CROPULSE_FIREBASE_CONFIG = {
   apiKey: "AIzaSyCQ7q-b-uX4rNv8pOYOeu3mOa__jtGvo3M",
-  authDomain: "croppulse-0316.firebaseapp.com",
+  authDomain: "thecroppulse.in",
   projectId: "croppulse-0316",
   storageBucket: "croppulse-0316.firebasestorage.app",
   messagingSenderId: "139230612217",

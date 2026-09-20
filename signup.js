@@ -3,7 +3,6 @@ import {
   getAuth,
   GoogleAuthProvider,
   signInWithPopup,
-  signOut,
   createUserWithEmailAndPassword,
   RecaptchaVerifier,
   PhoneAuthProvider,
@@ -24,6 +23,10 @@ const valid = config.apiKey && config.apiKey !== 'REPLACE_ME';
 const show = (msg, error = true) => {
   message.textContent = msg;
   message.style.color = error ? '#ff8580' : '#86e589';
+};
+
+const dashboard = () => {
+  window.location.href = 'index.html';
 };
 
 if (!valid) {
@@ -87,6 +90,11 @@ if (!valid) {
         return show('That username is already taken.');
       }
 
+      // IMPORTANT:
+      // Verify the phone BEFORE creating the email/password account.
+      // PhoneAuthProvider.verifyPhoneNumber() takes the phone number
+      // directly for a normal phone verification flow. Passing
+      // {phoneNumber, session: user} here causes auth/internal-error.
       const phoneProvider = new PhoneAuthProvider(auth);
       verificationId = await phoneProvider.verifyPhoneNumber(phone, verifier);
 
@@ -130,6 +138,7 @@ if (!valid) {
         code
       );
 
+      // Create the email/password account only after the mobile OTP is valid.
       const cred = await createUserWithEmailAndPassword(
         auth,
         pending.email,
@@ -161,11 +170,7 @@ if (!valid) {
         }
       );
 
-      // Firebase signs the user in automatically after account creation.
-      // CropPulse intentionally sends a newly registered user to Login,
-      // so the user must explicitly sign in before entering the overview.
-      await signOut(auth);
-      window.location.href = 'login.html?signup=success';
+      dashboard();
     } catch (e) {
       console.error('Signup verification error:', e);
 
@@ -242,8 +247,7 @@ if (!valid) {
         { merge: true }
       );
 
-      // Google OAuth is itself an explicit sign-in, so this flow may enter the overview.
-      window.location.href = 'index.html';
+      dashboard();
     } catch (e) {
       console.error('Google signup error:', e);
       show(
