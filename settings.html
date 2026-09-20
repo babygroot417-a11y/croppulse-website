@@ -1,1 +1,2089 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Settings — CropPulse</title><link rel="icon" type="image/png" href="favicon.png?v=3"><link rel="stylesheet" href="style.css"><script src="https://unpkg.com/lucide@latest"></script></head><body class="app-shell"><aside class="sidebar"><a class="brand" href="overview.html"><img src="assets/logo.png"><span>Crop<span>Pulse</span></span></a><div class="side-label">WORKSPACE</div><nav class="side-nav"><a href="overview.html"><i data-lucide="layout-dashboard"></i>Overview</a><a href="results.html"><i data-lucide="sprout"></i>Farm Health</a><a href="dashboard.html"><i data-lucide="map"></i>Field Map</a><a href="drones.html"><i data-lucide="plane"></i>Drone Fleet</a><a href="analytics.html"><i data-lucide="chart-no-axes-combined"></i>Analytics</a></nav><div class="side-label">ACTIONS</div><nav class="side-nav"><a href="booking.html"><i data-lucide="calendar-days"></i>Book a Scan</a><a class="active" href="settings.html"><i data-lucide="settings-2"></i>Settings</a></nav></aside><main class="main-content"><header class="topbar"><a class="icon-btn" href="overview.html"><i data-lucide="arrow-left"></i></a><div class="top-actions"><a class="user-chip" href="settings.html"><span class="avatar">CP</span><span><b>CropPulse</b><small>Farmer workspace</small></span></a></div></header><section class="page-head"><div><p class="eyebrow">SETTINGS</p><h1>Workspace settings</h1><p class="subhead">Manage your demo workspace preferences.</p></div></section><section class="settings-grid"><article class="panel setting-card"><div class="setting-leading"><i data-lucide="user-round"></i></div><div><h3>Account</h3><p>Phone and Google sign-in are handled through Firebase Authentication.</p><a class="text-link" href="login.html">Open login <i data-lucide="arrow-right"></i></a></div></article><article class="panel setting-card"><div class="setting-leading"><i data-lucide="bell"></i></div><div><h3>Alerts</h3><p>Critical crop-risk alerts can be surfaced from the analysis dashboard.</p><label class="toggle"><input type="checkbox" checked><span></span>Enable alerts</label></div></article><article class="panel setting-card"><div class="setting-leading"><i data-lucide="database"></i></div><div><h3>Data mode</h3><p>This presentation build uses deterministic demo field data. Replace it with your sensor API when ready.</p><span class="badge">DEMO DATA</span></div></article></section></main><script>lucide.createIcons();</script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Settings — CropPulse</title>
+
+  <link rel="icon" type="image/png" href="favicon.png?v=3">
+  <link rel="stylesheet" href="style.css">
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* =========================================================
+       CROP PULSE SETTINGS
+       ========================================================= */
+
+    .settings-page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-bottom: 60px;
+    }
+
+    .settings-layout {
+      display: grid;
+      grid-template-columns: 230px minmax(0, 1fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .settings-menu {
+      position: sticky;
+      top: 96px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .settings-menu button {
+      width: 100%;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--muted, #899a90);
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      transition: .2s ease;
+    }
+
+    .settings-menu button:hover {
+      background: rgba(134,229,137,.06);
+      color: var(--text, #eef7ef);
+    }
+
+    .settings-menu button.active {
+      background: rgba(134,229,137,.10);
+      border-color: rgba(134,229,137,.14);
+      color: var(--green, #86e589);
+    }
+
+    .settings-menu button i {
+      width: 17px;
+      height: 17px;
+      flex-shrink: 0;
+    }
+
+    .settings-content {
+      min-width: 0;
+    }
+
+    .settings-section {
+      display: none;
+      animation: settingsFade .22s ease;
+    }
+
+    .settings-section.active {
+      display: block;
+    }
+
+    @keyframes settingsFade {
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .settings-section-head {
+      margin-bottom: 16px;
+    }
+
+    .settings-section-head h2 {
+      margin: 0 0 5px;
+      color: var(--text, #eef7ef);
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 20px;
+    }
+
+    .settings-section-head p {
+      margin: 0;
+      color: var(--muted, #899a90);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .settings-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .settings-card {
+      background: var(--surface, #0b1710);
+      border: 1px solid var(--border, rgba(134,229,137,.14));
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: var(--shadow, 0 18px 50px rgba(0,0,0,.18));
+    }
+
+    .settings-card-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .setting-info {
+      display: flex;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .setting-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 11px;
+      background: rgba(134,229,137,.08);
+      color: var(--green, #86e589);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .setting-icon i {
+      width: 19px;
+      height: 19px;
+    }
+
+    .setting-copy {
+      min-width: 0;
+    }
+
+    .setting-copy h3 {
+      margin: 0 0 5px;
+      color: var(--text, #eef7ef);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .setting-copy p {
+      margin: 0;
+      color: var(--muted, #899a90);
+      font-size: 12px;
+      line-height: 1.6;
+      max-width: 620px;
+    }
+
+    .setting-value {
+      margin-top: 7px;
+      color: var(--text, #eef7ef);
+      font-size: 12px;
+    }
+
+    .setting-value span {
+      color: var(--muted, #899a90);
+    }
+
+    .settings-control {
+      flex-shrink: 0;
+    }
+
+    .settings-btn {
+      border: 1px solid rgba(134,229,137,.18);
+      background: rgba(134,229,137,.08);
+      color: var(--green, #86e589);
+      border-radius: 10px;
+      padding: 9px 13px;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: .2s ease;
+      white-space: nowrap;
+    }
+
+    .settings-btn:hover {
+      background: rgba(134,229,137,.14);
+      transform: translateY(-1px);
+    }
+
+    .settings-btn.secondary {
+      background: transparent;
+      color: var(--text, #eef7ef);
+      border-color: rgba(255,255,255,.10);
+    }
+
+    .settings-btn.danger {
+      color: #ef7770;
+      background: rgba(239,119,112,.07);
+      border-color: rgba(239,119,112,.16);
+    }
+
+    .settings-form {
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255,255,255,.06);
+      display: none;
+    }
+
+    .settings-form.open {
+      display: block;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .form-group.full {
+      grid-column: 1 / -1;
+    }
+
+    .form-group label {
+      color: var(--text, #eef7ef);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid rgba(255,255,255,.09);
+      background: rgba(255,255,255,.035);
+      color: var(--text, #eef7ef);
+      border-radius: 10px;
+      padding: 11px 12px;
+      font: inherit;
+      font-size: 12px;
+      outline: none;
+    }
+
+    .form-group textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: rgba(134,229,137,.38);
+      box-shadow: 0 0 0 3px rgba(134,229,137,.05);
+    }
+
+    .form-actions {
+      margin-top: 14px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 9px;
+    }
+
+    .toggle {
+      position: relative;
+      width: 42px;
+      height: 23px;
+      flex-shrink: 0;
+    }
+
+    .toggle input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      position: absolute;
+    }
+
+    .toggle-track {
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,.12);
+      border-radius: 50px;
+      cursor: pointer;
+      transition: .2s ease;
+    }
+
+    .toggle-track::after {
+      content: "";
+      position: absolute;
+      width: 17px;
+      height: 17px;
+      left: 3px;
+      top: 3px;
+      border-radius: 50%;
+      background: #fff;
+      transition: .2s ease;
+    }
+
+    .toggle input:checked + .toggle-track {
+      background: var(--green, #86e589);
+    }
+
+    .toggle input:checked + .toggle-track::after {
+      transform: translateX(19px);
+    }
+
+    .option-list {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      margin-top: 15px;
+    }
+
+    .option-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 11px 12px;
+      border: 1px solid rgba(255,255,255,.055);
+      background: rgba(255,255,255,.018);
+      border-radius: 10px;
+    }
+
+    .option-row span:first-child {
+      color: var(--text, #eef7ef);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .option-row small {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted, #899a90);
+      font-size: 10px;
+      font-weight: 400;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 10px;
+      padding: 5px 8px;
+      border-radius: 7px;
+      background: rgba(134,229,137,.08);
+      color: var(--green, #86e589);
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: .08em;
+    }
+
+    .profile-preview {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 15px;
+    }
+
+    .profile-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #86e589, #3d8f50);
+      color: #071108;
+      display: grid;
+      place-items: center;
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .profile-preview strong {
+      display: block;
+      color: var(--text, #eef7ef);
+      font-size: 13px;
+    }
+
+    .profile-preview span {
+      color: var(--muted, #899a90);
+      font-size: 11px;
+    }
+
+    .security-note {
+      margin-top: 14px;
+      padding: 11px 12px;
+      border: 1px solid rgba(134,229,137,.10);
+      background: rgba(134,229,137,.035);
+      border-radius: 10px;
+      color: var(--muted, #899a90);
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .settings-footer {
+      margin-top: 24px;
+      color: var(--muted, #899a90);
+      font-size: 10px;
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      .settings-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .settings-menu {
+        position: static;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 600px) {
+      .settings-menu {
+        grid-template-columns: 1fr;
+      }
+
+      .settings-card-row {
+        flex-direction: column;
+      }
+
+      .settings-control {
+        align-self: flex-end;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-group.full {
+        grid-column: auto;
+      }
+    }
+  </style>
+</head>
+
+<body class="app-shell">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+
+    <a class="brand" href="overview.html">
+      <img src="assets/logo.png" alt="CropPulse">
+      <span>Crop<span>Pulse</span></span>
+    </a>
+
+    <div class="side-label">WORKSPACE</div>
+
+    <nav class="side-nav">
+
+      <a href="overview.html">
+        <i data-lucide="layout-dashboard"></i>
+        <span>Overview</span>
+      </a>
+
+      <a href="results.html">
+        <i data-lucide="sprout"></i>
+        <span>Farm Health</span>
+      </a>
+
+      <a href="dashboard.html">
+        <i data-lucide="map"></i>
+        <span>Field Map</span>
+      </a>
+
+      <a href="drones.html">
+        <i data-lucide="plane"></i>
+        <span>Drone Fleet</span>
+      </a>
+
+      <a href="analytics.html">
+        <i data-lucide="chart-no-axes-combined"></i>
+        <span>Analytics</span>
+      </a>
+
+    </nav>
+
+    <div class="side-label">ACTIONS</div>
+
+    <nav class="side-nav">
+
+      <a href="booking.html">
+        <i data-lucide="calendar-days"></i>
+        <span>Book a Scan</span>
+      </a>
+
+      <a class="active" href="settings.html">
+        <i data-lucide="settings-2"></i>
+        <span>Settings</span>
+      </a>
+
+    </nav>
+
+  </aside>
+
+
+  <!-- MAIN -->
+  <main class="main-content">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+
+      <div class="topbar-left">
+
+        <button class="icon-btn" id="menuBtn" aria-label="Open menu">
+          <i data-lucide="menu"></i>
+        </button>
+
+        <a class="icon-btn desktop-back" href="overview.html" aria-label="Back">
+          <i data-lucide="arrow-left"></i>
+        </a>
+
+      </div>
+
+      <div class="top-actions">
+
+        <a class="user-chip" href="settings.html">
+
+          <span class="avatar">CP</span>
+
+          <span>
+            <b>CropPulse</b>
+            <small>Farmer workspace</small>
+          </span>
+
+        </a>
+
+      </div>
+
+    </header>
+
+
+    <!-- PAGE -->
+    <section class="settings-page">
+
+      <div class="page-head">
+
+        <div>
+          <p class="eyebrow">SETTINGS</p>
+
+          <h1>Workspace settings</h1>
+
+          <p class="subhead">
+            Manage your CropPulse account, privacy, notifications and display preferences.
+          </p>
+        </div>
+
+      </div>
+
+
+      <div class="settings-layout">
+
+        <!-- SETTINGS MENU -->
+        <aside class="settings-menu">
+
+          <button class="active" data-section="account">
+            <i data-lucide="user-round"></i>
+            Account
+          </button>
+
+          <button data-section="privacy">
+            <i data-lucide="shield-check"></i>
+            Privacy & Data
+          </button>
+
+          <button data-section="notifications">
+            <i data-lucide="bell"></i>
+            Notifications
+          </button>
+
+          <button data-section="appearance">
+            <i data-lucide="palette"></i>
+            Appearance
+          </button>
+
+        </aside>
+
+
+        <!-- SETTINGS CONTENT -->
+        <div class="settings-content">
+
+
+          <!-- =====================================================
+               ACCOUNT
+               ===================================================== -->
+
+          <section class="settings-section active" id="account">
+
+            <div class="settings-section-head">
+
+              <h2>Account</h2>
+
+              <p>
+                Manage your profile, contact information and authentication.
+              </p>
+
+            </div>
+
+
+            <div class="settings-stack">
+
+
+              <!-- PROFILE -->
+              <article class="settings-card">
+
+                <div class="settings-card-row">
+
+                  <div class="setting-info">
+
+                    <div class="setting-icon">
+                      <i data-lucide="user-round"></i>
+                    </div>
+
+                    <div class="setting-copy">
+
+                      <h3>Profile Information</h3>
+
+                      <p>
+                        Update your name, display handle, profile picture and bio.
+                      </p>
+
+                      <div class="profile-preview">
+
+                        <div class="profile-avatar">CP</div>
+
+                        <div>
+                          <strong id="profileName">CropPulse Farmer</strong>
+                          <span id="profileHandle">@cropfarmer</span>
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                  <div class="settings-control">
+
+                    <button class="settings-btn" onclick="toggleForm('profileForm')">
+                      Edit profile
+                    </button>
+
+                  </div>
+
+                </div>
+
+
+                <div class="settings-form" id="profileForm">
+
+                  <div class="form-grid">
+
+                    <div class="form-group">
+
+                      <label for="profileFirstName">Name</label>
+
+                      <input
+                        id="profileFirstName"
+                        type="text"
+                        placeholder="Your name"
+                      >
+
+                    </div>
+
+                    <div class="form-group">
+
+                      <label for="profileHandleInput">Display handle</label>
+
+                      <input
+                        id="profileHandleInput"
+                        type="text"
+                        placeholder="@cropfarmer"
+                      >
+
+                    </div>
+
+                    <div class="form-group full">
+
+                      <label for="profileBio">Bio</label>
+
+                      <textarea
+                        id="profileBio"
+                        placeholder="Tell us a little about your farm..."
+                      ></textarea>
+
+                    </div>
+
+                  </div>
+
+                  <div class="form-actions">
+
+                    <button
+                      class="settings-btn secondary"
+                      onclick="toggleForm('profileForm')"
+                    >
+                      Cancel
+                    </button>
+
+                    <button
+                      class="settings-btn"
+                      onclick="saveProfile()"
+                    >
+                      Save changes
+                    </button>
+
+                  </div>
+
+                </div>
+
+              </article>
+
+
+              <!-- CONTACT -->
+              <article class="settings-card">
+
+                <div class="settings-card-row">
+
+                  <div class="setting-info">
+
+                    <div class="setting-icon">
+                      <i data-lucide="contact"></i>
+                    </div>
+
+                    <div class="setting-copy">
+
+                      <h3>Contact Details</h3>
+
+                      <p>
+                        Manage the primary email address and phone number connected to your account.
+                      </p>
+
+                      <div class="setting-value">
+                        <span>Email:</span>
+                        <strong id="accountEmail">Not signed in</strong>
+                      </div>
+
+                      <div class="setting-value">
+                        <span>Phone:</span>
+                        <strong id="accountPhone">Not available</strong>
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                  <div class="settings-control">
+
+                    <button
+                      class="settings-btn"
+                      onclick="showMessage('Contact details are managed through Firebase Authentication.')"
+                    >
+                      Manage
+                    </button>
+
+                  </div>
+
+                </div>
+
+              </article>
+
+
+              <!-- PASSWORD -->
+              <article class="settings-card">
+
+                <div class="settings-card-row">
+
+                  <div class="setting-info">
+
+                    <div class="setting-icon">
+                      <i data-lucide="key-round"></i>
+                    </div>
+
+                    <div class="setting-copy">
+
+                      <h3>Password & Authentication</h3>
+
+                      <p>
+                        Update your password and manage authentication methods such as passkeys when supported.
+                      </p>
+
+                      <span class="badge">
+                        <i data-lucide="lock-keyhole"></i>
+                        FIREBASE AUTH
+                      </span>
+
+                    </div>
+
+                  </div>
+
+                  <div class="settings-control">
+
+                    <button
+                      class="settings-btn"
+                      onclick="location.href='login.html'"
+                    >
+                      Authentication
+                    </button>
+
+                  </div>
+
+                </div>
+
+              </article>
+
+
+              <!-- TWO FACTOR -->
+              <article class="settings-card">
+
+                <div class="settings-card-row">
+
+                  <div class="setting-info">
+
+                    <div class="setting-icon">
+                      <i data-lucide="shield"></i>
+                    </div>
+
+                    <div class="setting-copy">
+
+                      <h3>Two-Factor Authentication</h3>
+
+                      <p>
+                        Add an additional verification step using supported authentication methods.
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                  <div class="settings-control">
+
+                    <label class="toggle">
+
+                      <input
+                        type="checkbox"
+                        id="twoFactorToggle"
+                        onchange="toggleSecurity('twoFactorToggle')"
+                      >
+
+                      <span class="toggle-track"></span>
+
+                    </label>
+
+                  </div>
+
+                </div>
+
+                <div class="security-note">
+
+                  Two-factor controls shown here are part of the presentation interface.
+                  Production enforcement should be connected to your authentication provider.
+
+                </div>
+
+              </article>
+
+            </div>
+
+          </section>
+
+
+          <!-- =====================================================
+               PRIVACY
+               ===================================================== -->
+
+          <section class="settings-section" id="privacy">
+
+            <div class="settings-section-head">
+
+              <h2>Privacy & Data</h2>
+
+              <p>
+                Control how your CropPulse workspace handles visibility and data.
+              </p>
+
+            </div>
+
+
+            <div class="settings-stack">
+
+
+              <!-- DATA SHARING -->
+              <article class="settings-card">
+
+                <div class="settings-card-row">
+
+                  <div class="setting-info">
+
+                    <div class="setting-icon">
+                      <i data-lucide="share-2"></i>
+                    </div>
+
+                    <div class="setting-copy">
+
+                      <h3>Data Sharing</h3>
+
+                      <p>
+                        Control whether anonymized project information may be used for product improvement.
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                  <div class="settings-control">
+
+                    <label class="toggle">
+
+                      <input
+                        type="checkbox"
+                        id="dataSharingToggle"
+                        checked
+                      >
+
+                      <span class="toggle-track"></span>
+
+                    </label>
+
+                  </div>
+
+                </div>
+
+              </article>
+
+
+              <!-- VISIBILITY -->
+              <article class="settings-card">
+
+                <div class="settings-card-row">
+
+                  <div class="setting-info">
+
+                    <div class="setting-icon">
+                      <i data-lucide="eye"></i>
+                    </div>
+
+                    <div class="setting-copy">
+
+                      <h3>Visibility</h3>
+
+                      <p>
+                        Choose whether your farm workspace information is private or visible to connected collaborators.
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                  <div class="settings-control">
+
+                    <select
+                      id="visibilitySelect"
+                      class="settings-btn secondary"
+                      onchange="savePreference('visibility', this.value)"
+                    >
+
+                      <option value="private">Private</option>
+                      <option value="team">Team only</option>
+
+                    </select>
+
+                  </div>
+
+                </div>
+
+              </article>
+
+
+              <!-- DATA DOWNLOAD -->
+              <article class="settings-card">
+
+                <div class="settings-card-row">
+
+                  <div class="setting-info">
+
+                    <div class="setting-icon">
+                      <i data-lucide="download"></i>
+                    </div>
+
+                    <div class="setting-copy">
+
+                      <h3>Download Account Data</h3>
+
+                      <p>
+                        Prepare your available workspace information for download.
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                  <div class="settings-control">
+
+                    <button
+                      class="settings-btn"
+                      onclick="downloadData()"
+                    >
+                      Download
+                    </button>
+
+                  </div>
+
+                </div>
+
+              </article>
+
+
+              <!-- DELETE -->
+              <article class="settings-card">
+
+                <div class="settings-card-row">
+
+                  <div class="setting-info">
+
+                    <div class="setting-icon">
+                      <i data-lucide="trash-2"></i>
+                    </div>
+
+                    <div class="setting-copy">
+
+                      <h3>Account Deletion</h3>
+
+                      <p>
+                        Account deletion should be connected to the production authentication and data-management backend.
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                  <div class="settings-control">
+
+                    <button
+                      class="settings-btn danger"
+                      onclick="showMessage('Account deletion is disabled in this prototype.')"
+                    >
+                      Delete account
+                    </button>
+
+                  </div>
+
+                </div>
+
+              </article>
+
+            </div>
+
+          </section>
+
+
+          <!-- =====================================================
+               NOTIFICATIONS
+               ===================================================== -->
+
+          <section class="settings-section" id="notifications">
+
+            <div class="settings-section-head">
+
+              <h2>Notifications</h2>
+
+              <p>
+                Choose which CropPulse alerts you want to receive.
+              </p>
+
+            </div>
+
+
+            <div class="settings-stack">
+
+
+              <!-- EMAIL -->
+              <article class="settings-card">
+
+                <div class="settings-card-row">
+
+                  <div class="setting-info">
+
+                    <div class="setting-icon">
+                      <i data-lucide="mail"></i>
+                    </div>
+
+                    <div class="setting-copy">
+
+                      <h3>Email Alerts</h3>
+
+                      <p>
+                        Receive important crop-health, pest-risk and scan updates by email.
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                  <div class="settings-control">
+
+                    <label class="toggle">
+
+                      <input
+                        type="checkbox"
+                        id="emailAlerts"
+                        checked
+                      >
+
+                      <span class="toggle-track"></span>
+
+                    </label>
+
+                  </div>
+
+                </div>
+
+              </article>
+
+
+              <!-- PUSH -->
+              <article class="settings-card">
+
+                <div class="settings-card-row">
+
+                  <div class="setting-info">
+
+                    <div class="setting-icon">
+                      <i data-lucide="smartphone"></i>
+                    </div>
+
+                    <div class="setting-copy">
+
+                      <h3>Push Notifications</h3>
+
+                      <p>
+                        Receive real-time notifications when a critical field condition is detected.
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                  <div class="settings-control">
+
+                    <label class="toggle">
+
+                      <input
+                        type="checkbox"
+                        id="pushNotifications"
+                        checked
+                      >
+
+                      <span class="toggle-track"></span>
+
+                    </label>
+
+                  </div>
+
+                </div>
+
+              </article>
+
+
+              <!-- FREQUENCY -->
+              <article class="settings-card">
+
+                <div class="settings-card-row">
+
+                  <div class="setting-info">
+
+                    <div class="setting-icon">
+                      <i data-lucide="clock-3"></i>
+                    </div>
+
+                    <div class="setting-copy">
+
+                      <h3>Notification Frequency</h3>
+
+                      <p>
+                        Select how often non-critical updates should be delivered.
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                  <div class="settings-control">
+
+                    <select
+                      id="notificationFrequency"
+                      class="settings-btn secondary"
+                      onchange="savePreference('notificationFrequency', this.value)"
+                    >
+
+                      <option value="realtime">Real-time</option>
+                      <option value="daily">Daily summary</option>
+                      <option value="weekly">Weekly summary</option>
+
+                    </select>
+
+                  </div>
+
+                </div>
+
+              </article>
+
+
+              <!-- ALERT TYPES -->
+              <article class="settings-card">
+
+                <div class="setting-info">
+
+                  <div class="setting-icon">
+                    <i data-lucide="triangle-alert"></i>
+                  </div>
+
+                  <div class="setting-copy">
+
+                    <h3>Alert Types</h3>
+
+                    <p>
+                      Choose which field conditions should generate alerts.
+                    </p>
+
+                  </div>
+
+                </div>
+
+
+                <div class="option-list">
+
+                  <div class="option-row">
+
+                    <div>
+                      <span>Pest risk</span>
+                      <small>Notify when pest-risk indicators increase.</small>
+                    </div>
+
+                    <label class="toggle">
+                      <input type="checkbox" checked>
+                      <span class="toggle-track"></span>
+                    </label>
+
+                  </div>
+
+
+                  <div class="option-row">
+
+                    <div>
+                      <span>Low soil moisture</span>
+                      <small>Notify when moisture falls below the configured range.</small>
+                    </div>
+
+                    <label class="toggle">
+                      <input type="checkbox" checked>
+                      <span class="toggle-track"></span>
+                    </label>
+
+                  </div>
+
+
+                  <div class="option-row">
+
+                    <div>
+                      <span>Crop stress</span>
+                      <small>Notify when aerial analysis detects a stress pattern.</small>
+                    </div>
+
+                    <label class="toggle">
+                      <input type="checkbox" checked>
+                      <span class="toggle-track"></span>
+                    </label>
+
+                  </div>
+
+                </div>
+
+              </article>
+
+            </div>
+
+          </section>
+
+
+          <!-- =====================================================
+               APPEARANCE
+               ===================================================== -->
+
+          <section class="settings-section" id="appearance">
+
+            <div class="settings-section-head">
+
+              <h2>Appearance & Display</h2>
+
+              <p>
+                Customize how the CropPulse workspace looks and behaves.
+              </p>
+
+            </div>
+
+
+            <div class="settings-stack">
+
+
+              <!-- THEME -->
+              <article class="settings-card">
+
+                <div class="settings-card-row">
+
+                  <div class="setting-info">
+
+                    <div class="setting-icon">
+                      <i data-lucide="moon"></i>
+                    </div>
+
+                    <div class="setting-copy">
+
+                      <h3>Theme</h3>
+
+                      <p>
+                        Select the interface appearance for your CropPulse workspace.
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                  <div class="settings-control">
+
+                    <select
+                      id="themeSelect"
+                      class="settings-btn secondary"
+                      onchange="changeTheme(this.value)"
+                    >
+
+                      <option value="dark">Dark</option>
+                      <option value="system">System</option>
+
+                    </select>
+
+                  </div>
+
+                </div>
+
+              </article>
+
+
+              <!-- LANGUAGE -->
+              <article class="settings-card">
+
+                <div class="settings-card-row">
+
+                  <div class="setting-info">
+
+                    <div class="setting-icon">
+                      <i data-lucide="languages"></i>
+                    </div>
+
+                    <div class="setting-copy">
+
+                      <h3>Language & Region</h3>
+
+                      <p>
+                        Set the language and regional format used across the workspace.
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                  <div class="settings-control">
+
+                    <select
+                      id="languageSelect"
+                      class="settings-btn secondary"
+                      onchange="savePreference('language', this.value)"
+                    >
+
+                      <option value="en-IN">English — India</option>
+                      <option value="en-US">English — United States</option>
+
+                    </select>
+
+                  </div>
+
+                </div>
+
+              </article>
+
+
+              <!-- ACCESSIBILITY -->
+              <article class="settings-card">
+
+                <div class="settings-card-row">
+
+                  <div class="setting-info">
+
+                    <div class="setting-icon">
+                      <i data-lucide="accessibility"></i>
+                    </div>
+
+                    <div class="setting-copy">
+
+                      <h3>Accessibility</h3>
+
+                      <p>
+                        Improve readability and interaction for your preferred viewing experience.
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+
+                <div class="option-list">
+
+                  <div class="option-row">
+
+                    <div>
+                      <span>Reduced motion</span>
+                      <small>Reduce interface animations and transitions.</small>
+                    </div>
+
+                    <label class="toggle">
+
+                      <input
+                        type="checkbox"
+                        id="reducedMotion"
+                        onchange="toggleReducedMotion(this.checked)"
+                      >
+
+                      <span class="toggle-track"></span>
+
+                    </label>
+
+                  </div>
+
+
+                  <div class="option-row">
+
+                    <div>
+                      <span>Large text</span>
+                      <small>Increase the base interface text size.</small>
+                    </div>
+
+                    <label class="toggle">
+
+                      <input
+                        type="checkbox"
+                        id="largeText"
+                        onchange="toggleLargeText(this.checked)"
+                      >
+
+                      <span class="toggle-track"></span>
+
+                    </label>
+
+                  </div>
+
+                </div>
+
+              </article>
+
+
+              <!-- DEMO DATA -->
+              <article class="settings-card">
+
+                <div class="settings-card-row">
+
+                  <div class="setting-info">
+
+                    <div class="setting-icon">
+                      <i data-lucide="database"></i>
+                    </div>
+
+                    <div class="setting-copy">
+
+                      <h3>Data Mode</h3>
+
+                      <p>
+                        This presentation build uses deterministic demo field data.
+                        Replace the demo values with live drone and rover sensor data when the production API is connected.
+                      </p>
+
+                      <span class="badge">
+                        DEMO DATA
+                      </span>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </article>
+
+            </div>
+
+          </section>
+
+        </div>
+
+      </div>
+
+
+      <div class="settings-footer">
+        CropPulse prototype · Precision agriculture workspace
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <script>
+
+    /* =========================================================
+       ICONS
+       ========================================================= */
+
+    if (window.lucide) {
+      lucide.createIcons();
+    }
+
+
+    /* =========================================================
+       MOBILE MENU
+       ========================================================= */
+
+    document
+      .getElementById("menuBtn")
+      ?.addEventListener("click", () => {
+
+        document
+          .getElementById("sidebar")
+          ?.classList.toggle("open");
+
+      });
+
+
+    /* =========================================================
+       SETTINGS TABS
+       ========================================================= */
+
+    const settingButtons =
+      document.querySelectorAll(".settings-menu button");
+
+    const settingSections =
+      document.querySelectorAll(".settings-section");
+
+
+    settingButtons.forEach(button => {
+
+      button.addEventListener("click", () => {
+
+        const target =
+          button.getAttribute("data-section");
+
+        settingButtons.forEach(item => {
+          item.classList.remove("active");
+        });
+
+        settingSections.forEach(section => {
+          section.classList.remove("active");
+        });
+
+        button.classList.add("active");
+
+        document
+          .getElementById(target)
+          ?.classList.add("active");
+
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+
+      });
+
+    });
+
+
+    /* =========================================================
+       FORM HELPERS
+       ========================================================= */
+
+    function toggleForm(id) {
+
+      const form = document.getElementById(id);
+
+      if (!form) return;
+
+      form.classList.toggle("open");
+
+    }
+
+
+    function saveProfile() {
+
+      const name =
+        document.getElementById("profileFirstName")?.value.trim();
+
+      const handle =
+        document.getElementById("profileHandleInput")?.value.trim();
+
+      if (name) {
+
+        document.getElementById("profileName").textContent =
+          name;
+
+      }
+
+      if (handle) {
+
+        document.getElementById("profileHandle").textContent =
+          handle.startsWith("@") ? handle : "@" + handle;
+
+      }
+
+      localStorage.setItem(
+        "croppulse_profile_name",
+        name || ""
+      );
+
+      localStorage.setItem(
+        "croppulse_profile_handle",
+        handle || ""
+      );
+
+      toggleForm("profileForm");
+
+      showMessage("Profile changes saved.");
+
+    }
+
+
+    /* =========================================================
+       PREFERENCES
+       ========================================================= */
+
+    function savePreference(key, value) {
+
+      localStorage.setItem(
+        "croppulse_" + key,
+        value
+      );
+
+      showMessage("Preference saved.");
+
+    }
+
+
+    function toggleSecurity(id) {
+
+      const checkbox =
+        document.getElementById(id);
+
+      if (!checkbox) return;
+
+      localStorage.setItem(
+        "croppulse_" + id,
+        checkbox.checked ? "enabled" : "disabled"
+      );
+
+      showMessage(
+        checkbox.checked
+          ? "Security option enabled."
+          : "Security option disabled."
+      );
+
+    }
+
+
+    /* =========================================================
+       APPEARANCE
+       ========================================================= */
+
+    function changeTheme(value) {
+
+      localStorage.setItem(
+        "croppulse_theme",
+        value
+      );
+
+      showMessage(
+        value === "dark"
+          ? "Dark theme selected."
+          : "System theme selected."
+      );
+
+    }
+
+
+    function toggleReducedMotion(enabled) {
+
+      document.body.classList.toggle(
+        "reduce-motion",
+        enabled
+      );
+
+      localStorage.setItem(
+        "croppulse_reduced_motion",
+        enabled ? "1" : "0"
+      );
+
+    }
+
+
+    function toggleLargeText(enabled) {
+
+      document.body.classList.toggle(
+        "large-text",
+        enabled
+      );
+
+      localStorage.setItem(
+        "croppulse_large_text",
+        enabled ? "1" : "0"
+      );
+
+    }
+
+
+    /* =========================================================
+       DOWNLOAD DEMO ACCOUNT DATA
+       ========================================================= */
+
+    function downloadData() {
+
+      const data = {
+
+        product: "CropPulse",
+
+        type: "Prototype workspace export",
+
+        profile: {
+          name:
+            localStorage.getItem(
+              "croppulse_profile_name"
+            ) || "CropPulse Farmer",
+
+          handle:
+            localStorage.getItem(
+              "croppulse_profile_handle"
+            ) || "@cropfarmer"
+        },
+
+        preferences: {
+
+          theme:
+            localStorage.getItem(
+              "croppulse_theme"
+            ) || "dark",
+
+          notificationFrequency:
+            localStorage.getItem(
+              "croppulse_notificationFrequency"
+            ) || "realtime",
+
+          language:
+            localStorage.getItem(
+              "croppulse_language"
+            ) || "en-IN",
+
+          visibility:
+            localStorage.getItem(
+              "croppulse_visibility"
+            ) || "private"
+
+        }
+
+      };
+
+
+      const blob =
+        new Blob(
+          [JSON.stringify(data, null, 2)],
+          { type: "application/json" }
+        );
+
+
+      const url =
+        URL.createObjectURL(blob);
+
+      const link =
+        document.createElement("a");
+
+      link.href = url;
+
+      link.download =
+        "croppulse-account-data.json";
+
+      document.body.appendChild(link);
+
+      link.click();
+
+      link.remove();
+
+      URL.revokeObjectURL(url);
+
+    }
+
+
+    /* =========================================================
+       MESSAGE
+       ========================================================= */
+
+    function showMessage(message) {
+
+      let toast =
+        document.getElementById("settingsToast");
+
+      if (!toast) {
+
+        toast =
+          document.createElement("div");
+
+        toast.id =
+          "settingsToast";
+
+        toast.style.position =
+          "fixed";
+
+        toast.style.right =
+          "22px";
+
+        toast.style.bottom =
+          "22px";
+
+        toast.style.zIndex =
+          "9999";
+
+        toast.style.padding =
+          "12px 15px";
+
+        toast.style.borderRadius =
+          "10px";
+
+        toast.style.background =
+          "#122219";
+
+        toast.style.border =
+          "1px solid rgba(134,229,137,.18)";
+
+        toast.style.color =
+          "#eef7ef";
+
+        toast.style.fontSize =
+          "12px";
+
+        toast.style.boxShadow =
+          "0 16px 40px rgba(0,0,0,.3)";
+
+        document.body.appendChild(toast);
+
+      }
+
+      toast.textContent =
+        message;
+
+      clearTimeout(
+        window.cropPulseToastTimer
+      );
+
+      window.cropPulseToastTimer =
+        setTimeout(() => {
+
+          toast.remove();
+
+        }, 2600);
+
+    }
+
+
+    /* =========================================================
+       LOAD SAVED PREFERENCES
+       ========================================================= */
+
+    function loadPreferences() {
+
+      const name =
+        localStorage.getItem(
+          "croppulse_profile_name"
+        );
+
+      const handle =
+        localStorage.getItem(
+          "croppulse_profile_handle"
+        );
+
+
+      if (name) {
+
+        document.getElementById(
+          "profileName"
+        ).textContent = name;
+
+        document.getElementById(
+          "profileFirstName"
+        ).value = name;
+
+      }
+
+
+      if (handle) {
+
+        document.getElementById(
+          "profileHandle"
+        ).textContent =
+          handle.startsWith("@")
+            ? handle
+            : "@" + handle;
+
+        document.getElementById(
+          "profileHandleInput"
+        ).value = handle;
+
+      }
+
+
+      const visibility =
+        localStorage.getItem(
+          "croppulse_visibility"
+        );
+
+      if (visibility) {
+
+        document.getElementById(
+          "visibilitySelect"
+        ).value = visibility;
+
+      }
+
+
+      const frequency =
+        localStorage.getItem(
+          "croppulse_notificationFrequency"
+        );
+
+      if (frequency) {
+
+        document.getElementById(
+          "notificationFrequency"
+        ).value = frequency;
+
+      }
+
+
+      const language =
+        localStorage.getItem(
+          "croppulse_language"
+        );
+
+      if (language) {
+
+        document.getElementById(
+          "languageSelect"
+        ).value = language;
+
+      }
+
+
+      const theme =
+        localStorage.getItem(
+          "croppulse_theme"
+        );
+
+      if (theme) {
+
+        document.getElementById(
+          "themeSelect"
+        ).value = theme;
+
+      }
+
+
+      const reducedMotion =
+        localStorage.getItem(
+          "croppulse_reduced_motion"
+        );
+
+      if (reducedMotion === "1") {
+
+        document.getElementById(
+          "reducedMotion"
+        ).checked = true;
+
+        toggleReducedMotion(true);
+
+      }
+
+
+      const largeText =
+        localStorage.getItem(
+          "croppulse_large_text"
+        );
+
+      if (largeText === "1") {
+
+        document.getElementById(
+          "largeText"
+        ).checked = true;
+
+        toggleLargeText(true);
+
+      }
+
+    }
+
+
+    loadPreferences();
+
+
+    /* =========================================================
+       FIREBASE USER INFORMATION
+       Works when auth.js/firebase is available elsewhere.
+       ========================================================= */
+
+    function updateUserDetails() {
+
+      try {
+
+        if (
+          typeof firebase !== "undefined" &&
+          firebase.auth
+        ) {
+
+          const user =
+            firebase.auth().currentUser;
+
+          if (user) {
+
+            const email =
+              user.email || "Not provided";
+
+            const phone =
+              user.phoneNumber || "Not linked";
+
+            document.getElementById(
+              "accountEmail"
+            ).textContent = email;
+
+            document.getElementById(
+              "accountPhone"
+            ).textContent = phone;
+
+          }
+
+        }
+
+      } catch (error) {
+
+        console.log(
+          "Firebase user details unavailable in prototype mode."
+        );
+
+      }
+
+    }
+
+
+    updateUserDetails();
+
+  </script>
+
+</body>
+</html>
