@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Drone Fleet — CropPulse</title><link rel="icon" href="assets/logo.png"><link rel="stylesheet" href="style.css"><script src="https://unpkg.com/lucide@latest"></script></head>
+<body class="app-shell">
+<aside class="sidebar"><a class="brand" href="overview.html"><img src="assets/logo.png" alt="CropPulse"><span>Crop<span>Pulse</span></span></a><div class="side-label">WORKSPACE</div><nav class="side-nav">
+<a href="overview.html"><i data-lucide="layout-dashboard"></i>Overview</a><a href="results.html"><i data-lucide="sprout"></i>Farm Health</a><a href="dashboard.html"><i data-lucide="map"></i>Field Map</a><a class="active" href="drones.html"><i data-lucide="plane"></i>Drone Fleet</a><a href="analytics.html"><i data-lucide="chart-no-axes-combined"></i>Analytics</a></nav>
+<div class="side-label">ACTIONS</div><nav class="side-nav"><a href="booking.html"><i data-lucide="calendar-days"></i>Book a Scan</a><a href="settings.html"><i data-lucide="settings-2"></i>Settings</a></nav></aside>
+<main class="main-content"><header class="topbar"><a class="icon-btn" href="overview.html" title="Overview"><i data-lucide="arrow-left"></i></a><div class="search"><i data-lucide="search"></i><input placeholder="Search fleet..."></div><div class="top-actions"><a class="user-chip" href="settings.html"><span class="avatar">CP</span><span><b>CropPulse</b><small>Farmer workspace</small></span></a></div></header>
+<section class="page-head"><div><p class="eyebrow">DRONE FLEET</p><h1>Aerial & rover operations</h1><p class="subhead">See the current status of the drone survey unit and the rover used for targeted ground verification.</p></div><a class="btn btn-primary" href="booking.html"><i data-lucide="calendar-plus"></i>Book a scan</a></section>
+<section class="stats-grid">
+<article class="stat-card"><div class="stat-icon green"><i data-lucide="plane"></i></div><div><small>Drone status</small><strong>Ready</strong><span>Pre-flight checks passed</span></div></article>
+<article class="stat-card"><div class="stat-icon blue"><i data-lucide="battery-charging"></i></div><div><small>Drone battery</small><strong>82%</strong><span>Estimated 24 min flight</span></div></article>
+<article class="stat-card"><div class="stat-icon green"><i data-lucide="radio-tower"></i></div><div><small>Rover status</small><strong>Online</strong><span>Ground unit connected</span></div></article>
+<article class="stat-card"><div class="stat-icon yellow"><i data-lucide="route"></i></div><div><small>Queued zones</small><strong>4</strong><span>Awaiting verification</span></div></article>
+</section>
+<section class="dashboard-grid">
+<article class="panel device-panel"><div class="panel-head"><div><h2>Fleet status</h2><p>Demo hardware readiness</p></div><span class="online"><i></i>All systems online</span></div>
+<div class="device"><div class="device-icon"><i data-lucide="plane"></i></div><div><b>CropPulse Drone 01</b><small>RGB camera · aerial mapping · GPS lock</small></div><span class="device-status">READY</span></div>
+<div class="device"><div class="device-icon"><i data-lucide="radio-tower"></i></div><div><b>CropPulse Rover 01</b><small>Moisture · pH · temperature · nutrient indicator</small></div><span class="device-status">ONLINE</span></div>
+<div class="device"><div class="device-icon"><i data-lucide="satellite"></i></div><div><b>Field gateway</b><small>Telemetry link for drone-to-rover task handoff</small></div><span class="device-status">CONNECTED</span></div></article>
+<article class="panel"><div class="panel-head"><div><h2>Current mission</h2><p>Latest scan workflow</p></div><span class="trend-badge">IN QUEUE</span></div>
+<div class="recommend"><span>01</span><div><b>Aerial survey</b><p>Capture RGB imagery across the monitored field blocks.</p></div></div>
+<div class="recommend"><span>02</span><div><b>AI zone detection</b><p>Identify healthy, attention and critical areas from the scan.</p></div></div>
+<div class="recommend"><span>03</span><div><b>Rover verification</b><p>Route the rover to the four highest-priority zones.</p></div></div>
+<div class="recommend"><span>04</span><div><b>Action report</b><p>Combine aerial and ground readings into zone-level insights.</p></div></div></article>
+</section>
+<section class="panel" style="margin-top:12px"><div class="panel-head"><div><h2>Recent missions</h2><p>Presentation demo mission history</p></div></div><div class="table-wrap"><table><thead><tr><th>Mission</th><th>Platform</th><th>Coverage</th><th>Zones verified</th><th>Status</th></tr></thead><tbody>
+<tr><td>#CP-M06</td><td>Drone + Rover</td><td>36 zones</td><td>4</td><td><span class="table-status">Completed</span></td></tr><tr><td>#CP-M05</td><td>Drone</td><td>36 zones</td><td>3</td><td><span class="table-status">Completed</span></td></tr><tr><td>#CP-M04</td><td>Drone + Rover</td><td>24 zones</td><td>5</td><td><span class="table-status">Completed</span></td></tr>
+</tbody></table></div></section>
+</main><script>lucide.createIcons();</script></body></html>
